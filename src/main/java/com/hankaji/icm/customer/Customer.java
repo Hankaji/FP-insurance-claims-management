@@ -12,7 +12,7 @@ public abstract class Customer {
     private ArrayList<String> claims; // TODO: TBC: Claim list
 
     public Customer(String id, String name, InsuranceCard insuranceCard) {
-        if (!validateId(id));
+        validateId(id);
         this.id = id;
         this.name = name;
         this.insuranceCard = insuranceCard;
@@ -38,7 +38,7 @@ public abstract class Customer {
     }
 
     public void setId(String id) {
-        if (!validateId(id)) return;
+        validateId(id);
         this.id = id;
     }
 
