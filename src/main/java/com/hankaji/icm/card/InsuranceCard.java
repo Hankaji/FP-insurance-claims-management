@@ -8,9 +8,6 @@ import com.hankaji.icm.customer.PolicyHolder;
 /**
  * Represents an insurance card.
  */
-/**
- * Represents an insurance card.
- */
 public class InsuranceCard {
     private String cardNumber;
     private Customer cardHolder;
@@ -117,6 +114,9 @@ public class InsuranceCard {
      * @param expirationDate the expiration date to set
      */
     public void setExpirationDate(Date expirationDate) {
+        if (new Date().compareTo(expirationDate) > 0) {
+            throw new IllegalArgumentException("Expiration date cant be in the past");
+        }
         this.expirationDate = expirationDate;
     }
 }

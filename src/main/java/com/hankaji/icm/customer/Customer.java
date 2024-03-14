@@ -8,7 +8,7 @@ public abstract class Customer {
     
     private String id;
     private String name;
-    private InsuranceCard insuranceCard; // TODO: TBC: Insurance card object
+    private InsuranceCard insuranceCard;
     private ArrayList<String> claims; // TODO: TBC: Claim list
 
     public Customer(String id, String name, InsuranceCard insuranceCard) {
@@ -27,7 +27,7 @@ public abstract class Customer {
      */
     private boolean validateId(String id) {
         // If the id is not in the format of c-numbers (c + 7 numbers), then it is invalid
-        if (!id.matches("c\\d{7}")) {
+        if (!id.matches("c-\\d{7}")) {
             throw new IllegalArgumentException("Invalid ID, ID must be a c-<numbers> string, where numbers contain 7 digits");
         }
         return true;
@@ -48,6 +48,22 @@ public abstract class Customer {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public InsuranceCard getInsuranceCard() {
+        return insuranceCard;
+    }
+
+    public void setInsuranceCard(InsuranceCard insuranceCard) {
+        this.insuranceCard = insuranceCard;
+    }
+
+    public ArrayList<String> getClaims() {
+        return claims;
+    }
+
+    public void setClaims(ArrayList<String> claims) {
+        this.claims = claims;
     }
 
 }
