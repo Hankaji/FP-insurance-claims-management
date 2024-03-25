@@ -4,23 +4,28 @@
 package com.hankaji.icm;
 
 import java.io.IOException;
-import java.util.Random;
+import java.util.Arrays;
 
+import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextCharacter;
-import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.TextColor.ANSI;
+import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
+import com.googlecode.lanterna.graphics.Theme;
+import com.googlecode.lanterna.gui2.BasicWindow;
+import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
+import com.googlecode.lanterna.gui2.Window;
+import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
+import com.googlecode.lanterna.gui2.Window.Hint;
 import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
 // import com.googlecode.lanterna.gui2.ActionListBox;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.terminal.TerminalResizeListener;
+import com.hankaji.icm.app.Welcome;
 import com.hankaji.icm.config.Config;
+// import com.googlecode.lanterna.terminal.TerminalResizeListener;
+import com.hankaji.icm.config.ConfigLoader;
 
 /**
  * The head Application program of the project
@@ -30,81 +35,44 @@ public class App  {
     public static void main( String[] args ) {
         // TApp tApp = new TApp();
         DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
-        Terminal terminal = null;
+        Screen screen = null;
 
-        Config conf = Config.loadConfig();
+        @SuppressWarnings("unused")
+        Config conf = ConfigLoader.load();
 
         try {
-            terminal = defaultTerminalFactory.createTerminal();
-            // terminal.enterPrivateMode();
-            // terminal.clearScreen();
-            // terminal.setCursorVisible(false);
-
-            // ActionListBox actionListBox = new ActionListBox();
-            // actionListBox.addItem("Claim 1", () -> {});
-            // actionListBox.addItem("Claim 2", () -> {});
-            // actionListBox.addItem("Claim 3", () -> {});
-            Screen screen = new TerminalScreen(terminal);
+            // Create screen
+            screen = defaultTerminalFactory.createScreen();
             screen.startScreen();
-            screen.setCursorPosition(null);
 
-            drawRec(screen, screen.getTerminalSize().getColumns(), screen.getTerminalSize().getRows() - 2, "Claim List");
+            // Instantiate the MultiWindow Text GUI
+            final WindowBasedTextGUI textGUI = new MultiWindowTextGUI(screen);
 
-            TextGraphics textGraphics = screen.newTextGraphics();
-            textGraphics.setForegroundColor(TextColor.Factory.fromString(conf.getFg()));
-            textGraphics.putString(new TerminalPosition(1, screen.getTerminalSize().getRows() - 1), "<Arrow up> / <Arrow down>: Move up / Move down; <Enter>: Select; <ESC>: Exit");
+            // Create default Theme
+            Theme defaultTheme = new SimpleTheme(ANSI.DEFAULT, ANSI.DEFAULT, SGR.BOLD);
 
-            screen.refresh();
+            textGUI.setTheme(defaultTheme);
+            textGUI.getBackgroundPane().setTheme(defaultTheme);
 
-            // terminal.addResizeListener(new TerminalResizeListener() {
-            //     @Override
-            //     public void onResized(Terminal term, TerminalSize newSize) {
-            //         try {
-            //             drawRec(screen);
-            //             screen.refresh();
-            //         } catch (IOException e) {
-            //             e.printStackTrace();
-            //         }
-            //     }
-            // });
+            // Draw a box
+            // Window window = new BasicWindow("Test Window");
+            // window.setHints(Arrays.asList(Hint.FIXED_POSITION, Hint.FIXED_SIZE));
+            // window.setFixedSize(screen.getTerminalSize().withRelative(-2, -2));
+            // window.setPosition(new TerminalPosition(0, 0));
 
-            terminal.readInput();
-        } catch (Exception e) {
+            textGUI.addWindowAndWait(new Welcome());
+
+        } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error: " + e.getMessage());
         } finally {
-            if (terminal != null) {
+            if (screen != null) {
                 try {
-                    terminal.close();
+                    screen.close();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
-    }
-
-    private static void drawRec(Screen screen, int width, int height, String boxName) throws IOException {
-        // Calculate box positions
-        TerminalPosition boxTopLeft = new TerminalPosition(0, 0);
-        TerminalPosition boxTopRight = boxTopLeft.withRelativeColumn(width - 1);
-        TerminalPosition boxBottomLeft = boxTopLeft.withRelativeRow(height);
-        TerminalPosition boxBottomRight = boxTopRight.withRelativeRow(height);
-
-        final TextGraphics textGraphics = screen.newTextGraphics();
-
-        // Draw box
-        textGraphics.drawLine(boxTopLeft, boxTopRight, Symbols.SINGLE_LINE_HORIZONTAL);
-        textGraphics.drawLine(boxTopRight, boxBottomRight, Symbols.SINGLE_LINE_VERTICAL);
-        textGraphics.drawLine(boxBottomLeft, boxBottomRight, Symbols.SINGLE_LINE_HORIZONTAL);
-        textGraphics.drawLine(boxTopLeft, boxBottomLeft, Symbols.SINGLE_LINE_VERTICAL);
-
-        // Draw corners
-        textGraphics.setCharacter(boxTopLeft, Symbols.SINGLE_LINE_TOP_LEFT_CORNER);
-        textGraphics.setCharacter(boxTopRight, Symbols.SINGLE_LINE_TOP_RIGHT_CORNER);
-        textGraphics.setCharacter(boxBottomLeft, Symbols.SINGLE_LINE_BOTTOM_LEFT_CORNER);
-        textGraphics.setCharacter(boxBottomRight, Symbols.SINGLE_LINE_BOTTOM_RIGHT_CORNER);
-
-        // Draw box name
-        textGraphics.putString(boxTopLeft.withRelativeColumn(2), boxName);
     }
 }
