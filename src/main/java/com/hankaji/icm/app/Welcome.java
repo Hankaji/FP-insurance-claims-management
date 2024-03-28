@@ -62,7 +62,7 @@ public class Welcome extends NoDecorationWindow {
     Panel menuPanel = new Panel(new LinearLayout(Direction.VERTICAL));
 
     public Welcome() {
-        super();
+        super("");
         
         setHints(Utils.extendsCollection(getHints(), Hint.FULL_SCREEN));
 

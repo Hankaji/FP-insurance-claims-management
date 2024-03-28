@@ -64,14 +64,14 @@ public class Config {
     // --------------------------------------------------
     // Inner class for for nested fields
     // --------------------------------------------------
-    class Theme {
+    public class Theme {
         @SerializedName(value = "pri_bg")
         private String priBg;
 
         @SerializedName(value = "pri_fg")
         private String priFg;
 
-        @SerializedName(value = "active_bg")
+        @SerializedName(value = "active_fg")
         private String activeFg;
 
         public String getPriBg() {
@@ -96,6 +96,11 @@ public class Config {
 
         public void setActiveFg(String activeFg) {
             this.activeFg = activeFg;
+        }
+
+        @Override
+        public String toString() {
+            return "Theme [priBg=" + priBg + ", priFg=" + priFg + ", activeFg=" + activeFg + "]";
         }
         
     }

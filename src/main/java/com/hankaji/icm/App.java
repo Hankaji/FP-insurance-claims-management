@@ -13,7 +13,7 @@ import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.hankaji.icm.app.Welcome;
+import com.hankaji.icm.app.Home;
 import com.hankaji.icm.config.Config;
 
 /**
@@ -22,11 +22,9 @@ import com.hankaji.icm.config.Config;
  */
 public class App  {
     public static void main( String[] args ) {
-        // TApp tApp = new TApp();
         DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
         Screen screen = null;
 
-        @SuppressWarnings("unused")
         Config conf = Config.load();
 
         try {
@@ -38,13 +36,19 @@ public class App  {
             final WindowBasedTextGUI textGUI = new MultiWindowTextGUI(screen);
 
             // Create default Theme
-            Theme defaultTheme = new SimpleTheme(ANSI.DEFAULT, TextColor.Factory.fromString("#24283b"));
-            Theme defautBackgroundPane = new SimpleTheme(ANSI.DEFAULT, TextColor.Factory.fromString("#24283b"));
+            SimpleTheme defaultTheme = new SimpleTheme(ANSI.DEFAULT, TextColor.Factory.fromString(conf.getTheme().getPriBg()));
+            SimpleTheme.Definition defaultThemeDef = defaultTheme.getDefaultDefinition();
+            defaultThemeDef.setSelected(ANSI.BLACK, ANSI.CYAN);
+            // defaultThemeDef.setActive(ANSI.BLACK, ANSI.GREEN);
+
+            Theme defautBackgroundPane = new SimpleTheme(ANSI.DEFAULT, TextColor.Factory.fromString(conf.getTheme().getPriBg()));
+
 
             textGUI.setTheme(defaultTheme);
             textGUI.getBackgroundPane().setTheme(defautBackgroundPane);
 
-            textGUI.addWindowAndWait(new Welcome());
+            // textGUI.addWindowAndWait(new Welcome());
+            textGUI.addWindowAndWait(new Home());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -58,5 +62,6 @@ public class App  {
                 }
             }
         }
+
     }
 }
