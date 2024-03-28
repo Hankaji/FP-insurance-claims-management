@@ -1,8 +1,6 @@
 package com.hankaji.icm.app;
 
-import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -19,6 +17,7 @@ import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.Window;
 import com.googlecode.lanterna.gui2.WindowListener;
 import com.googlecode.lanterna.input.KeyStroke;
+import com.hankaji.icm.lib.Utils;
 
 public class Welcome extends NoDecorationWindow {
     private final String welcomeMessage =
@@ -37,7 +36,7 @@ public class Welcome extends NoDecorationWindow {
                 " |___\\____|_|  |_|\n" + //
                 "                  ";
 
-    private LinkedHashMap<String, Runnable> menuOptions = new LinkedHashMap<>();
+    private Map<String, Runnable> menuOptions = new LinkedHashMap<>();
     {
         menuOptions.put("View Claims", new Runnable() {
             @Override
@@ -64,7 +63,8 @@ public class Welcome extends NoDecorationWindow {
 
     public Welcome() {
         super();
-        setHints(Arrays.asList(Hint.NO_DECORATIONS, Hint.FULL_SCREEN));
+        
+        setHints(Utils.extendsCollection(getHints(), Hint.FULL_SCREEN));
 
         Panel panel = new Panel(new GridLayout(1));
 

@@ -1,12 +1,10 @@
 package com.hankaji.icm.app;
 
-import java.util.Arrays;
+import com.hankaji.icm.lib.Utils;
 
 public abstract class NoDecorationWindow extends DefaultWindow {
     public NoDecorationWindow() {
         super();
-        // this.getHints().addAll((Arrays.asList(Hint.NO_DECORATIONS)));
-        this.setHints(Arrays.asList(Hint.NO_DECORATIONS));
-
+        setHints(Utils.extendsCollection(getHints(), Hint.NO_DECORATIONS));
     }
 }
