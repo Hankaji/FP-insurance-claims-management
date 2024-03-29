@@ -6,7 +6,10 @@ public class Dependent extends Customer {
 
     public Dependent(String id, String name, InsuranceCard insuranceCard) {
         super(id, name, insuranceCard);
-        //TODO Auto-generated constructor stub
+    }
+
+    public Dependent(String id, String name) {
+        super(id, name);
     }
     
 }

@@ -1,7 +1,9 @@
 package com.hankaji.icm.app;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TerminalTextUtils;
 import com.googlecode.lanterna.TextColor;
@@ -13,10 +15,17 @@ import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.Separator;
 import com.googlecode.lanterna.gui2.TextGUIGraphics;
+import com.googlecode.lanterna.gui2.Window;
+import com.googlecode.lanterna.gui2.WindowListener;
 import com.googlecode.lanterna.gui2.table.Table;
 import com.googlecode.lanterna.gui2.table.TableHeaderRenderer;
+import com.googlecode.lanterna.input.KeyStroke;
+
 import com.hankaji.icm.config.Config;
-import com.hankaji.icm.lib.Utils;
+
+// Utilites import
+import static com.hankaji.icm.lib.Utils.extendsCollection;
+import static com.hankaji.icm.lib.Utils.LayoutUtils.*;
 
 public class Home extends NoDecorationWindow {
 
@@ -29,14 +38,14 @@ public class Home extends NoDecorationWindow {
 
     public Home() {
         super("Home");
-        setHints(Utils.extendsCollection(getHints(), Hint.FULL_SCREEN));
+        setHints(extendsCollection(getHints(), Hint.FULL_SCREEN));
 
         // --------------------------------------------------
         // Panel layout
         // --------------------------------------------------
         // Verticle container with the top containing information and the bottom
         // containing the helper text (shortcut, etc...)
-        Panel masterPanel = new Panel(Utils.createGridLayoutwithCustomMargin(1, 0));
+        Panel masterPanel = new Panel(createGridLayoutwithCustomMargin(1, 0));
         masterPanel.setLayoutData(GridLayout.createLayoutData(
                 GridLayout.Alignment.FILL,
                 GridLayout.Alignment.FILL,
@@ -45,7 +54,7 @@ public class Home extends NoDecorationWindow {
 
         // Horizontal container with the left containing the menu and the right
         // containing the content
-        Panel layoutPanel = new Panel(Utils.createGridLayoutwithCustomMargin(2, 0));
+        Panel layoutPanel = new Panel(createGridLayoutwithCustomMargin(2, 0));
         layoutPanel.setLayoutData(GridLayout.createLayoutData(
                 GridLayout.Alignment.FILL,
                 GridLayout.Alignment.FILL,
@@ -69,10 +78,10 @@ public class Home extends NoDecorationWindow {
                 String.format("%-20s", "Status"));
 
         // Tabel header
-        Panel tableHeaderPanel = new Panel(Utils.createGridLayoutwithCustomMargin(tableTitles.size(), 0));
+        Panel tableHeaderPanel = new Panel(createGridLayoutwithCustomMargin(tableTitles.size(), 0));
         for (String title : tableTitles) {
             Label headerLabel = new Label(title);
-            headerLabel.setForegroundColor(TextColor.Factory.fromString(conf.getTheme().getActiveFg()));
+            headerLabel.setForegroundColor(TextColor.Factory.fromString(conf.getTheme().getHighlightedFg()));
             tableHeaderPanel.addComponent(headerLabel);
         }
 
@@ -96,7 +105,7 @@ public class Home extends NoDecorationWindow {
                 true,
                 true));
 
-        customerTable.setTableHeaderRenderer(new CustomerTableHeaderRenderer());
+        customerTable.setTableHeaderRenderer(new DisabledTableHeaderRenderer());
 
         Border leftPanelBordered = leftPanel.withBorder(Borders.singleLineBevel("Students"));
 
@@ -110,7 +119,12 @@ public class Home extends NoDecorationWindow {
                 GridLayout.Alignment.END,
                 true,
                 false));
-        helperLabel.setForegroundColor(TextColor.Factory.fromString(conf.getTheme().getActiveFg()));
+        helperLabel.setForegroundColor(TextColor.Factory.fromString(conf.getTheme().getHighlightedFg()));
+
+        // --------------------------------------------------
+        // Keyboards events
+        // --------------------------------------------------
+        addWindowListener(new HomeListener());
 
         // --------------------------------------------------
         // Add components
@@ -119,9 +133,9 @@ public class Home extends NoDecorationWindow {
         masterPanel.addComponent(layoutPanel);
         masterPanel.addComponent(helperLabelPanel);
 
-        helperLabelPanel.addComponent(helperLabel);
-
         layoutPanel.addComponent(leftPanelBordered);
+
+        helperLabelPanel.addComponent(helperLabel);
 
         leftPanel.addComponent(tableHeaderPanel);
         leftPanel.addComponent(tableSplitter);
@@ -130,7 +144,41 @@ public class Home extends NoDecorationWindow {
         setComponent(masterPanel);
     }
 
-    private class CustomerTableHeaderRenderer implements TableHeaderRenderer<String> {
+    private class HomeListener implements WindowListener {
+
+        @Override
+        public void onInput(Window basePane, KeyStroke keyStroke, AtomicBoolean deliverEvent) {
+            
+            switch (keyStroke.getKeyType()) {
+                default:
+                    break;
+            }
+            switch (keyStroke.getCharacter()) {
+                case 'q':
+                    close();
+                    return;
+                case null:
+                    return;
+                default:
+                    break;
+            }
+        }
+
+        @Override
+        public void onUnhandledInput(Window basePane, KeyStroke keyStroke, AtomicBoolean hasBeenHandled) {
+        }
+
+        @Override
+        public void onResized(Window window, TerminalSize oldSize, TerminalSize newSize) {
+        }
+
+        @Override
+        public void onMoved(Window window, TerminalPosition oldPosition, TerminalPosition newPosition) {
+        }
+        
+    }
+
+    private class DisabledTableHeaderRenderer implements TableHeaderRenderer<String> {
 
         @Override
         public TerminalSize getPreferredSize(Table<String> table, String label, int columnIndex) {

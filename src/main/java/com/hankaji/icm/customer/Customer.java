@@ -19,6 +19,14 @@ public abstract class Customer {
         this.claims = new ArrayList<String>();
     }
 
+    public Customer(String id, String name) {
+        validateId(id);
+        this.id = id;
+        this.name = name;
+        this.insuranceCard = null;
+        this.claims = new ArrayList<String>();
+    }
+
     /**
      * Validate the id, throw error if id is in wrong format, other wise return true
      * 

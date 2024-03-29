@@ -3,6 +3,7 @@ package com.hankaji.icm.lib;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.GridLayout;
 
 public class Utils {
@@ -22,20 +23,29 @@ public class Utils {
         return newCollection;
     }
 
-    public static GridLayout createGridLayoutwithCustomMargin(int cols, int marginTop, int marginRight, int marginBottom, int marginLeft) {
-        return new GridLayout(cols)
-            .setTopMarginSize(marginTop)
-            .setRightMarginSize(marginRight)
-            .setBottomMarginSize(marginBottom)
-            .setLeftMarginSize(marginLeft);
+    public static TextColor useHex(String value) {
+        return TextColor.Factory.fromString(value);
     }
 
-    public static GridLayout createGridLayoutwithCustomMargin(int cols, int marginHorizontal, int marginVertical) {
-        return createGridLayoutwithCustomMargin(cols, marginVertical, marginHorizontal, marginVertical, marginHorizontal);
+    public static class LayoutUtils {
+
+        public static GridLayout createGridLayoutwithCustomMargin(int cols, int marginTop, int marginRight, int marginBottom, int marginLeft) {
+            return new GridLayout(cols)
+                .setTopMarginSize(marginTop)
+                .setRightMarginSize(marginRight)
+                .setBottomMarginSize(marginBottom)
+                .setLeftMarginSize(marginLeft);
+        }
+    
+        public static GridLayout createGridLayoutwithCustomMargin(int cols, int marginHorizontal, int marginVertical) {
+            return createGridLayoutwithCustomMargin(cols, marginVertical, marginHorizontal, marginVertical, marginHorizontal);
+        }
+    
+        public static GridLayout createGridLayoutwithCustomMargin(int cols, int margin) {
+            return createGridLayoutwithCustomMargin(cols, margin, margin);
+        }
+
     }
 
-    public static GridLayout createGridLayoutwithCustomMargin(int cols, int margin) {
-        return createGridLayoutwithCustomMargin(cols, margin, margin);
-    }
 
 }

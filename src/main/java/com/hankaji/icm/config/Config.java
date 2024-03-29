@@ -71,8 +71,20 @@ public class Config {
         @SerializedName(value = "pri_fg")
         private String priFg;
 
+        @SerializedName(value = "active_bg")
+        private String activeBg;
+
         @SerializedName(value = "active_fg")
         private String activeFg;
+
+        @SerializedName(value = "selected_bg")
+        private String selectedBg;
+
+        @SerializedName(value = "selected_fg")
+        private String selectedFg;
+
+        @SerializedName(value = "highlighted_fg")
+        private String highlightedFg;
 
         public String getPriBg() {
             return priBg;
@@ -90,6 +102,14 @@ public class Config {
             this.priFg = priFg;
         }
 
+        public String getActiveBg() {
+            return activeBg;
+        }
+
+        public void setActiveBg(String activeBg) {
+            this.activeBg = activeBg;
+        }
+
         public String getActiveFg() {
             return activeFg;
         }
@@ -98,9 +118,28 @@ public class Config {
             this.activeFg = activeFg;
         }
 
-        @Override
-        public String toString() {
-            return "Theme [priBg=" + priBg + ", priFg=" + priFg + ", activeFg=" + activeFg + "]";
+        public String getSelectedBg() {
+            return selectedBg;
+        }
+
+        public void setSelectedBg(String selectedBg) {
+            this.selectedBg = selectedBg;
+        }
+
+        public String getSelectedFg() {
+            return selectedFg;
+        }
+
+        public void setSelectedFg(String selectedFg) {
+            this.selectedFg = selectedFg;
+        }
+
+        public String getHighlightedFg() {
+            return highlightedFg;
+        }
+
+        public void setHighlightedFg(String activeFg) {
+            this.highlightedFg = activeFg;
         }
         
     }
