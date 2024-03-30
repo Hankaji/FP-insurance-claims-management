@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 public class Config {
 
     // Singleton object
-    private transient static Config INSTANCE = null;
+    private transient static Config instance = null;
 
     // Config fields
     private Theme theme;
@@ -30,9 +30,9 @@ public class Config {
         // load config from file
         Gson gson = new Gson();
         Config config = gson.fromJson(json, Config.class);
-        Config.INSTANCE = config;
+        Config.instance = config;
 
-        return Config.INSTANCE;
+        return Config.instance;
     }
 
     public static void save() {
@@ -43,12 +43,12 @@ public class Config {
     // Getters and Setters
     // --------------------------------------------------
     // Singleton getter
-    public static Config getINSTANCE() {
-        if(INSTANCE == null) {
-            INSTANCE = Config.load();
+    public static Config getInstance() {
+        if(instance == null) {
+            instance = Config.load();
         }
 
-        return INSTANCE;
+        return instance;
     }
 
     // --------------------------------------------------

@@ -1,11 +1,8 @@
 package com.hankaji.icm.system;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
@@ -27,11 +24,22 @@ import com.google.gson.reflect.TypeToken;
  */
 public abstract class DataManager<T> {
 
+    /**
+     * The set of data managed by this DataManager.
+     */
     protected Set<T> data;
 
+    /**
+     * The file name used for data storage.
+     */
     protected String fileName;
 
+    /**
+     * The TypeToken object for the data type.
+     */
     private final TypeToken<Set<T>> dataType;
+
+    private final Gson gson = createGson();
 
     /**
      * Constructs a DataManager object with the given class type.
@@ -39,6 +47,7 @@ public abstract class DataManager<T> {
      * It also adds a shutdown hook to save data before the program exits.
      *
      * @param clazz the class type of the data managed by this DataManager
+     * @param typeToken the TypeToken object for the data type
      */
     protected DataManager(Class<T> clazz, TypeToken<Set<T>> typeToken) {
         this.fileName = clazz.getSimpleName();
@@ -52,9 +61,7 @@ public abstract class DataManager<T> {
         // Load data from file
         try {
             File file = new File(String.format("./data/%s.json", fileName));
-            String json = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
-
-            Gson gson = new Gson();
+            String json = FileUtils.readFileToString(file, "UTF-8");
 
             this.data = gson.fromJson(json, dataType);
         } catch (NoSuchFileException e) {
@@ -109,15 +116,17 @@ public abstract class DataManager<T> {
     /**
      * Deletes all the data objects managed by this DataManager.
      */
-    public abstract void deleteAll();
+    public void deleteAll() {
+        data.clear();
+    };
 
     /**
      * Saves the data managed by this DataManager to a file.
      *
      * @return true if the data was successfully saved, false otherwise
      */
-    public boolean saveData() {
-        Gson gson = new Gson();
+    protected boolean saveData() {
+
         String json = gson.toJson(data, dataType.getType());
 
         try {
@@ -133,4 +142,8 @@ public abstract class DataManager<T> {
         return true;
     }
     
+    protected Gson createGson() {
+        Gson gson = new Gson();
+        return gson;
+    }
 }

@@ -3,28 +3,21 @@ package com.hankaji.icm.customer;
 import java.util.ArrayList;
 
 import com.hankaji.icm.card.InsuranceCard;
+import com.hankaji.icm.claim.Claim;
 
 public abstract class Customer {
-    
+
     private String id;
     private String name;
     private InsuranceCard insuranceCard;
-    private ArrayList<String> claims; // TODO: TBC: Claim list
+    private ArrayList<Claim> claims;
 
-    public Customer(String id, String name, InsuranceCard insuranceCard) {
+    protected Customer(String id, String name, InsuranceCard insuranceCard, ArrayList<Claim> claims) {
         validateId(id);
         this.id = id;
         this.name = name;
         this.insuranceCard = insuranceCard;
-        this.claims = new ArrayList<String>();
-    }
-
-    public Customer(String id, String name) {
-        validateId(id);
-        this.id = id;
-        this.name = name;
-        this.insuranceCard = null;
-        this.claims = new ArrayList<String>();
+        this.claims = new ArrayList<Claim>();
     }
 
     /**
@@ -45,17 +38,8 @@ public abstract class Customer {
         return id;
     }
 
-    public void setId(String id) {
-        validateId(id);
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public InsuranceCard getInsuranceCard() {
@@ -66,12 +50,55 @@ public abstract class Customer {
         this.insuranceCard = insuranceCard;
     }
 
-    public ArrayList<String> getClaims() {
+    public ArrayList<Claim> getClaims() {
         return claims;
     }
 
-    public void setClaims(ArrayList<String> claims) {
+    public void setClaims(ArrayList<Claim> claims) {
         this.claims = claims;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((insuranceCard == null) ? 0 : insuranceCard.hashCode());
+        result = prime * result + ((claims == null) ? 0 : claims.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Customer other = (Customer) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (insuranceCard == null) {
+            if (other.insuranceCard != null)
+                return false;
+        } else if (!insuranceCard.equals(other.insuranceCard))
+            return false;
+        if (claims == null) {
+            if (other.claims != null)
+                return false;
+        } else if (!claims.equals(other.claims))
+            return false;
+        return true;
     }
 
 }

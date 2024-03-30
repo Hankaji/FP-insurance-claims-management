@@ -27,6 +27,10 @@ public class Utils {
         return TextColor.Factory.fromString(value);
     }
 
+    public static boolean isIDExisted(String id, Collection<String> ids) {
+        return ids.contains(id);
+    }
+
     public static class LayoutUtils {
 
         public static GridLayout createGridLayoutwithCustomMargin(int cols, int marginTop, int marginRight, int marginBottom, int marginLeft) {

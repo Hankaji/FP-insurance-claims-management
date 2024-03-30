@@ -1,15 +1,50 @@
 package com.hankaji.icm.customer;
 
+import java.util.ArrayList;
+
 import com.hankaji.icm.card.InsuranceCard;
+import com.hankaji.icm.claim.Claim;
 
 public class Dependent extends Customer {
 
-    public Dependent(String id, String name, InsuranceCard insuranceCard) {
-        super(id, name, insuranceCard);
+    public Dependent(String id, String name, InsuranceCard insuranceCard, ArrayList<Claim> claims) {
+        super(id, name, insuranceCard, claims);
     }
 
-    public Dependent(String id, String name) {
-        super(id, name);
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private String id;
+        private String name;
+        private InsuranceCard insuranceCard;
+        private ArrayList<Claim> claims;
+
+        public Builder setId(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder setInsuranceCard(InsuranceCard insuranceCard) {
+            this.insuranceCard = insuranceCard;
+            return this;
+        }
+
+        public Builder setClaims(ArrayList<Claim> claims) {
+            this.claims = claims;
+            return this;
+        }
+
+        public Dependent build() {
+            return new Dependent(id, name, insuranceCard, claims);
+        }
+        
     }
     
 }

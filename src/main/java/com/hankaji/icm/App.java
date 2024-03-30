@@ -12,8 +12,7 @@ import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-
-import com.hankaji.icm.app.Home;
+import com.hankaji.icm.app.home.Home;
 import com.hankaji.icm.config.Config;
 
 import static com.hankaji.icm.lib.Utils.useHex;

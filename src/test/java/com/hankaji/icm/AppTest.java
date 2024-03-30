@@ -20,7 +20,7 @@ public class AppTest {
      */
     @Test
     public void customerID() {
-        Dependent dependent = new Dependent("c-1234567", "Doe", insuranceCard);
+        Dependent dependent = new Dependent("c-1234567", "Doe", insuranceCard, null);
         assertEquals(dependent.getId(), "c-1234567");
     }
 }
