@@ -54,7 +54,7 @@ public abstract class DataManager<T> {
 
         // create a Type object for the data type
         this.dataType = typeToken;
-        
+
         // Add a shutdown hook to save data before the program exits
         Runtime.getRuntime().addShutdownHook(new Thread(() -> saveData()));
 

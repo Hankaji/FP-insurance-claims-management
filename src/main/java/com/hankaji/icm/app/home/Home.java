@@ -1,7 +1,6 @@
 package com.hankaji.icm.app.home;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -9,7 +8,7 @@ import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.Border;
-import com.googlecode.lanterna.gui2.Borders;
+import com.googlecode.lanterna.gui2.Component;
 import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
@@ -19,11 +18,11 @@ import com.googlecode.lanterna.gui2.Window;
 import com.googlecode.lanterna.gui2.WindowListener;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.hankaji.icm.app.NoDecorationWindow;
-import com.hankaji.icm.app.home.components.DependentDataPanel;
-import com.hankaji.icm.app.home.components.PolicyHolderDataPanel;
-import com.hankaji.icm.app.home.components.TableDataPanel;
+import com.hankaji.icm.app.addNewForm.AddDependent;
+import com.hankaji.icm.app.addNewForm.AddPolicyHolder;
+import com.hankaji.icm.app.home.components.DataPanelFactory;
+import com.hankaji.icm.app.home.components.TableData;
 import com.hankaji.icm.config.Config;
-import com.hankaji.icm.customer.Dependent;
 
 // Utilites import
 import static com.hankaji.icm.lib.Utils.extendsCollection;
@@ -43,13 +42,22 @@ public class Home extends NoDecorationWindow {
         helperText.put("Info", "i");
     }
 
+    // Fields
+    Component currentDataShown;
+
+    // Layout 
+    Panel masterPanel = new Panel(createGridLayoutwithCustomMargin(1, 0));
+
     Panel layoutPanel = new Panel(createGridLayoutwithCustomMargin(2, 0));
 
-    private Border dependentDataPanel = DependentDataPanel.create();
+    Panel helperLabelPanel = new Panel(new LinearLayout(Direction.HORIZONTAL));
 
-    private Border policyHolderDataPanel = PolicyHolderDataPanel.create();
+    Border dependentDataPanel = DataPanelFactory.createDependent();
 
-    private Config conf = Config.getInstance();
+    Border policyHolderDataPanel = DataPanelFactory.createPolicyHolder();
+
+    // COnfiguration file
+    Config conf = Config.getInstance();
 
     public Home() {
         super("Home");
@@ -60,7 +68,6 @@ public class Home extends NoDecorationWindow {
         // --------------------------------------------------
         // Verticle container with the top containing information and the bottom
         // containing the helper text (shortcut, etc...)
-        Panel masterPanel = new Panel(createGridLayoutwithCustomMargin(1, 0));
         masterPanel.setLayoutData(GridLayout.createLayoutData(
                 GridLayout.Alignment.FILL,
                 GridLayout.Alignment.FILL,
@@ -84,8 +91,6 @@ public class Home extends NoDecorationWindow {
         // --------------------------------------------------
         // Helper text
         // --------------------------------------------------
-        Panel helperLabelPanel = new Panel(new LinearLayout(Direction.HORIZONTAL));
-
         int idx = 0;
         for (Map.Entry<String, String> entry : helperText.entrySet()) {
             Label inforLabel = new Label(idx == 0 ? 
@@ -113,9 +118,25 @@ public class Home extends NoDecorationWindow {
         masterPanel.addComponent(layoutPanel);
         masterPanel.addComponent(helperLabelPanel);
 
-        layoutPanel.addComponent(dependentDataPanel);
+        currentDataShown = dependentDataPanel;
+        renderDataPanel(currentDataShown);
 
         setComponent(masterPanel);
+    }
+
+    private void switchWindow(Component newPanel) {
+        if (currentDataShown == newPanel) return;
+        currentDataShown = newPanel;
+    }
+
+    private void renderDataPanel(Component panelToShow) {
+        layoutPanel.removeAllComponents();
+        layoutPanel.addComponent(panelToShow);
+    }
+
+    private void switchAndRerender(Component newPanel) {
+        switchWindow(newPanel);
+        renderDataPanel(newPanel);
     }
 
     private class HomeListener implements WindowListener {
@@ -131,13 +152,22 @@ public class Home extends NoDecorationWindow {
                 case 'q':
                     close();
                     return;
+                case 'a':
+                    // getTextGUI().addWindowAndWait(new AddDependent(""));
+                    getTextGUI().addWindowAndWait(new AddPolicyHolder());
+                    return;
                 case '1':
-                    layoutPanel.removeComponent(policyHolderDataPanel);
-                    layoutPanel.addComponent(dependentDataPanel);
+                    ((TableData) dependentDataPanel.getComponent()).update();
+                    switchAndRerender(dependentDataPanel);
                     return;
                 case '2':
-                    layoutPanel.removeComponent(dependentDataPanel);
-                    layoutPanel.addComponent(policyHolderDataPanel);
+                    switchAndRerender(policyHolderDataPanel);
+                    return;
+                case '3':
+                    // switchAndRerender(policyHolderDataPanel);
+                    return;
+                case '4':
+                    // switchAndRerender(policyHolderDataPanel);
                     return;
                 case null:
                     return;

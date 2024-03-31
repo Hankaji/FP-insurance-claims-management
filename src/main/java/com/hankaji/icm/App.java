@@ -12,6 +12,7 @@ import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
+import com.hankaji.icm.app.addNewForm.AddDependent;
 import com.hankaji.icm.app.home.Home;
 import com.hankaji.icm.config.Config;
 
@@ -53,7 +54,7 @@ public class App  {
             textGUI.setTheme(defaultTheme);
             textGUI.getBackgroundPane().setTheme(defautBackgroundPane);
 
-            // textGUI.addWindowAndWait(new Welcome());
+            // textGUI.addWindowAndWait(new AddDependent());
             textGUI.addWindowAndWait(new Home());
 
         } catch (IOException e) {

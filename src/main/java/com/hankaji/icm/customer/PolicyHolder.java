@@ -7,18 +7,18 @@ import com.hankaji.icm.claim.Claim;
 
 public class PolicyHolder extends Customer {
 
-    private ArrayList<Dependent> dependents;
+    private ArrayList<InsuranceCard> dependents;
 
-    public PolicyHolder(String id, String name, InsuranceCard insuranceCard, ArrayList<Claim> claims, ArrayList<Dependent> dependents) {
+    public PolicyHolder(String id, String name, InsuranceCard insuranceCard, ArrayList<Claim> claims, ArrayList<InsuranceCard> dependents) {
         super(id, name, insuranceCard, claims);
         this.dependents = dependents;
     }
 
-    public ArrayList<Dependent> getDependents() {
+    public ArrayList<InsuranceCard> getDependents() {
         return dependents;
     }
 
-    public void setDependents(ArrayList<Dependent> dependents) {
+    public void setDependents(ArrayList<InsuranceCard> dependents) {
         this.dependents = dependents;
     }
 
@@ -31,7 +31,7 @@ public class PolicyHolder extends Customer {
         private String name;
         private InsuranceCard insuranceCard;
         private ArrayList<Claim> claims;
-        private ArrayList<Dependent> dependents;
+        private ArrayList<InsuranceCard> dependents;
 
         public Builder setId(String id) {
             this.id = id;
@@ -53,7 +53,7 @@ public class PolicyHolder extends Customer {
             return this;
         }
 
-        public Builder setDependents(ArrayList<Dependent> dependents) {
+        public Builder setDependents(ArrayList<InsuranceCard> dependents) {
             this.dependents = dependents;
             return this;
         }

@@ -2,7 +2,6 @@ package com.hankaji.icm.card;
 
 import java.util.Date;
 
-import com.hankaji.icm.customer.PolicyHolder;
 
 /**
  * Represents an insurance card.
@@ -10,7 +9,7 @@ import com.hankaji.icm.customer.PolicyHolder;
 public class InsuranceCard {
     private String cardNumber;
     private String cardHolder;
-    private PolicyHolder policyHolder;
+    private String policyOwner;
     private Date expirationDate;
 
     /**
@@ -21,11 +20,11 @@ public class InsuranceCard {
      * @param policyHolder   the policy holder
      * @param expirationDate the expiration date
      */
-    public InsuranceCard(String cardNumber, String cardHolder, PolicyHolder policyHolder, Date expirationDate) {
+    public InsuranceCard(String cardNumber, String cardHolder, String policyHolder, Date expirationDate) {
         if (!validateCardNumber(cardNumber));
         this.cardNumber = cardNumber;
         this.cardHolder = cardHolder;
-        this.policyHolder = policyHolder;
+        this.policyOwner = policyHolder;
         this.expirationDate = expirationDate;
     }
 
@@ -85,8 +84,8 @@ public class InsuranceCard {
      *
      * @return the policy holder
      */
-    public PolicyHolder getPolicyHolder() {
-        return policyHolder;
+    public String getPolicyOwner() {
+        return policyOwner;
     }
 
     /**
@@ -94,8 +93,8 @@ public class InsuranceCard {
      *
      * @param policyHolder the policy holder to set
      */
-    public void setPolicyHolder(PolicyHolder policyHolder) {
-        this.policyHolder = policyHolder;
+    public void setPolicyHolder(String policyHolder) {
+        this.policyOwner = policyHolder;
     }
 
     /**
