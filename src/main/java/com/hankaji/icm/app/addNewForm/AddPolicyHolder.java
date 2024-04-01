@@ -1,6 +1,6 @@
 package com.hankaji.icm.app.addNewForm;
 
-import java.util.regex.Pattern;
+import java.util.ArrayList;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.Button;
@@ -35,7 +35,16 @@ public class AddPolicyHolder extends AddDependent {
 
     @Override
     protected void onSubmit() {
+
+        PolicyHolder newPolicyHolder = PolicyHolder.builder()
+            .setId("c-" + ID.generateID(7))
+            .setName(inputName.getText())
+            .setInsuranceCard(icm.get(cardList.getSelectedItem()))
+            .setDependents(new ArrayList<String>(depCheckList.checkBoxList.getCheckedItems()))
+            .build();
         
+        policyHolderMan.add(newPolicyHolder);
+        close();
     }
 
     private class DepCheckList extends PopupWindow {

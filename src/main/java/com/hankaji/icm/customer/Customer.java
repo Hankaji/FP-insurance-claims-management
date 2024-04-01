@@ -12,7 +12,7 @@ public abstract class Customer {
     private InsuranceCard insuranceCard;
     private ArrayList<Claim> claims;
 
-    protected Customer(String id, String name, InsuranceCard insuranceCard, ArrayList<Claim> claims) {
+    protected Customer(String id, String name, InsuranceCard insuranceCard, ArrayList<Claim> claims) throws IllegalArgumentException {
         validateId(id);
         this.id = id;
         this.name = name;

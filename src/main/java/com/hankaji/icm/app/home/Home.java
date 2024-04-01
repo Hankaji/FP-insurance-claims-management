@@ -7,8 +7,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.gui2.Border;
-import com.googlecode.lanterna.gui2.Component;
 import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
@@ -18,11 +16,13 @@ import com.googlecode.lanterna.gui2.Window;
 import com.googlecode.lanterna.gui2.WindowListener;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.hankaji.icm.app.NoDecorationWindow;
-import com.hankaji.icm.app.addNewForm.AddDependent;
 import com.hankaji.icm.app.addNewForm.AddPolicyHolder;
-import com.hankaji.icm.app.home.components.DataPanelFactory;
-import com.hankaji.icm.app.home.components.TableData;
+import com.hankaji.icm.app.home.components.DependentData;
+import com.hankaji.icm.app.home.components.PolicyHolderData;
+import com.hankaji.icm.app.home.components.TableDataPanel;
 import com.hankaji.icm.config.Config;
+import com.hankaji.icm.customer.Dependent;
+import com.hankaji.icm.customer.PolicyHolder;
 
 // Utilites import
 import static com.hankaji.icm.lib.Utils.extendsCollection;
@@ -43,7 +43,7 @@ public class Home extends NoDecorationWindow {
     }
 
     // Fields
-    Component currentDataShown;
+    TableDataPanel<?> currentDataShown;
 
     // Layout 
     Panel masterPanel = new Panel(createGridLayoutwithCustomMargin(1, 0));
@@ -52,9 +52,9 @@ public class Home extends NoDecorationWindow {
 
     Panel helperLabelPanel = new Panel(new LinearLayout(Direction.HORIZONTAL));
 
-    Border dependentDataPanel = DataPanelFactory.createDependent();
+    TableDataPanel<Dependent> dependentDataPanel = new DependentData();
 
-    Border policyHolderDataPanel = DataPanelFactory.createPolicyHolder();
+    TableDataPanel<PolicyHolder> policyHolderDataPanel = new PolicyHolderData();
 
     // COnfiguration file
     Config conf = Config.getInstance();
@@ -124,17 +124,17 @@ public class Home extends NoDecorationWindow {
         setComponent(masterPanel);
     }
 
-    private void switchWindow(Component newPanel) {
+    private void switchWindow(TableDataPanel<?> newPanel) {
         if (currentDataShown == newPanel) return;
         currentDataShown = newPanel;
     }
 
-    private void renderDataPanel(Component panelToShow) {
-        layoutPanel.removeAllComponents();
-        layoutPanel.addComponent(panelToShow);
+    private void renderDataPanel(TableDataPanel<?> panelToShow) {
+        layoutPanel.removeAllComponents().addComponent(panelToShow.withBorder());
+        panelToShow.getCustomerTable().takeFocus();
     }
 
-    private void switchAndRerender(Component newPanel) {
+    private void switchAndRerender(TableDataPanel<?> newPanel) {
         switchWindow(newPanel);
         renderDataPanel(newPanel);
     }
@@ -157,7 +157,7 @@ public class Home extends NoDecorationWindow {
                     getTextGUI().addWindowAndWait(new AddPolicyHolder());
                     return;
                 case '1':
-                    ((TableData) dependentDataPanel.getComponent()).update();
+                    
                     switchAndRerender(dependentDataPanel);
                     return;
                 case '2':

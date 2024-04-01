@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.function.Function;
 
 import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.gui2.Border;
+import com.googlecode.lanterna.gui2.Borders;
 import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
@@ -12,11 +14,12 @@ import com.googlecode.lanterna.gui2.Separator;
 import com.googlecode.lanterna.gui2.table.Table;
 import com.hankaji.icm.config.Config;
 import com.hankaji.icm.lib.DisabledTableHeaderRenderer;
+import com.hankaji.icm.lib.HasBorder;
 import com.hankaji.icm.system.DataManager;
 
 import static com.hankaji.icm.lib.Utils.LayoutUtils.*;
 
-public class TableDataPanel<T> extends Panel implements TableData {
+public class TableDataPanel<T> extends Panel implements TableData, HasBorder {
 
     // Fields
     private Config conf = Config.getInstance();
@@ -26,7 +29,7 @@ public class TableDataPanel<T> extends Panel implements TableData {
     Function<T, String[]> rowMapper;
 
     // Components
-    Table<String> customerTable;
+    private Table<String> customerTable;
 
     /**
      * @param tableTitles List of table titles
@@ -91,7 +94,13 @@ public class TableDataPanel<T> extends Panel implements TableData {
         }
     }
 
-    // public TableDataPanel<T> update() {
+    @Override
+    public synchronized Border withBorder() {
+        return super.withBorder(Borders.doubleLineBevel("Table Data"));
+    }
 
-    // }
+    public Table<String> getCustomerTable() {
+        return customerTable;
+    }
+
 }
