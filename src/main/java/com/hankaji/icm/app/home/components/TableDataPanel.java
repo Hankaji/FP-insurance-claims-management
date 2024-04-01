@@ -36,7 +36,7 @@ public abstract class TableDataPanel<T> extends Panel implements HasBorder {
     Consumer<Map<String, String>> updateHelperText;
 
     // Components
-    private Table<String> table;
+    protected Table<String> table;
 
     /**
      * @param tableTitles List of table titles

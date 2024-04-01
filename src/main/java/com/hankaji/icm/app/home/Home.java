@@ -153,6 +153,7 @@ public class Home extends NoDecorationWindow {
                     close();
                     return;
                 case '1':
+                    
                     switchAndRerender(dependentDataPanel);
                     return;
                 case '2':

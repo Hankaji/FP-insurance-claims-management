@@ -7,7 +7,9 @@ import java.util.function.Consumer;
 
 import com.googlecode.lanterna.gui2.Border;
 import com.googlecode.lanterna.gui2.Borders;
+import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
 import com.googlecode.lanterna.input.KeyStroke;
+import com.hankaji.icm.app.addNewForm.AddDependent;
 import com.hankaji.icm.customer.Dependent;
 import com.hankaji.icm.services.DependentManager;
 
@@ -46,17 +48,25 @@ public class DependentData extends TableDataPanel<Dependent> {
         return helperText;
     }
 
-    // @Override
-    // public boolean handleInput(KeyStroke key) {
-    //     switch (key.getCharacter()) {
-    //         case 'a':
-    //             break;
-    //         case null:
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    //     return super.handleInput(key);
-    // }
+    @Override
+    public boolean handleInput(KeyStroke key) {
+        switch (key.getCharacter()) {
+            case 'a':
+                ((WindowBasedTextGUI) getTextGUI()).addWindowAndWait(new AddDependent());
+                return true;
+            case 'd':
+                {
+                    String id = table.getTableModel().getRow(table.getSelectedRow()).get(1);
+                    table.getTableModel().removeRow(table.getSelectedRow());
+                    DependentManager.getInstance().delete(id.trim());
+                }
+                return true;
+            case null:
+                break;
+            default:
+                break;
+        }
+        return super.handleInput(key);
+    }
 
 }
