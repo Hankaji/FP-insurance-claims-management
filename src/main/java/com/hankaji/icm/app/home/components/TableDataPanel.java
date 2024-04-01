@@ -2,6 +2,9 @@ package com.hankaji.icm.app.home.components;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import com.googlecode.lanterna.TextColor;
@@ -21,7 +24,7 @@ import com.hankaji.icm.system.DataManager;
 
 import static com.hankaji.icm.lib.Utils.LayoutUtils.*;
 
-public class TableDataPanel<T> extends Panel implements HasBorder {
+public abstract class TableDataPanel<T> extends Panel implements HasBorder {
 
     // Fields
     private Config conf = Config.getInstance();
@@ -30,8 +33,10 @@ public class TableDataPanel<T> extends Panel implements HasBorder {
 
     Function<T, String[]> rowMapper;
 
+    Consumer<Map<String, String>> updateHelperText;
+
     // Components
-    protected Table<String> table;
+    private Table<String> table;
 
     /**
      * @param tableTitles List of table titles
@@ -44,8 +49,11 @@ public class TableDataPanel<T> extends Panel implements HasBorder {
     public TableDataPanel(
             Collection<String> tableTitles,
             Function<T, String[]> rowMapper,
-            DataManager<T> db) {
+            DataManager<T> db,
+            Consumer<Map<String, String>> updateHelperText) {
         super(new GridLayout(1));
+
+        this.updateHelperText = updateHelperText;
 
         setLayoutData(GridLayout.createLayoutData(
                 GridLayout.Alignment.FILL,
@@ -91,9 +99,15 @@ public class TableDataPanel<T> extends Panel implements HasBorder {
     @Override
     public synchronized void onAdded(Container container) {
         super.onAdded(container);
-        table.takeFocus();
-        update();
+
+        CompletableFuture.runAsync(() -> {
+            table.takeFocus();
+            update();
+            updateHelperText.accept(useHelperText());
+        });
     }
+
+    protected abstract Map<String, String> useHelperText();
 
     protected void update() {
         table.getTableModel().clear();
@@ -126,6 +140,10 @@ public class TableDataPanel<T> extends Panel implements HasBorder {
     @Override
     public synchronized Border withBorder() {
         return super.withBorder(Borders.doubleLineBevel("Table Data"));
+    }
+
+    public Table<String> getTable() {
+        return table;
     }
 
 }

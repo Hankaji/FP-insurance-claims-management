@@ -1,18 +1,19 @@
 package com.hankaji.icm.app.home.components;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import com.googlecode.lanterna.gui2.Border;
 import com.googlecode.lanterna.gui2.Borders;
-import com.googlecode.lanterna.gui2.Container;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.hankaji.icm.customer.Dependent;
 import com.hankaji.icm.services.DependentManager;
 
 public class DependentData extends TableDataPanel<Dependent> {
 
-    public DependentData() {
-        //Collection<String> tableTitles, Function<Dependent, String[]> rowMapper, DataManager<Dependent> db
+    public DependentData(Consumer<Map<String, String>> updateHelperText) {
         super(
             List.of(
                 String.format("%-20s", "Name"),
@@ -24,7 +25,8 @@ public class DependentData extends TableDataPanel<Dependent> {
                 dep.getId(),
                 String.valueOf(dep.getClaims().size())
             }, 
-            DependentManager.getInstance());
+            DependentManager.getInstance(),
+            updateHelperText);
 
     }
 
@@ -34,16 +36,27 @@ public class DependentData extends TableDataPanel<Dependent> {
     }
 
     @Override
-    public boolean handleInput(KeyStroke key) {
-        switch (key.getCharacter()) {
-            case 'a':
-                break;
-            case null:
-                break;
-            default:
-                break;
-        }
-        return super.handleInput(key);
+    protected Map<String, String> useHelperText() {
+        Map<String, String> helperText = new LinkedHashMap<>();
+        helperText.put("Add", "a");
+        helperText.put("Edit", "e");
+        helperText.put("Delete", "d");
+        // helperText.put("DeleteAll", "<ctrl-D>");
+
+        return helperText;
     }
+
+    // @Override
+    // public boolean handleInput(KeyStroke key) {
+    //     switch (key.getCharacter()) {
+    //         case 'a':
+    //             break;
+    //         case null:
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    //     return super.handleInput(key);
+    // }
 
 }

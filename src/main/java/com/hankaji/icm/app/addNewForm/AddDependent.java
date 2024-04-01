@@ -20,6 +20,10 @@ public class AddDependent extends AddNewForm {
 
     final ComboBox<String> cardList = new ComboBox<String>();
 
+    public AddDependent() {
+        this("Add new dependent");
+    }
+
     public AddDependent(String title) {
         super("Add new dependent");
 

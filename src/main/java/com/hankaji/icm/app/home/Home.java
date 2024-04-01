@@ -18,6 +18,7 @@ import com.googlecode.lanterna.input.KeyStroke;
 import com.hankaji.icm.app.NoDecorationWindow;
 import com.hankaji.icm.app.addNewForm.AddPolicyHolder;
 import com.hankaji.icm.app.home.components.DependentData;
+import com.hankaji.icm.app.home.components.HelperText;
 import com.hankaji.icm.app.home.components.PolicyHolderData;
 import com.hankaji.icm.app.home.components.TableDataPanel;
 import com.hankaji.icm.config.Config;
@@ -28,6 +29,11 @@ import com.hankaji.icm.customer.PolicyHolder;
 import static com.hankaji.icm.lib.Utils.extendsCollection;
 import static com.hankaji.icm.lib.Utils.LayoutUtils.*;
 
+/**
+ * The Home class represents the main window of the application.
+ * It extends the NoDecorationWindow class and provides functionality
+ * for switching between different panels and rendering data panels.
+ */
 public class Home extends NoDecorationWindow {
 
     private Map<String, String> helperText = new LinkedHashMap<>();
@@ -35,29 +41,28 @@ public class Home extends NoDecorationWindow {
         helperText.put("Quit", "q");
         helperText.put("Move between panels", "[1]-[5]");
         helperText.put("Navigation", "<Arrow keys>");
-        helperText.put("Add", "a");
-        helperText.put("Edit", "e");
-        helperText.put("Delete", "d");
-        helperText.put("DeleteAll", "<ctrl-D>");
         helperText.put("Info", "i");
     }
 
     // Fields
     TableDataPanel<?> currentDataShown;
 
-    // Layout 
+    Config conf = Config.getInstance();
+
+    // Components
     Panel masterPanel = new Panel(createGridLayoutwithCustomMargin(1, 0));
 
     Panel layoutPanel = new Panel(createGridLayoutwithCustomMargin(2, 0));
 
-    Panel helperLabelPanel = new Panel(new LinearLayout(Direction.HORIZONTAL));
+    Panel helpPanel = new Panel(new LinearLayout(Direction.HORIZONTAL));
 
-    TableDataPanel<Dependent> dependentDataPanel = new DependentData();
+    HelperText generalHelp = new HelperText(helperText);
 
-    TableDataPanel<PolicyHolder> policyHolderDataPanel = new PolicyHolderData();
+    HelperText panelSpecificHelp = new HelperText();
 
-    // COnfiguration file
-    Config conf = Config.getInstance();
+    TableDataPanel<Dependent> dependentDataPanel = new DependentData(this::updateHelperText);
+
+    TableDataPanel<PolicyHolder> policyHolderDataPanel = new PolicyHolderData(this::updateHelperText);
 
     public Home() {
         super("Home");
@@ -85,39 +90,22 @@ public class Home extends NoDecorationWindow {
         layoutPanel.setPreferredSize(new TerminalSize(10, 10));
 
         // --------------------------------------------------
-        // Left Panel
-        // --------------------------------------------------
-
-
-        // --------------------------------------------------
-        // Helper text
-        // --------------------------------------------------
-        int idx = 0;
-        for (Map.Entry<String, String> entry : helperText.entrySet()) {
-            Label inforLabel = new Label(idx == 0 ? 
-                (entry.getKey() + ":") 
-                  : 
-                ("| " + entry.getKey() + ":"));
-            Label keyLabel = new Label(entry.getValue());
-            keyLabel.setForegroundColor(TextColor.Factory.fromString(conf.getTheme().getHighlightedFg()));
-            
-            helperLabelPanel.addComponent(inforLabel);
-            helperLabelPanel.addComponent(keyLabel);
-
-            idx++;
-        }
-
-        // --------------------------------------------------
         // Keyboards events
         // --------------------------------------------------
         addWindowListener(new HomeListener());
 
         // --------------------------------------------------
+        // Helper text
+        // --------------------------------------------------
+        
+        // --------------------------------------------------
         // Add components
         // --------------------------------------------------
-
         masterPanel.addComponent(layoutPanel);
-        masterPanel.addComponent(helperLabelPanel);
+        masterPanel.addComponent(helpPanel);
+
+        helpPanel.addComponent(generalHelp);
+        helpPanel.addComponent(panelSpecificHelp);
 
         currentDataShown = dependentDataPanel;
         renderDataPanel(currentDataShown);
@@ -139,6 +127,18 @@ public class Home extends NoDecorationWindow {
         renderDataPanel(newPanel);
     }
 
+    private void updateHelperText(Map<String, String> helperText) {
+        panelSpecificHelp.updateHelperText(helperText);
+    }
+
+    /**
+     * <pre>
+     * The HomeListener class is a WindowListener that listens for keyboard events that are used to switch between panels and to close the application.
+     * Panels dedicated input are handled by the panels themselves. Check handleInput(KeyStroke key) in the Panel class for example.
+     * </pre>
+     * 
+     * @author Thai Phuc
+     */
     private class HomeListener implements WindowListener {
 
         @Override
@@ -152,12 +152,7 @@ public class Home extends NoDecorationWindow {
                 case 'q':
                     close();
                     return;
-                case 'a':
-                    // getTextGUI().addWindowAndWait(new AddDependent(""));
-                    getTextGUI().addWindowAndWait(new AddPolicyHolder());
-                    return;
                 case '1':
-                    
                     switchAndRerender(dependentDataPanel);
                     return;
                 case '2':
