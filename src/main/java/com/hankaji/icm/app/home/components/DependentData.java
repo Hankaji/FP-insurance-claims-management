@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.googlecode.lanterna.gui2.Border;
 import com.googlecode.lanterna.gui2.Borders;
+import com.googlecode.lanterna.gui2.Container;
+import com.googlecode.lanterna.input.KeyStroke;
 import com.hankaji.icm.customer.Dependent;
 import com.hankaji.icm.services.DependentManager;
 
@@ -29,6 +31,19 @@ public class DependentData extends TableDataPanel<Dependent> {
     @Override
     public Border withBorder() {
         return withBorder(Borders.singleLine("[1] Dependent"));
+    }
+
+    @Override
+    public boolean handleInput(KeyStroke key) {
+        switch (key.getCharacter()) {
+            case 'a':
+                break;
+            case null:
+                break;
+            default:
+                break;
+        }
+        return super.handleInput(key);
     }
 
 }

@@ -1,11 +1,13 @@
 package com.hankaji.icm.app.home.components;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Function;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.Border;
 import com.googlecode.lanterna.gui2.Borders;
+import com.googlecode.lanterna.gui2.Container;
 import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
@@ -19,7 +21,7 @@ import com.hankaji.icm.system.DataManager;
 
 import static com.hankaji.icm.lib.Utils.LayoutUtils.*;
 
-public class TableDataPanel<T> extends Panel implements TableData, HasBorder {
+public class TableDataPanel<T> extends Panel implements HasBorder {
 
     // Fields
     private Config conf = Config.getInstance();
@@ -29,7 +31,7 @@ public class TableDataPanel<T> extends Panel implements TableData, HasBorder {
     Function<T, String[]> rowMapper;
 
     // Components
-    private Table<String> customerTable;
+    protected Table<String> table;
 
     /**
      * @param tableTitles List of table titles
@@ -70,37 +72,60 @@ public class TableDataPanel<T> extends Panel implements TableData, HasBorder {
         // Table cells
         this.db = db;
         this.rowMapper = rowMapper;
-        this.customerTable = new Table<String>(tableTitles.toArray(new String[0]));
+        this.table = new Table<String>(tableTitles.toArray(new String[0]));
         update();
 
-        customerTable.setLayoutData(GridLayout.createLayoutData(
+        table.setLayoutData(GridLayout.createLayoutData(
                 GridLayout.Alignment.FILL,
                 GridLayout.Alignment.FILL,
                 true,
                 true));
 
-        customerTable.setTableHeaderRenderer(new DisabledTableHeaderRenderer());
+        table.setTableHeaderRenderer(new DisabledTableHeaderRenderer());
 
         addComponent(tableHeaderPanel);
         addComponent(tableSplitter);
-        addComponent(customerTable);
+        addComponent(table);
     }
 
     @Override
-    public void update() {
-        customerTable.getTableModel().clear();
+    public synchronized void onAdded(Container container) {
+        super.onAdded(container);
+        table.takeFocus();
+        update();
+    }
+
+    protected void update() {
+        table.getTableModel().clear();
         for (T dep : db.getAll()) {
-            customerTable.getTableModel().addRow(rowMapper.apply(dep));
+            String[] truncatedCells = truncateCell(rowMapper.apply(dep));
+            table.getTableModel().addRow(truncatedCells);
         }
+    }
+
+    private String[] truncateCell(String[] cells) {
+        List<String> cols = table.getTableModel().getColumnLabels();
+
+        String[] truncatedCells = new String[cells.length];
+
+        int idx = 0;
+        for (String header : cols) {
+            int headerLength = header.length();
+
+            String cell = cells[idx];
+
+            String formater = "%1." + headerLength + "s"; // $1.20s for example will fit the entire cell within only 20 characters
+            truncatedCells[idx] = String.format(formater, cell);
+
+            idx++;
+        }
+
+        return truncatedCells;
     }
 
     @Override
     public synchronized Border withBorder() {
         return super.withBorder(Borders.doubleLineBevel("Table Data"));
-    }
-
-    public Table<String> getCustomerTable() {
-        return customerTable;
     }
 
 }

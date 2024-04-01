@@ -88,6 +88,7 @@ public class Home extends NoDecorationWindow {
         // Left Panel
         // --------------------------------------------------
 
+
         // --------------------------------------------------
         // Helper text
         // --------------------------------------------------
@@ -131,7 +132,6 @@ public class Home extends NoDecorationWindow {
 
     private void renderDataPanel(TableDataPanel<?> panelToShow) {
         layoutPanel.removeAllComponents().addComponent(panelToShow.withBorder());
-        panelToShow.getCustomerTable().takeFocus();
     }
 
     private void switchAndRerender(TableDataPanel<?> newPanel) {

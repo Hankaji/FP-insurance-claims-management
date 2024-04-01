@@ -13,11 +13,13 @@ public class PolicyHolderData extends TableDataPanel<PolicyHolder> {
         super(List.of(
                 String.format("%-20s", "Name"),
                 String.format("%-12s", "ID"),
+                String.format("%-30s", "Dependent"),
                 String.format("Claims amount")),
-                dep -> new String[] {
-                        dep.getName(),
-                        dep.getId(),
-                        String.valueOf(dep.getClaims().size())
+                ph -> new String[] {
+                        ph.getName(),
+                        ph.getId(),
+                        String.join(", ", ph.getDependents()),
+                        String.valueOf(ph.getClaims().size())
                 },
                 PolicyHolderManager.getInstance());
     }
