@@ -1,4 +1,4 @@
-package com.hankaji.icm.app.home.components;
+package com.hankaji.icm.app.home.components.tableData;
 
 import java.util.Collection;
 import java.util.List;
@@ -117,6 +117,12 @@ public abstract class TableDataPanel<T> extends Panel implements HasBorder {
         }
     }
 
+    /**
+     * Truncate cell if it is longer than the header.
+     * 
+     * @param cells Array of cells
+     * @return Array of truncated cells
+     */
     private String[] truncateCell(String[] cells) {
         List<String> cols = table.getTableModel().getColumnLabels();
 
@@ -128,8 +134,12 @@ public abstract class TableDataPanel<T> extends Panel implements HasBorder {
 
             String cell = cells[idx];
 
-            String formater = "%1." + headerLength + "s"; // $1.20s for example will fit the entire cell within only 20 characters
-            truncatedCells[idx] = String.format(formater, cell);
+            // If cell longer than header length, truncate it and add "..."
+            if (headerLength > 3 && cell.length() > headerLength) {
+                cell = cell.substring(0, headerLength - 3) + "...";
+            }
+
+            truncatedCells[idx] = cell;
 
             idx++;
         }

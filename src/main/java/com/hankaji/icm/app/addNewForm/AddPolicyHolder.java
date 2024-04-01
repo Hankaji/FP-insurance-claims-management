@@ -44,7 +44,6 @@ public class AddPolicyHolder extends AddDependent {
             .build();
         
         policyHolderMan.add(newPolicyHolder);
-        close();
     }
 
     private class DepCheckList extends PopupWindow {

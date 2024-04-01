@@ -1,4 +1,4 @@
-package com.hankaji.icm.app.home.components;
+package com.hankaji.icm.app.home.components.tableData;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -7,6 +7,9 @@ import java.util.function.Consumer;
 
 import com.googlecode.lanterna.gui2.Border;
 import com.googlecode.lanterna.gui2.Borders;
+import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
+import com.googlecode.lanterna.input.KeyStroke;
+import com.hankaji.icm.app.addNewForm.AddPolicyHolder;
 import com.hankaji.icm.customer.PolicyHolder;
 import com.hankaji.icm.services.PolicyHolderManager;
 
@@ -42,6 +45,28 @@ public class PolicyHolderData extends TableDataPanel<PolicyHolder> {
         // helperText.put("DeleteAll", "<ctrl-D>");
 
         return helperText;
+    }
+
+    @Override
+    public boolean handleInput(KeyStroke key) {
+        switch (key.getCharacter()) {
+            case 'a':
+                ((WindowBasedTextGUI) getTextGUI()).addWindowAndWait(new AddPolicyHolder());
+                update();
+                return true;
+            case 'd':
+                {
+                    String id = table.getTableModel().getRow(table.getSelectedRow()).get(0);
+                    table.getTableModel().removeRow(table.getSelectedRow());
+                    PolicyHolderManager.getInstance().delete(id.trim());
+                }
+                return true;
+            case null:
+                break;
+            default:
+                break;
+        }
+        return super.handleInput(key);
     }
 
 }

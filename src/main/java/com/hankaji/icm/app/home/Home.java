@@ -6,21 +6,20 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.GridLayout;
-import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.Window;
 import com.googlecode.lanterna.gui2.WindowListener;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.hankaji.icm.app.NoDecorationWindow;
-import com.hankaji.icm.app.addNewForm.AddPolicyHolder;
-import com.hankaji.icm.app.home.components.DependentData;
 import com.hankaji.icm.app.home.components.HelperText;
-import com.hankaji.icm.app.home.components.PolicyHolderData;
-import com.hankaji.icm.app.home.components.TableDataPanel;
+import com.hankaji.icm.app.home.components.tableData.DependentData;
+import com.hankaji.icm.app.home.components.tableData.InsuranceCardData;
+import com.hankaji.icm.app.home.components.tableData.PolicyHolderData;
+import com.hankaji.icm.app.home.components.tableData.TableDataPanel;
+import com.hankaji.icm.card.InsuranceCard;
 import com.hankaji.icm.config.Config;
 import com.hankaji.icm.customer.Dependent;
 import com.hankaji.icm.customer.PolicyHolder;
@@ -63,6 +62,8 @@ public class Home extends NoDecorationWindow {
     TableDataPanel<Dependent> dependentDataPanel = new DependentData(this::updateHelperText);
 
     TableDataPanel<PolicyHolder> policyHolderDataPanel = new PolicyHolderData(this::updateHelperText);
+
+    TableDataPanel<InsuranceCard> insuranceCardDataPanel = new InsuranceCardData(this::updateHelperText);
 
     public Home() {
         super("Home");
@@ -160,7 +161,7 @@ public class Home extends NoDecorationWindow {
                     switchAndRerender(policyHolderDataPanel);
                     return;
                 case '3':
-                    // switchAndRerender(policyHolderDataPanel);
+                    switchAndRerender(insuranceCardDataPanel);
                     return;
                 case '4':
                     // switchAndRerender(policyHolderDataPanel);

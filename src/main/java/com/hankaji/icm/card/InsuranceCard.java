@@ -1,6 +1,9 @@
 package com.hankaji.icm.card;
 
+import java.time.LocalDateTime;
 import java.util.Date;
+
+import com.hankaji.icm.customer.Dependent.Builder;
 
 
 /**
@@ -10,7 +13,7 @@ public class InsuranceCard {
     private String cardNumber;
     private String cardHolder;
     private String policyOwner;
-    private Date expirationDate;
+    private LocalDateTime expirationDate;
 
     /**
      * Constructs an InsuranceCard object with the specified card number, card holder, policy holder, and expiration date.
@@ -20,7 +23,7 @@ public class InsuranceCard {
      * @param policyHolder   the policy holder
      * @param expirationDate the expiration date
      */
-    public InsuranceCard(String cardNumber, String cardHolder, String policyHolder, Date expirationDate) {
+    public InsuranceCard(String cardNumber, String cardHolder, String policyHolder, LocalDateTime expirationDate) {
         if (!validateCardNumber(cardNumber));
         this.cardNumber = cardNumber;
         this.cardHolder = cardHolder;
@@ -102,7 +105,7 @@ public class InsuranceCard {
      *
      * @return the expiration date
      */
-    public Date getExpirationDate() {
+    public LocalDateTime getExpirationDate() {
         return expirationDate;
     }
 
@@ -111,10 +114,45 @@ public class InsuranceCard {
      *
      * @param expirationDate the expiration date to set
      */
-    public void setExpirationDate(Date expirationDate) {
-        if (new Date().compareTo(expirationDate) > 0) {
+    public void setExpirationDate(LocalDateTime expirationDate) {
+        if (expirationDate.isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Expiration date cant be in the past");
         }
         this.expirationDate = expirationDate;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private String cardNumber;
+        private String cardHolder;
+        private String policyOwner;
+        private LocalDateTime expirationDate;
+
+        public Builder setCardNumber(String cardNumber) {
+            this.cardNumber = cardNumber;
+            return this;
+        }
+
+        public Builder setCardHolder(String cardHolder) {
+            this.cardHolder = cardHolder;
+            return this;
+        }
+
+        public Builder setPolicyOwner(String policyOwner) {
+            this.policyOwner = policyOwner;
+            return this;
+        }
+
+        public Builder setExpirationDate(LocalDateTime expirationDate) {
+            this.expirationDate = expirationDate;
+            return this;
+        }
+
+        public InsuranceCard build() {
+            return new InsuranceCard(cardNumber, cardHolder, policyOwner, expirationDate);
+        }
     }
 }

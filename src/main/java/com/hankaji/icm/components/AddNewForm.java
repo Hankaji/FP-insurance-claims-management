@@ -1,4 +1,4 @@
-package com.hankaji.icm.app.addNewForm;
+package com.hankaji.icm.components;
 
 import static com.hankaji.icm.lib.Utils.extendsCollection;
 
@@ -38,7 +38,10 @@ public abstract class AddNewForm extends PopupWindow {
                 true,
                 false));
 
-        Button confirm = new Button("Confirm", this::onSubmit);
+        Button confirm = new Button("Confirm", () -> {
+            onSubmit();
+            close();
+        });
         confirm.setLayoutData(GridLayout.createLayoutData(
                 GridLayout.Alignment.END,
                 GridLayout.Alignment.END,

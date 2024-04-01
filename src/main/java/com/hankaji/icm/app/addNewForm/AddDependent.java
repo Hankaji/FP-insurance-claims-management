@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 import com.googlecode.lanterna.gui2.ComboBox;
 import com.googlecode.lanterna.gui2.TextBox;
 import com.hankaji.icm.card.InsuranceCard;
+import com.hankaji.icm.components.AddNewForm;
 import com.hankaji.icm.customer.Dependent;
 import com.hankaji.icm.lib.ID;
 import com.hankaji.icm.services.DependentManager;
@@ -47,7 +48,6 @@ public class AddDependent extends AddNewForm {
             .build();
 
         db.add(newDependent);
-        close();
     }
     
 }

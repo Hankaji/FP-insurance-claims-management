@@ -1,4 +1,4 @@
-package com.hankaji.icm.app.home.components;
+package com.hankaji.icm.app.home.components.tableData;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -20,11 +20,13 @@ public class DependentData extends TableDataPanel<Dependent> {
             List.of(
                 String.format("%-20s", "Name"),
                 String.format("%-12s", "ID"),
+                String.format("%-12s", "Card ID"),
                 String.format("Claims amount")
             ),
             dep -> new String[] {
                 dep.getName(),
                 dep.getId(),
+                dep.getInsuranceCard() == null ? "N/A" : dep.getInsuranceCard().getCardNumber(),
                 String.valueOf(dep.getClaims().size())
             }, 
             DependentManager.getInstance(),
@@ -41,7 +43,7 @@ public class DependentData extends TableDataPanel<Dependent> {
     protected Map<String, String> useHelperText() {
         Map<String, String> helperText = new LinkedHashMap<>();
         helperText.put("Add", "a");
-        helperText.put("Edit", "e");
+        // helperText.put("Edit", "e");
         helperText.put("Delete", "d");
         // helperText.put("DeleteAll", "<ctrl-D>");
 
@@ -53,6 +55,7 @@ public class DependentData extends TableDataPanel<Dependent> {
         switch (key.getCharacter()) {
             case 'a':
                 ((WindowBasedTextGUI) getTextGUI()).addWindowAndWait(new AddDependent());
+                update();
                 return true;
             case 'd':
                 {
