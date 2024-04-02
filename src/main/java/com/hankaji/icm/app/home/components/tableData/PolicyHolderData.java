@@ -15,7 +15,7 @@ import com.hankaji.icm.services.PolicyHolderManager;
 
 public class PolicyHolderData extends TableDataPanel<PolicyHolder> {
 
-    public PolicyHolderData(Consumer<Map<String, String>> updateHelperText) {
+    public PolicyHolderData(Consumer<Map<String, String>> updateHelperText, Consumer<String> updateInfoBox) {
         super(List.of(
                 String.format("%-20s", "Name"),
                 String.format("%-12s", "ID"),
@@ -28,7 +28,8 @@ public class PolicyHolderData extends TableDataPanel<PolicyHolder> {
                         String.valueOf(ph.getClaims().size())
                 },
                 PolicyHolderManager.getInstance(),
-                updateHelperText);
+                updateHelperText,
+                updateInfoBox);
     }
 
     @Override

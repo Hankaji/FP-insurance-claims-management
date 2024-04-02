@@ -8,6 +8,7 @@ import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.GridLayout;
+import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.Window;
@@ -18,8 +19,10 @@ import com.hankaji.icm.app.home.components.HelperText;
 import com.hankaji.icm.app.home.components.tableData.DependentData;
 import com.hankaji.icm.app.home.components.tableData.InsuranceCardData;
 import com.hankaji.icm.app.home.components.tableData.PolicyHolderData;
+import com.hankaji.icm.app.home.components.tableData.ClaimData;
 import com.hankaji.icm.app.home.components.tableData.TableDataPanel;
 import com.hankaji.icm.card.InsuranceCard;
+import com.hankaji.icm.claim.Claim;
 import com.hankaji.icm.config.Config;
 import com.hankaji.icm.customer.Dependent;
 import com.hankaji.icm.customer.PolicyHolder;
@@ -38,7 +41,7 @@ public class Home extends NoDecorationWindow {
     private Map<String, String> helperText = new LinkedHashMap<>();
     {
         helperText.put("Quit", "q");
-        helperText.put("Move between panels", "[1]-[5]");
+        helperText.put("Move between panels", "[1]-[4]");
         helperText.put("Navigation", "<Arrow keys>");
         helperText.put("Info", "i");
     }
@@ -55,6 +58,8 @@ public class Home extends NoDecorationWindow {
 
     Panel helpPanel = new Panel(new LinearLayout(Direction.HORIZONTAL));
 
+    Panel infoBox = new Panel(new LinearLayout(Direction.VERTICAL));
+
     HelperText generalHelp = new HelperText(helperText);
 
     HelperText panelSpecificHelp = new HelperText();
@@ -64,6 +69,8 @@ public class Home extends NoDecorationWindow {
     TableDataPanel<PolicyHolder> policyHolderDataPanel = new PolicyHolderData(this::updateHelperText);
 
     TableDataPanel<InsuranceCard> insuranceCardDataPanel = new InsuranceCardData(this::updateHelperText);
+
+    TableDataPanel<Claim> claimDataPanel = new ClaimData(this::updateHelperText);
 
     public Home() {
         super("Home");
@@ -96,7 +103,7 @@ public class Home extends NoDecorationWindow {
         addWindowListener(new HomeListener());
 
         // --------------------------------------------------
-        // Helper text
+        // Infobox
         // --------------------------------------------------
         
         // --------------------------------------------------
@@ -132,6 +139,10 @@ public class Home extends NoDecorationWindow {
         panelSpecificHelp.updateHelperText(helperText);
     }
 
+    private void updateInfoBox(String info) {
+        infoBox.removeAllComponents().addComponent(new Label(info));
+    }
+
     /**
      * <pre>
      * The HomeListener class is a WindowListener that listens for keyboard events that are used to switch between panels and to close the application.
@@ -153,8 +164,14 @@ public class Home extends NoDecorationWindow {
                 case 'q':
                     close();
                     return;
+                case 'i':
+                    if (layoutPanel.containsComponent(infoBox)) {
+                        layoutPanel.removeComponent(infoBox);
+                    } else {
+                        layoutPanel.addComponent(infoBox);
+                    }
+                    return;
                 case '1':
-                    
                     switchAndRerender(dependentDataPanel);
                     return;
                 case '2':
@@ -164,7 +181,7 @@ public class Home extends NoDecorationWindow {
                     switchAndRerender(insuranceCardDataPanel);
                     return;
                 case '4':
-                    // switchAndRerender(policyHolderDataPanel);
+                    switchAndRerender(claimDataPanel);
                     return;
                 case null:
                     return;

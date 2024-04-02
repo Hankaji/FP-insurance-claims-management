@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 import com.hankaji.icm.card.InsuranceCard;
 import com.hankaji.icm.claim.Claim;
+import com.hankaji.icm.lib.StringInfo;
 
-public abstract class Customer {
+public abstract class Customer implements StringInfo {
 
     private String id;
     private String name;

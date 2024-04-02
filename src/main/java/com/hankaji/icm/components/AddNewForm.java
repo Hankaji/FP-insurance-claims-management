@@ -20,7 +20,7 @@ public abstract class AddNewForm extends PopupWindow {
 
     // Components
     private Panel masterLayout = new Panel(new LinearLayout(Direction.VERTICAL));
-    private Panel inputFields = new Panel(createGridLayoutwithCustomMargin(2, 1, 0).setHorizontalSpacing(3));
+    protected Panel inputFields = new Panel(createGridLayoutwithCustomMargin(2, 1, 0).setHorizontalSpacing(3));
 
     public AddNewForm(String title) {
         super(title);

@@ -15,7 +15,7 @@ import com.hankaji.icm.services.DependentManager;
 
 public class DependentData extends TableDataPanel<Dependent> {
 
-    public DependentData(Consumer<Map<String, String>> updateHelperText) {
+    public DependentData(Consumer<Map<String, String>> updateHelperText, Consumer<String> updateInfoBox) {
         super(
             List.of(
                 String.format("%-20s", "Name"),
@@ -30,7 +30,8 @@ public class DependentData extends TableDataPanel<Dependent> {
                 String.valueOf(dep.getClaims().size())
             }, 
             DependentManager.getInstance(),
-            updateHelperText);
+            updateHelperText,
+            updateInfoBox);
 
     }
 

@@ -44,7 +44,15 @@ public class Dependent extends Customer {
         public Dependent build() {
             return new Dependent(id, name, insuranceCard, claims);
         }
-        
+
     }
-    
+
+    @Override
+    public String showInfoBox() {
+        return "Name: " + getName() + "\n" +
+                "ID: " + getId() + "\n" +
+                "Insurance Card: " + getInsuranceCard().getCardNumber() +
+                getClaims().stream().map(Claim::getId).reduce("", (a, b) -> a + "\n" + b);
+    }
+
 }

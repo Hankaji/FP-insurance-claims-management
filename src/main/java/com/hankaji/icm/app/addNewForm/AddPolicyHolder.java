@@ -6,6 +6,7 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.Button;
 import com.googlecode.lanterna.gui2.CheckBoxList;
 import com.hankaji.icm.app.PopupWindow;
+import com.hankaji.icm.card.InsuranceCard;
 import com.hankaji.icm.customer.Dependent;
 import com.hankaji.icm.customer.PolicyHolder;
 import com.hankaji.icm.lib.ID;
@@ -35,14 +36,20 @@ public class AddPolicyHolder extends AddDependent {
 
     @Override
     protected boolean onSubmit() {
+        // Replace the selected card with the actual card Number since checklist contain card number and card holder
+        InsuranceCard selectedCard = icm.get(cardList.getSelectedItem().replaceAll("\\(.*?\\)", "").trim());
 
         PolicyHolder newPolicyHolder = PolicyHolder.builder()
-            .setId("c-" + ID.generateID(7))
-            .setName(inputName.getText())
-            .setInsuranceCard(icm.get(cardList.getSelectedItem()))
-            .setDependents(new ArrayList<String>(depCheckList.checkBoxList.getCheckedItems()))
-            .build();
-        
+                .setId("c-" + ID.generateID(7))
+                .setName(inputName.getText())
+                .setInsuranceCard(selectedCard)
+                .setDependents(new ArrayList<String>(depCheckList.checkBoxList.getCheckedItems()))
+                .build();
+
+        if (selectedCard != null) {
+            selectedCard.setCardHolder(newPolicyHolder.getName());
+        }
+
         policyHolderMan.add(newPolicyHolder);
         return true;
     }
@@ -69,5 +76,5 @@ public class AddPolicyHolder extends AddDependent {
         }
 
     }
-    
+
 }

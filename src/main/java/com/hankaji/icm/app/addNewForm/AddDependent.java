@@ -25,34 +25,47 @@ public class AddDependent extends AddNewForm {
         this("Add new dependent");
     }
 
-    public AddDependent(String title) {
-        super("Add new dependent");
+    protected AddDependent(String title) {
+        super(title);
 
         addField("Name", inputName);
 
         for (InsuranceCard c : icm.getAll()) {
-            cardList.addItem(c.getCardNumber());
+            cardList.addItem(c.getCardNumber() + (c.getCardHolder().isBlank() ? "" : " (" + c.getCardHolder() + ")"));
         }
-        if (cardList.getItemCount() == 0) cardList.addItem("No card available");
+        if (cardList.getItemCount() == 0) {
+            cardList.addItem("No card available");
+        } else {
+            cardList.addItem(0, "No card selected");
+            cardList.setSelectedIndex(0);
+        }
+
         addField("Select insurance card", cardList);
     }
 
     @Override
-    protected boolean onSubmit() {
+    protected boolean onSubmit() throws Exception {
         DependentManager db = DependentManager.getInstance();
 
-        InsuranceCard selectedCard = icm.get(cardList.getSelectedItem());
+        if (inputName.getText().isBlank()) {
+            throw new Exception("Name cannot be empty");
+        }
+
+        // Replace the selected card with the actual card Number since checklist contain
+        // card number and card holder
+        InsuranceCard selectedCard = icm.get(cardList.getSelectedItem().replaceAll("\\(.*?\\)", "").trim());
 
         Dependent newDependent = Dependent.builder()
-            .setId("c-" + ID.generateID(7))
-            .setName(inputName.getText())
-            .setInsuranceCard(selectedCard)
-            .build();
-
-        selectedCard.setCardHolder(newDependent.getName());
+                .setId("c-" + ID.generateID(7))
+                .setName(inputName.getText())
+                .setInsuranceCard(selectedCard)
+                .build();
+        if (selectedCard != null) {
+            selectedCard.setCardHolder(newDependent.getName());
+        }
 
         db.add(newDependent);
         return true;
     }
-    
+
 }

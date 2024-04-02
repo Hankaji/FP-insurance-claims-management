@@ -18,7 +18,7 @@ public class InsuranceCardData extends TableDataPanel<InsuranceCard> {
 
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public InsuranceCardData(Consumer<Map<String, String>> updateHelperText) {
+    public InsuranceCardData(Consumer<Map<String, String>> updateHelperText, Consumer<String> updateInfoBox) {
         super(List.of(
                 String.format("%-12s", "Card number"),
                 String.format("%-25s", "Card holder"),
@@ -31,7 +31,8 @@ public class InsuranceCardData extends TableDataPanel<InsuranceCard> {
                         card.getExpirationDate().format(formatter)
                 },
                 InsuranceCardManager.getInstance(),
-                updateHelperText);
+                updateHelperText,
+                updateInfoBox);
     }
 
     @Override

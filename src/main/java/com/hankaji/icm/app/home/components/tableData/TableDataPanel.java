@@ -50,7 +50,8 @@ public abstract class TableDataPanel<T> extends Panel implements HasBorder {
             Collection<String> tableTitles,
             Function<T, String[]> rowMapper,
             DataManager<T> db,
-            Consumer<Map<String, String>> updateHelperText) {
+            Consumer<Map<String, String>> updateHelperText,
+            Consumer<String> updateInfoBox) {
         super(new GridLayout(1));
 
         this.updateHelperText = updateHelperText;
@@ -91,6 +92,8 @@ public abstract class TableDataPanel<T> extends Panel implements HasBorder {
 
         table.setTableHeaderRenderer(new DisabledTableHeaderRenderer());
 
+        table.setSelectAction(null);
+
         addComponent(tableHeaderPanel);
         addComponent(tableSplitter);
         addComponent(table);
@@ -99,11 +102,11 @@ public abstract class TableDataPanel<T> extends Panel implements HasBorder {
     @Override
     public synchronized void onAdded(Container container) {
         super.onAdded(container);
-
+        
+        update();
+        updateHelperText.accept(useHelperText());
         CompletableFuture.runAsync(() -> {
             table.takeFocus();
-            update();
-            updateHelperText.accept(useHelperText());
         });
     }
 
