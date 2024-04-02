@@ -51,6 +51,13 @@ public class ClaimData extends TableDataPanel<Claim> {
     }
 
     @Override
+    protected String getObjectInfo() {
+        return ClaimManager.getInstance().get(
+                table.getTableModel().getRow(table.getSelectedRow()).get(0)
+        ).showInfoBox();
+    }
+
+    @Override
     protected Map<String, String> useHelperText() {
         Map<String, String> helperText = new LinkedHashMap<>();
         helperText.put("Add", "a");

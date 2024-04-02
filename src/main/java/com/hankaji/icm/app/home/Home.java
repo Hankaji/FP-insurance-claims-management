@@ -6,6 +6,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.gui2.Borders;
+import com.googlecode.lanterna.gui2.Component;
 import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
@@ -60,17 +62,26 @@ public class Home extends NoDecorationWindow {
 
     Panel infoBox = new Panel(new LinearLayout(Direction.VERTICAL));
 
+    Component borderedInfoBox = infoBox.withBorder(Borders.singleLine("Info")).setLayoutData(
+            GridLayout.createLayoutData(
+                    GridLayout.Alignment.FILL,
+                    GridLayout.Alignment.FILL,
+                    true,
+                    true));
+
     HelperText generalHelp = new HelperText(helperText);
 
     HelperText panelSpecificHelp = new HelperText();
 
-    TableDataPanel<Dependent> dependentDataPanel = new DependentData(this::updateHelperText);
+    TableDataPanel<Dependent> dependentDataPanel = new DependentData(this::updateHelperText, this::updateInfoBox);
 
-    TableDataPanel<PolicyHolder> policyHolderDataPanel = new PolicyHolderData(this::updateHelperText);
+    TableDataPanel<PolicyHolder> policyHolderDataPanel = new PolicyHolderData(this::updateHelperText,
+            this::updateInfoBox);
 
-    TableDataPanel<InsuranceCard> insuranceCardDataPanel = new InsuranceCardData(this::updateHelperText);
+    TableDataPanel<InsuranceCard> insuranceCardDataPanel = new InsuranceCardData(this::updateHelperText,
+            this::updateInfoBox);
 
-    TableDataPanel<Claim> claimDataPanel = new ClaimData(this::updateHelperText);
+    TableDataPanel<Claim> claimDataPanel = new ClaimData(this::updateHelperText, this::updateInfoBox);
 
     public Home() {
         super("Home");
@@ -89,7 +100,7 @@ public class Home extends NoDecorationWindow {
 
         // Horizontal container with the left containing the menu and the right
         // containing the content
-        
+
         layoutPanel.setLayoutData(GridLayout.createLayoutData(
                 GridLayout.Alignment.FILL,
                 GridLayout.Alignment.FILL,
@@ -105,7 +116,7 @@ public class Home extends NoDecorationWindow {
         // --------------------------------------------------
         // Infobox
         // --------------------------------------------------
-        
+
         // --------------------------------------------------
         // Add components
         // --------------------------------------------------
@@ -122,12 +133,18 @@ public class Home extends NoDecorationWindow {
     }
 
     private void switchWindow(TableDataPanel<?> newPanel) {
-        if (currentDataShown == newPanel) return;
+        if (currentDataShown == newPanel)
+            return;
         currentDataShown = newPanel;
     }
 
     private void renderDataPanel(TableDataPanel<?> panelToShow) {
-        layoutPanel.removeAllComponents().addComponent(panelToShow.withBorder());
+        layoutPanel.removeAllComponents().addComponent(panelToShow.withBorder().setLayoutData(
+            GridLayout.createLayoutData(
+                    GridLayout.Alignment.FILL,
+                    GridLayout.Alignment.FILL,
+                    true,
+                    true)));
     }
 
     private void switchAndRerender(TableDataPanel<?> newPanel) {
@@ -155,7 +172,7 @@ public class Home extends NoDecorationWindow {
 
         @Override
         public void onInput(Window basePane, KeyStroke keyStroke, AtomicBoolean deliverEvent) {
-            
+
             switch (keyStroke.getKeyType()) {
                 default:
                     break;
@@ -166,9 +183,9 @@ public class Home extends NoDecorationWindow {
                     return;
                 case 'i':
                     if (layoutPanel.containsComponent(infoBox)) {
-                        layoutPanel.removeComponent(infoBox);
+                        layoutPanel.removeComponent(borderedInfoBox);
                     } else {
-                        layoutPanel.addComponent(infoBox);
+                        layoutPanel.addComponent(borderedInfoBox);
                     }
                     return;
                 case '1':
@@ -201,7 +218,7 @@ public class Home extends NoDecorationWindow {
         @Override
         public void onMoved(Window window, TerminalPosition oldPosition, TerminalPosition newPosition) {
         }
-        
+
     }
 
 }

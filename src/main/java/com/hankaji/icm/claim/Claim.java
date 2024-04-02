@@ -3,7 +3,9 @@ package com.hankaji.icm.claim;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Claim {
+import com.hankaji.icm.lib.StringInfo;
+
+public class Claim implements StringInfo {
     private String id;
     private LocalDateTime claimDate;
     private String insuredPerson;
@@ -173,6 +175,19 @@ public class Claim {
             return new Claim(id, claimDate, insuredPerson, cardNumber, examDate, documents, claimAmount, status,
                     receiverBankingInfo);
         }
+    }
+
+    @Override
+    public String showInfoBox() {
+        return "ID: " + getId() + "\n\n" +
+                "Claim Date: " + getClaimDate() + "\n\n" +
+                "Insured Person: " + getInsuredPerson() + "\n\n" +
+                "Card Number: " + getCardNumber() + "\n\n" +
+                "Exam Date: " + getExamDate() + "\n\n" +
+                "Documents: " + getDocuments().stream().reduce("", (a, b) -> a + "\n\t" + b) + "\n\n" +
+                "Claim Amount: " + getClaimAmount() + "\n\n" +
+                "Status: " + getStatus() + "\n\n" +
+                "Receiver Banking Info: " + getReceiverBankingInfo();
     }
 
 }

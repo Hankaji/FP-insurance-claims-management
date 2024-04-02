@@ -12,6 +12,8 @@ import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.hankaji.icm.app.addNewForm.AddNewCard;
 import com.hankaji.icm.card.InsuranceCard;
+import com.hankaji.icm.lib.StringInfo;
+import com.hankaji.icm.services.DependentManager;
 import com.hankaji.icm.services.InsuranceCardManager;
 
 public class InsuranceCardData extends TableDataPanel<InsuranceCard> {
@@ -38,6 +40,15 @@ public class InsuranceCardData extends TableDataPanel<InsuranceCard> {
     @Override
     public synchronized Border withBorder() {
         return withBorder(Borders.singleLine("[3] Insurance cards"));
+    }
+
+    @Override
+    protected String getObjectInfo() {
+        StringInfo info = InsuranceCardManager.getInstance().get(
+            table.getTableModel().getRow(table.getSelectedRow()).get(0)
+        );
+
+        return info.showInfoBox();
     }
 
     @Override

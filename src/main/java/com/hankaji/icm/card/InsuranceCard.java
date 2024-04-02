@@ -1,15 +1,17 @@
 package com.hankaji.icm.card;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import com.hankaji.icm.customer.Dependent.Builder;
+import com.hankaji.icm.lib.StringInfo;
 
 
 /**
  * Represents an insurance card.
  */
-public class InsuranceCard {
+public class InsuranceCard implements StringInfo {
     private String cardNumber;
     private String cardHolder;
     private String policyOwner;
@@ -154,5 +156,13 @@ public class InsuranceCard {
         public InsuranceCard build() {
             return new InsuranceCard(cardNumber, cardHolder, policyOwner, expirationDate);
         }
+    }
+
+    @Override
+    public String showInfoBox() {
+        return "Card Number: " + getCardNumber() + "\n" +
+                "Card Holder: " + getCardHolder() + "\n" +
+                "Policy Owner: " + getPolicyOwner() + "\n" +
+                "Expiration Date: " + getExpirationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 }

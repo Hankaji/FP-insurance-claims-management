@@ -11,6 +11,7 @@ import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.hankaji.icm.app.addNewForm.AddDependent;
 import com.hankaji.icm.customer.Dependent;
+import com.hankaji.icm.lib.StringInfo;
 import com.hankaji.icm.services.DependentManager;
 
 public class DependentData extends TableDataPanel<Dependent> {
@@ -38,6 +39,15 @@ public class DependentData extends TableDataPanel<Dependent> {
     @Override
     public Border withBorder() {
         return withBorder(Borders.singleLine("[1] Dependent"));
+    }
+
+    @Override
+    protected String getObjectInfo() {
+        StringInfo info = DependentManager.getInstance().get(
+            table.getTableModel().getRow(table.getSelectedRow()).get(1)
+        );
+
+        return info.showInfoBox();
     }
 
     @Override

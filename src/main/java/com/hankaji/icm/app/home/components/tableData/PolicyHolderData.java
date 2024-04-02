@@ -11,6 +11,8 @@ import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.hankaji.icm.app.addNewForm.AddPolicyHolder;
 import com.hankaji.icm.customer.PolicyHolder;
+import com.hankaji.icm.lib.StringInfo;
+import com.hankaji.icm.services.DependentManager;
 import com.hankaji.icm.services.PolicyHolderManager;
 
 public class PolicyHolderData extends TableDataPanel<PolicyHolder> {
@@ -35,6 +37,15 @@ public class PolicyHolderData extends TableDataPanel<PolicyHolder> {
     @Override
     public Border withBorder() {
         return withBorder(Borders.singleLine("[2] Policy Holder"));
+    }
+
+    @Override
+    protected String getObjectInfo() {
+        StringInfo info = PolicyHolderManager.getInstance().get(
+            table.getTableModel().getRow(table.getSelectedRow()).get(1)
+        );
+
+        return info.showInfoBox();
     }
 
     @Override

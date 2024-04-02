@@ -20,6 +20,8 @@ import com.googlecode.lanterna.gui2.table.Table;
 import com.hankaji.icm.config.Config;
 import com.hankaji.icm.lib.DisabledTableHeaderRenderer;
 import com.hankaji.icm.lib.HasBorder;
+import com.hankaji.icm.lib.StringInfo;
+import com.hankaji.icm.services.DependentManager;
 import com.hankaji.icm.system.DataManager;
 
 import static com.hankaji.icm.lib.Utils.LayoutUtils.*;
@@ -92,7 +94,7 @@ public abstract class TableDataPanel<T> extends Panel implements HasBorder {
 
         table.setTableHeaderRenderer(new DisabledTableHeaderRenderer());
 
-        table.setSelectAction(null);
+        table.setSelectAction(() -> updateInfoBox.accept(getObjectInfo()));
 
         addComponent(tableHeaderPanel);
         addComponent(tableSplitter);
@@ -111,6 +113,10 @@ public abstract class TableDataPanel<T> extends Panel implements HasBorder {
     }
 
     protected abstract Map<String, String> useHelperText();
+
+    protected String getObjectInfo() {
+        return "No info available.";
+    };
 
     protected void update() {
         table.getTableModel().clear();
