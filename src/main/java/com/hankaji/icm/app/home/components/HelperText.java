@@ -31,10 +31,6 @@ public class HelperText extends Panel {
         return helperText;
     }
 
-    // public void setHelperText(Map<String, String> helperText) {
-    //     this.helperText = helperText;
-    // }
-
     public void updateHelperText(Map<String, String> helperText) {
         this.helperText = helperText;
         removeAllComponents();

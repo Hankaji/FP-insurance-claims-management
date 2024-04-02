@@ -57,6 +57,20 @@ public class AddClaim extends AddNewForm {
     final TextBox numberInput = new TextBox().setValidationPattern(Pattern.compile("[0-9]*"));
 
     public AddClaim() {
+        this("", "", ClaimStatus.NEW, "", "", "");
+    }
+
+    /**
+     * Add new claim with Placeholder (PH) values
+     * 
+     * @param documentPH
+     * @param claimAmountPH
+     * @param statusPH
+     * @param bankPH
+     * @param namePH
+     * @param numberPH
+     */
+    public AddClaim(String documentPH, String claimAmountPH, ClaimStatus statusPH, String bankPH, String namePH, String numberPH) {
         super("Add new claim");
 
         // Get all customers
@@ -85,22 +99,24 @@ public class AddClaim extends AddNewForm {
         addField("Card", cardList);
 
         // Add documents
-        addField("List of documents (comma separated)", documents);
+        addField("List of documents (comma separated)", documents.setText(
+            documentPH.isBlank() ? "" : String.join(", ", separateDoc(documentPH))));
 
         // Claim amount
-        addField("Claim amount (in $)", claimAmountInput);
+        addField("Claim amount (in $)", claimAmountInput.setText(claimAmountPH));
 
-        // Claim amount
+        // Status
         addField("Status", status);
+        status.setSelectedItem(statusPH);
 
         // Separator
         inputFields.addComponent(new Separator(Direction.HORIZONTAL).setLayoutData(
                 GridLayout.createHorizontallyFilledLayoutData(2)));
 
         // Backing info
-        addField("Banking info", bankInput);
-        addField("Name", nameInput);
-        addField("Number", numberInput);
+        addField("Banking info", bankInput.setText(bankPH));
+        addField("Name", nameInput.setText(namePH));
+        addField("Number", numberInput.setText(numberPH));
 
     }
 
@@ -170,6 +186,9 @@ public class AddClaim extends AddNewForm {
     // doc1.pdf, doc2.pdf, doc3.pdf
     // 1_1_doc1.pdf, 1_1_doc2.pdf, 1_1_doc3.pdf
     private List<String> separateDoc(String docList) {
+        if (docList.isBlank())
+            return new ArrayList<>();
+
         List<String> newDoclist;
 
         newDoclist = Arrays.asList(docList.split(",")).stream().map(
