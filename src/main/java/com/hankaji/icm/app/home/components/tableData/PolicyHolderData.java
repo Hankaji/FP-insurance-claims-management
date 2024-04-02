@@ -9,7 +9,7 @@ import com.googlecode.lanterna.gui2.Border;
 import com.googlecode.lanterna.gui2.Borders;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
 import com.googlecode.lanterna.input.KeyStroke;
-import com.hankaji.icm.app.addNewForm.AddPolicyHolder;
+import com.hankaji.icm.app.addNewForm.PolicyHolderForm;
 import com.hankaji.icm.customer.PolicyHolder;
 import com.hankaji.icm.lib.StringInfo;
 import com.hankaji.icm.services.DependentManager;
@@ -63,7 +63,7 @@ public class PolicyHolderData extends TableDataPanel<PolicyHolder> {
     public boolean handleInput(KeyStroke key) {
         switch (key.getCharacter()) {
             case 'a':
-                ((WindowBasedTextGUI) getTextGUI()).addWindowAndWait(new AddPolicyHolder());
+                ((WindowBasedTextGUI) getTextGUI()).addWindowAndWait(new PolicyHolderForm());
                 update();
                 return true;
             case 'd':

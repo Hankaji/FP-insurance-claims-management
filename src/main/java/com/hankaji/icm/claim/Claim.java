@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import com.hankaji.icm.lib.StringInfo;
 
 public class Claim implements StringInfo {
-    private String id;
-    private LocalDateTime claimDate;
-    private String insuredPerson;
-    private String cardNumber;
+    private final String id;
+    private final LocalDateTime claimDate;
+    private final String insuredPerson;
+    private final String cardNumber;
     private LocalDateTime examDate;
     private ArrayList<String> documents; // ClaimId_CardNumber_DocumentName.pdf
     private int claimAmount;
@@ -43,32 +43,16 @@ public class Claim implements StringInfo {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public LocalDateTime getClaimDate() {
         return claimDate;
-    }
-
-    public void setClaimDate(LocalDateTime claimDate) {
-        this.claimDate = claimDate;
     }
 
     public String getInsuredPerson() {
         return insuredPerson;
     }
 
-    public void setInsuredPerson(String insuredPerson) {
-        this.insuredPerson = insuredPerson;
-    }
-
     public String getCardNumber() {
         return cardNumber;
-    }
-
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
     }
 
     public LocalDateTime getExamDate() {

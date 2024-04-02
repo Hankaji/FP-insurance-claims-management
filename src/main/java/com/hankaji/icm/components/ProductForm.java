@@ -1,7 +1,5 @@
 package com.hankaji.icm.components;
 
-import static com.hankaji.icm.lib.Utils.extendsCollection;
-
 import com.googlecode.lanterna.gui2.Button;
 import com.googlecode.lanterna.gui2.Component;
 import com.googlecode.lanterna.gui2.Direction;
@@ -16,13 +14,16 @@ import com.hankaji.icm.app.PopupWindow;
 
 import static com.hankaji.icm.lib.Utils.LayoutUtils.createGridLayoutwithCustomMargin;
 
-public abstract class AddNewForm extends PopupWindow {
+public abstract class ProductForm extends PopupWindow {
+
+    // Fields
+    ProcessType type = ProcessType.ADD;
 
     // Components
     private Panel masterLayout = new Panel(new LinearLayout(Direction.VERTICAL));
     protected Panel inputFields = new Panel(createGridLayoutwithCustomMargin(2, 1, 0).setHorizontalSpacing(3));
 
-    public AddNewForm(String title) {
+    public ProductForm(String title) {
         super(title);
 
         // divider
@@ -44,10 +45,16 @@ public abstract class AddNewForm extends PopupWindow {
             // If onSubmit returns true, close the window
             // This is used in case error were made to allow correction
             try {
-                if (onSubmit()) {
-                    close();
+                switch (type) {
+                    case ProcessType.ADD:
+                        if (onSubmit()) close();
+                        break;
+                    case ProcessType.EDIT:
+                        if (onEdit()) close();
+                        break;
+                    default:
+                        break;
                 }
-                ;
             } catch (Exception e) {
                 // e.printStackTrace();
                 MessageDialog.showMessageDialog(
@@ -86,5 +93,48 @@ public abstract class AddNewForm extends PopupWindow {
     }
 
     protected abstract boolean onSubmit() throws Exception;
+
+    /**
+     * Override this method to allow editing.
+     * This method is called when the form is submitted
+     * 
+     * @return true if the form is editable
+     */
+    protected boolean onEdit() throws Exception {
+        return false;
+    }
+
+    /**
+     * Override this method to allow editing.
+     * This method set the data that will be edited
+     * 
+     * @param id
+     */
+    public void editData(String id) {}
+
+    public ProcessType getType() {
+        return type;
+    }
+
+    /**
+     * <p> Set the type of the form. </p>
+     * <p> This is used to determine the action to be taken when the form is submitted. </p>
+     * 
+     * <h4> Add mode: </h4>
+     * <p> This is the default type. It is used to add new data. Class must overrive method onSubmit() in order for this to work </p>
+     * 
+     * <h4> Edit mode: </h4>
+     * <p> This is used to edit existing data. Class must override method onEdit() and editdata() in order for this to work </p>
+     * 
+     * @param type the type of the form, default is ADD
+     */
+    public void setType(ProcessType type) {
+        this.type = type;
+    }
+
+    public static enum ProcessType {
+        ADD,
+        EDIT
+    }
 
 }

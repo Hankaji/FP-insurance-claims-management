@@ -42,7 +42,13 @@ public class ClaimManager extends DataManager<Claim> {
 
     @Override
     public boolean update(Claim t) {
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        for (Claim claim : data) {
+            if (claim.getId().equals(t.getId())) {
+                data.remove(claim);
+                return data.add(t);
+            }
+        }
+        return false;
     }
 
     @Override

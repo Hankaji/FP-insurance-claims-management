@@ -1,6 +1,8 @@
 package com.hankaji.icm.app.addNewForm;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +18,7 @@ import com.googlecode.lanterna.gui2.TextBox;
 import com.hankaji.icm.card.InsuranceCard;
 import com.hankaji.icm.claim.Claim;
 import com.hankaji.icm.claim.ClaimStatus;
-import com.hankaji.icm.components.AddNewForm;
+import com.hankaji.icm.components.ProductForm;
 import com.hankaji.icm.customer.Customer;
 import com.hankaji.icm.lib.ID;
 import com.hankaji.icm.services.ClaimManager;
@@ -24,7 +26,7 @@ import com.hankaji.icm.services.DependentManager;
 import com.hankaji.icm.services.InsuranceCardManager;
 import com.hankaji.icm.services.PolicyHolderManager;
 
-public class AddClaim extends AddNewForm {
+public class ClaimForm extends ProductForm {
 
     // Fields
     InsuranceCardManager icm = InsuranceCardManager.getInstance();
@@ -35,13 +37,17 @@ public class AddClaim extends AddNewForm {
 
     ArrayList<Customer> customers;
 
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    Claim oldClaim;
+
     // Components
 
     final ComboBox<String> insuredPerson = new ComboBox<>();
 
     final ComboBox<String> cardList = new ComboBox<>();
 
-    final TextBox examDate = new TextBox();
+    final TextBox examDateInput = new TextBox();
 
     final TextBox documents = new TextBox().setValidationPattern(Pattern.compile("^[a-zA-Z0-9,\\. ]+$"));
 
@@ -56,8 +62,8 @@ public class AddClaim extends AddNewForm {
     final TextBox nameInput = new TextBox().setValidationPattern(Pattern.compile("[A-Za-z ]*"));
     final TextBox numberInput = new TextBox().setValidationPattern(Pattern.compile("[0-9]*"));
 
-    public AddClaim() {
-        this("", "", ClaimStatus.NEW, "", "", "");
+    public ClaimForm() {
+        this(null, "", "", ClaimStatus.NEW, "", "", "");
     }
 
     /**
@@ -70,7 +76,8 @@ public class AddClaim extends AddNewForm {
      * @param namePH
      * @param numberPH
      */
-    public AddClaim(String documentPH, String claimAmountPH, ClaimStatus statusPH, String bankPH, String namePH, String numberPH) {
+    public ClaimForm(LocalDateTime examDatePH, String documentPH, String claimAmountPH, ClaimStatus statusPH, String bankPH, String namePH,
+            String numberPH) {
         super("Add new claim");
 
         // Get all customers
@@ -98,9 +105,12 @@ public class AddClaim extends AddNewForm {
         }
         addField("Card", cardList);
 
+        // Exam date
+        addField("Exam date (dd/mm/yyyy)", examDatePH == null ? examDateInput.setText("") : examDateInput.setText(examDatePH.format(formatter)));
+
         // Add documents
         addField("List of documents (comma separated)", documents.setText(
-            documentPH.isBlank() ? "" : String.join(", ", separateDoc(documentPH))));
+                documentPH.isBlank() ? "" : String.join(", ", separateDoc(documentPH))));
 
         // Claim amount
         addField("Claim amount (in $)", claimAmountInput.setText(claimAmountPH));
@@ -122,6 +132,7 @@ public class AddClaim extends AddNewForm {
 
     @Override
     protected boolean onSubmit() throws Exception {
+
         // ID
         String id = "f-" + ID.generateID(10);
 
@@ -147,7 +158,7 @@ public class AddClaim extends AddNewForm {
             throw new Exception("Card cannot be blank, please create at least one");
 
         // Exam date
-        LocalDateTime examDate = LocalDateTime.now();
+        LocalDateTime examDate = LocalDate.parse(examDateInput.getText(), formatter).atStartOfDay();
 
         // Documents
         List<String> newDocList = separateDoc(documents.getText());
@@ -174,6 +185,43 @@ public class AddClaim extends AddNewForm {
         ClaimManager.getInstance().add(newClaim);
 
         return true;
+    }
+
+    @Override
+    protected boolean onEdit() throws Exception {
+
+        // Get claim
+        if (oldClaim == null)
+            throw new Exception("Claim cannot be found. Consider using editData() method to find the claim");
+
+        // Documents
+        List<String> newDocList = separateDoc(documents.getText());
+        newDocList = reformatDoc(oldClaim.getId(), oldClaim.getCardNumber(), newDocList);
+
+        // Banking info
+        String bankInfo = String.format("%s-%s-%s",
+                bankInput.getText().trim(),
+                nameInput.getText().trim(),
+                numberInput.getText().trim());
+
+        // Exam date
+        LocalDateTime examDate = LocalDate.parse(examDateInput.getText(), formatter).atStartOfDay();
+
+        // Update claim
+        oldClaim.setExamDate(examDate);
+        oldClaim.setDocuments(new ArrayList<>(newDocList));
+        oldClaim.setClaimAmount(Integer.parseInt(claimAmountInput.getText()));
+        oldClaim.setStatus(status.getSelectedItem());
+        oldClaim.setReceiverBankingInfo(bankInfo);
+
+        ClaimManager.getInstance().update(oldClaim);
+
+        return true;
+    }
+
+    @Override
+    public void editData(String id) {
+        oldClaim = ClaimManager.getInstance().get(id);
     }
 
     private List<String> reformatDoc(String claimID, String cardNumber, List<String> docList) {

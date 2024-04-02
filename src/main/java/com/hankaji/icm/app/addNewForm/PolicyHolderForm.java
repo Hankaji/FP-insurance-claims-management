@@ -13,7 +13,7 @@ import com.hankaji.icm.lib.ID;
 import com.hankaji.icm.services.DependentManager;
 import com.hankaji.icm.services.PolicyHolderManager;
 
-public class AddPolicyHolder extends AddDependent {
+public class PolicyHolderForm extends DependentForm {
 
     // Fields
     DependentManager depMan = DependentManager.getInstance();
@@ -25,7 +25,7 @@ public class AddPolicyHolder extends AddDependent {
 
     Button openCheckList;
 
-    public AddPolicyHolder() {
+    public PolicyHolderForm() {
         super("Add new policy holder");
 
         openCheckList = new Button("Open", () -> {

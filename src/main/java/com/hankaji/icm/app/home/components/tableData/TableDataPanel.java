@@ -20,8 +20,6 @@ import com.googlecode.lanterna.gui2.table.Table;
 import com.hankaji.icm.config.Config;
 import com.hankaji.icm.lib.DisabledTableHeaderRenderer;
 import com.hankaji.icm.lib.HasBorder;
-import com.hankaji.icm.lib.StringInfo;
-import com.hankaji.icm.services.DependentManager;
 import com.hankaji.icm.system.DataManager;
 
 import static com.hankaji.icm.lib.Utils.LayoutUtils.*;

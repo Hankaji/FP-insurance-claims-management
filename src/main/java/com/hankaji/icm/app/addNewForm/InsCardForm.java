@@ -11,18 +11,14 @@ import com.googlecode.lanterna.gui2.TextBox;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialog;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton;
 import com.hankaji.icm.card.InsuranceCard;
-import com.hankaji.icm.components.AddNewForm;
+import com.hankaji.icm.components.ProductForm;
 import com.hankaji.icm.customer.Customer;
-import com.hankaji.icm.customer.Dependent;
-import com.hankaji.icm.customer.PolicyHolder;
 import com.hankaji.icm.lib.ID;
 import com.hankaji.icm.services.DependentManager;
 import com.hankaji.icm.services.InsuranceCardManager;
 import com.hankaji.icm.services.PolicyHolderManager;
 
-import static com.hankaji.icm.lib.Utils.extendsCollection;
-
-public class AddNewCard extends AddNewForm {
+public class InsCardForm extends ProductForm {
 
     // Fields
     InsuranceCardManager icm = InsuranceCardManager.getInstance();
@@ -44,7 +40,7 @@ public class AddNewCard extends AddNewForm {
 
     final ComboBox<String> inputExpirationDate = new ComboBox<>("1 year", "2 years", "3 years", "4 years", "5 years");
 
-    public AddNewCard() {
+    public InsCardForm() {
         super("Add new card");
 
         // Get all customers

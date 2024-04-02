@@ -9,9 +9,10 @@ import com.googlecode.lanterna.gui2.Border;
 import com.googlecode.lanterna.gui2.Borders;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
 import com.googlecode.lanterna.input.KeyStroke;
-import com.hankaji.icm.app.addNewForm.AddClaim;
+import com.hankaji.icm.app.addNewForm.ClaimForm;
 import com.hankaji.icm.claim.Claim;
 import com.hankaji.icm.claim.ClaimStatus;
+import com.hankaji.icm.components.ProductForm.ProcessType;
 import com.hankaji.icm.services.ClaimManager;
 
 public class ClaimData extends TableDataPanel<Claim> {
@@ -76,7 +77,7 @@ public class ClaimData extends TableDataPanel<Claim> {
     public boolean handleInput(KeyStroke key) {
         switch (key.getCharacter()) {
             case 'a':
-                ((WindowBasedTextGUI) getTextGUI()).addWindowAndWait(new AddClaim());
+                ((WindowBasedTextGUI) getTextGUI()).addWindowAndWait(new ClaimForm());
                 update();
                 return true;
             case 'e': {
@@ -85,14 +86,19 @@ public class ClaimData extends TableDataPanel<Claim> {
 
                 List<String> bankInfo = separateBanking(currClaim.getReceiverBankingInfo());
 
-                ((WindowBasedTextGUI) getTextGUI()).addWindowAndWait(new AddClaim(
+                ClaimForm form = new ClaimForm(
+                        currClaim.getExamDate(),
                         String.join(", ", currClaim.getDocuments()),
                         String.valueOf(currClaim.getClaimAmount()),
                         currClaim.getStatus(),
                         bankInfo.get(0),
                         bankInfo.get(1),
-                        bankInfo.get(2)
-                ));
+                        bankInfo.get(2));
+
+                form.setType(ProcessType.EDIT);
+                form.editData(id);
+
+                ((WindowBasedTextGUI) getTextGUI()).addWindowAndWait(form);
             }
                 update();
                 return true;

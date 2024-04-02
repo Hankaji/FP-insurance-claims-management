@@ -5,13 +5,13 @@ import java.util.regex.Pattern;
 import com.googlecode.lanterna.gui2.ComboBox;
 import com.googlecode.lanterna.gui2.TextBox;
 import com.hankaji.icm.card.InsuranceCard;
-import com.hankaji.icm.components.AddNewForm;
+import com.hankaji.icm.components.ProductForm;
 import com.hankaji.icm.customer.Dependent;
 import com.hankaji.icm.lib.ID;
 import com.hankaji.icm.services.DependentManager;
 import com.hankaji.icm.services.InsuranceCardManager;
 
-public class AddDependent extends AddNewForm {
+public class DependentForm extends ProductForm {
 
     // Fields
     InsuranceCardManager icm = InsuranceCardManager.getInstance();
@@ -21,11 +21,11 @@ public class AddDependent extends AddNewForm {
 
     final ComboBox<String> cardList = new ComboBox<String>();
 
-    public AddDependent() {
+    public DependentForm() {
         this("Add new dependent");
     }
 
-    protected AddDependent(String title) {
+    protected DependentForm(String title) {
         super(title);
 
         addField("Name", inputName);
