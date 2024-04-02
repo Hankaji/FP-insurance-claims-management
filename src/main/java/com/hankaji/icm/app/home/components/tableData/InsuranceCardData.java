@@ -26,7 +26,7 @@ public class InsuranceCardData extends TableDataPanel<InsuranceCard> {
                 String.format("%-20s", "Expiration date")),
                 card -> new String[] {
                         card.getCardNumber(),
-                        card.getCardHolder(),
+                        card.getCardHolder().isBlank() ? "N/A" : card.getCardHolder(),
                         card.getPolicyOwner(),
                         card.getExpirationDate().format(formatter)
                 },

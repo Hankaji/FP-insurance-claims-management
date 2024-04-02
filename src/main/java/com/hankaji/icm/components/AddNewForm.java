@@ -10,6 +10,8 @@ import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.Panel;
+import com.googlecode.lanterna.gui2.dialogs.MessageDialog;
+import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton;
 import com.hankaji.icm.app.PopupWindow;
 
 import static com.hankaji.icm.lib.Utils.LayoutUtils.createGridLayoutwithCustomMargin;
@@ -39,8 +41,21 @@ public abstract class AddNewForm extends PopupWindow {
                 false));
 
         Button confirm = new Button("Confirm", () -> {
-            onSubmit();
-            close();
+            // If onSubmit returns true, close the window
+            // This is used in case error were made to allow correction
+            try {
+                if (onSubmit()) {
+                    close();
+                }
+                ;
+            } catch (Exception e) {
+                // e.printStackTrace();
+                MessageDialog.showMessageDialog(
+                        getTextGUI(),
+                        "Error",
+                        e.getMessage(),
+                        MessageDialogButton.Close);
+            }
         });
         confirm.setLayoutData(GridLayout.createLayoutData(
                 GridLayout.Alignment.END,
@@ -70,6 +85,6 @@ public abstract class AddNewForm extends PopupWindow {
         inputFields.addComponent(input);
     }
 
-    protected abstract void onSubmit();
+    protected abstract boolean onSubmit() throws Exception;
 
 }

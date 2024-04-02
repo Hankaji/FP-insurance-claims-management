@@ -34,7 +34,7 @@ public class AddPolicyHolder extends AddDependent {
     }
 
     @Override
-    protected void onSubmit() {
+    protected boolean onSubmit() {
 
         PolicyHolder newPolicyHolder = PolicyHolder.builder()
             .setId("c-" + ID.generateID(7))
@@ -44,6 +44,7 @@ public class AddPolicyHolder extends AddDependent {
             .build();
         
         policyHolderMan.add(newPolicyHolder);
+        return true;
     }
 
     private class DepCheckList extends PopupWindow {

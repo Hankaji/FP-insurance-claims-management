@@ -38,16 +38,21 @@ public class AddDependent extends AddNewForm {
     }
 
     @Override
-    protected void onSubmit() {
+    protected boolean onSubmit() {
         DependentManager db = DependentManager.getInstance();
+
+        InsuranceCard selectedCard = icm.get(cardList.getSelectedItem());
 
         Dependent newDependent = Dependent.builder()
             .setId("c-" + ID.generateID(7))
             .setName(inputName.getText())
-            .setInsuranceCard(icm.get(cardList.getSelectedItem()))
+            .setInsuranceCard(selectedCard)
             .build();
 
+        selectedCard.setCardHolder(newDependent.getName());
+
         db.add(newDependent);
+        return true;
     }
     
 }
