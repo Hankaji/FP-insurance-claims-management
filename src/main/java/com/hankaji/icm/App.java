@@ -15,6 +15,10 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 // import com.hankaji.icm.app.addNewForm.AddDependent;
 import com.hankaji.icm.app.home.Home;
 import com.hankaji.icm.config.Config;
+import com.hankaji.icm.services.ClaimManager;
+import com.hankaji.icm.services.DependentManager;
+import com.hankaji.icm.services.InsuranceCardManager;
+import com.hankaji.icm.services.PolicyHolderManager;
 
 import static com.hankaji.icm.lib.Utils.useHex;
 
@@ -68,6 +72,12 @@ public class App  {
                     e.printStackTrace();
                 }
             }
+
+            // Save data before exit
+            DependentManager.getInstance().saveData();
+            PolicyHolderManager.getInstance().saveData();
+            InsuranceCardManager.getInstance().saveData();
+            ClaimManager.getInstance().saveData();
         }
 
     }

@@ -96,7 +96,13 @@ public abstract class TableDataPanel<T extends GsonSerializable & StringInfo> ex
 
         table.setTableHeaderRenderer(new DisabledTableHeaderRenderer());
 
-        table.setSelectAction(() -> updateInfoBox.accept(getObjectInfo()));
+        table.setSelectAction(() -> {
+            try {
+                updateInfoBox.accept(getObjectInfo());
+            } catch (Exception e) {
+                updateInfoBox.accept("No object selected");
+            }
+        });
 
         addComponent(tableHeaderPanel);
         addComponent(tableSplitter);
@@ -106,7 +112,7 @@ public abstract class TableDataPanel<T extends GsonSerializable & StringInfo> ex
     @Override
     public synchronized void onAdded(Container container) {
         super.onAdded(container);
-        
+
         update();
         updateHelperText.accept(useHelperText());
         CompletableFuture.runAsync(() -> {
@@ -171,7 +177,7 @@ public abstract class TableDataPanel<T extends GsonSerializable & StringInfo> ex
     public boolean handleInput(KeyStroke key) {
         switch (key.getCharacter()) {
             case 'a':
-                onDeleteKeyPressed();
+                onAddKeyPressed();
                 update();
                 return true;
             case 'e':
@@ -190,11 +196,13 @@ public abstract class TableDataPanel<T extends GsonSerializable & StringInfo> ex
     }
 
     protected abstract void onAddKeyPressed();
+
     protected abstract void onEditKeyPressed();
 
     /**
      * Delete the selected row from the table and the database.
-     * This method use idColumn protected field to get the id of the object to delete.
+     * This method use idColumn protected field to get the id of the object to
+     * delete.
      * Change the idColumn to the column index of the id if needed.
      */
     protected void onDeleteKeyPressed() {

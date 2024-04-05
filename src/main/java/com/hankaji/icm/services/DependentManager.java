@@ -14,8 +14,6 @@ import com.hankaji.icm.lib.adapter.LocalDateTimeAdapter;
 import com.hankaji.icm.system.CRUD;
 import com.hankaji.icm.system.DataManager;
 
-import static com.hankaji.icm.lib.Utils.isIDExisted;
-
 public class DependentManager extends DataManager<Dependent> implements CRUD<Dependent> {
 
     private static DependentManager instance;

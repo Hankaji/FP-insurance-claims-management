@@ -37,7 +37,7 @@ public class PolicyHolderForm extends DependentForm {
     @Override
     protected boolean onSubmit() {
         // Replace the selected card with the actual card Number since checklist contain card number and card holder
-        InsuranceCard selectedCard = icm.getById(cardList.getSelectedItem().replaceAll("\\(.*?\\)", "").trim()).get();
+        InsuranceCard selectedCard = icm.getById(cardList.getSelectedItem().replaceAll("\\(.*?\\)", "").trim()).orElse(null);
 
         PolicyHolder newPolicyHolder = PolicyHolder.builder()
                 .setId("c-" + ID.generateID(7))
@@ -62,14 +62,11 @@ public class PolicyHolderForm extends DependentForm {
         public DepCheckList() {
             super("Select dependents");
 
-            TerminalSize size = new TerminalSize(16, 10);
+            TerminalSize size = new TerminalSize(16, 12);
             checkBoxList = new CheckBoxList<String>(size);
 
             for (Dependent d : depMan.getAll()) {
                 checkBoxList.addItem(d.getName());
-            }
-            for (PolicyHolder ph : policyHolderMan.getAll()) {
-                checkBoxList.addItem(ph.getName());
             }
 
             setComponent(checkBoxList);

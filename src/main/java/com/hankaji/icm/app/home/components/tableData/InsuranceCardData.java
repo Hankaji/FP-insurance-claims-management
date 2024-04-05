@@ -1,6 +1,7 @@
 package com.hankaji.icm.app.home.components.tableData;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,10 @@ import com.googlecode.lanterna.gui2.Borders;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
 import com.hankaji.icm.app.addNewForm.InsCardForm;
 import com.hankaji.icm.card.InsuranceCard;
+import com.hankaji.icm.customer.Customer;
+import com.hankaji.icm.services.DependentManager;
 import com.hankaji.icm.services.InsuranceCardManager;
+import com.hankaji.icm.services.PolicyHolderManager;
 
 public class InsuranceCardData extends TableDataPanel<InsuranceCard> {
 
@@ -21,8 +25,8 @@ public class InsuranceCardData extends TableDataPanel<InsuranceCard> {
         super(List.of(
                 String.format("%-12s", "Card number"),
                 String.format("%-25s", "Card holder"),
-                String.format("%-20s", "Policy owner"),
-                String.format("%-20s", "Expiration date")),
+                String.format("%-30s", "Policy owner"),
+                String.format("%-16s", "Expiration date")),
                 card -> new String[] {
                         card.getCardNumber(),
                         card.getCardHolder().isBlank() ? "N/A" : card.getCardHolder(),
@@ -56,6 +60,26 @@ public class InsuranceCardData extends TableDataPanel<InsuranceCard> {
     }
 
     @Override
-    protected void onEditKeyPressed() {}
+    protected void onEditKeyPressed() {
+    }
 
+    @Override
+    protected void onDeleteKeyPressed() {
+        String cardHolder = table.getTableModel().getRow(table.getSelectedRow()).get(1);
+        super.onDeleteKeyPressed();
+
+        List<Customer> customers = new ArrayList<>(DependentManager.getInstance().getAll());
+        customers.addAll(PolicyHolderManager.getInstance().getAll());
+
+        final String nameOnly = cardHolder.replaceAll("\\(.*?\\)", "").trim();
+        try {
+            Customer holderObj = customers.stream()
+                    .filter(c -> c.getName().equals(nameOnly))
+                    .findFirst()
+                    .get();
+
+            holderObj.setInsuranceCard(null);
+        } catch (Exception e) {}
+
+    }
 }

@@ -68,7 +68,7 @@ public class PolicyHolder extends Customer {
     public String showInfoBox() {
         return "Name: " + getName() + "\n" + 
         "ID: " + getId() + "\n" + 
-        "Insurance Card: " + getInsuranceCard().getCardNumber() +
+        "Insurance Card: " + getInsuranceCard() + "\n" +
         "Dependents: " + getDependents() +
         getClaims().stream().map(Claim::getId).reduce("", (a, b) -> a + "\n" + b);
     }

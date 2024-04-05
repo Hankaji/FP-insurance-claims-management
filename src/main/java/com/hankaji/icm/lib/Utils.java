@@ -3,7 +3,9 @@ package com.hankaji.icm.lib;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.GridLayout;
@@ -59,7 +61,9 @@ public class Utils {
         return nullOrDefault(toGetValue, "");
     }
 
-    
+    public static Optional<String> extractFromStr(Pattern pattern, String str) {
+        return Optional.ofNullable(pattern.matcher(str).group(1));
+    }
 
     public static class LayoutUtils {
 

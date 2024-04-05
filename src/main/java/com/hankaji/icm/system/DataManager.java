@@ -74,6 +74,7 @@ public abstract class DataManager<T extends GsonSerializable> {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(String.format("Error loading data of %s", fileName));
+            System.exit(1);
         }
         if (this.data == null) this.data = new HashSet<T>();
     }
@@ -83,7 +84,7 @@ public abstract class DataManager<T extends GsonSerializable> {
      *
      * @return true if the data was successfully saved, false otherwise
      */
-    protected boolean saveData() {
+    public boolean saveData() {
 
         String json = gson.toJson(data, dataType.getType());
 

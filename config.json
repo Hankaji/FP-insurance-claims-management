@@ -9,6 +9,8 @@
         "selected_bg": "#414868",
         "selected_fg": "#a9b1d6",
         
-        "highlighted_fg": "#7aa2f7"
+        "highlighted_fg": "#7aa2f7",
+
+        "error_fg": "#f7768e"
     }
 }

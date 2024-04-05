@@ -8,24 +8,23 @@ import java.util.function.Consumer;
 import com.googlecode.lanterna.gui2.Border;
 import com.googlecode.lanterna.gui2.Borders;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
-import com.googlecode.lanterna.input.KeyStroke;
 import com.hankaji.icm.app.addNewForm.PolicyHolderForm;
 import com.hankaji.icm.customer.PolicyHolder;
-import com.hankaji.icm.lib.StringInfo;
-import com.hankaji.icm.services.DependentManager;
 import com.hankaji.icm.services.PolicyHolderManager;
 
 public class PolicyHolderData extends TableDataPanel<PolicyHolder> {
 
     public PolicyHolderData(Consumer<Map<String, String>> updateHelperText, Consumer<String> updateInfoBox) {
         super(List.of(
-                String.format("%-20s", "Name"),
                 String.format("%-12s", "ID"),
+                String.format("%-20s", "Name"),
+                String.format("%-12s", "Card ID"),
                 String.format("%-30s", "Dependent"),
                 String.format("Claims amount")),
                 ph -> new String[] {
-                        ph.getName(),
                         ph.getId(),
+                        ph.getName(),
+                        ph.getInsuranceCard() == null ? "N/A" : ph.getInsuranceCard().getCardNumber(),
                         String.join(", ", ph.getDependents()),
                         String.valueOf(ph.getClaims().size())
                 },
@@ -56,6 +55,7 @@ public class PolicyHolderData extends TableDataPanel<PolicyHolder> {
     }
 
     @Override
-    protected void onEditKeyPressed() {}
+    protected void onEditKeyPressed() {
+    }
 
 }

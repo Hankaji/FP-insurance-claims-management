@@ -8,10 +8,8 @@ import java.util.function.Consumer;
 import com.googlecode.lanterna.gui2.Border;
 import com.googlecode.lanterna.gui2.Borders;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
-import com.googlecode.lanterna.input.KeyStroke;
 import com.hankaji.icm.app.addNewForm.DependentForm;
 import com.hankaji.icm.customer.Dependent;
-import com.hankaji.icm.lib.StringInfo;
 import com.hankaji.icm.services.DependentManager;
 
 public class DependentData extends TableDataPanel<Dependent> {

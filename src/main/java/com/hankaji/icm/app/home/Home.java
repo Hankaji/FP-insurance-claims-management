@@ -13,11 +13,14 @@ import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.Panel;
+import com.googlecode.lanterna.gui2.Separator;
 import com.googlecode.lanterna.gui2.Window;
 import com.googlecode.lanterna.gui2.WindowListener;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.hankaji.icm.app.NoDecorationWindow;
 import com.hankaji.icm.app.home.components.HelperText;
+import com.hankaji.icm.app.home.components.PopupHelpMsg;
+import com.hankaji.icm.app.home.components.WelcomePanel;
 import com.hankaji.icm.app.home.components.tableData.DependentData;
 import com.hankaji.icm.app.home.components.tableData.InsuranceCardData;
 import com.hankaji.icm.app.home.components.tableData.PolicyHolderData;
@@ -42,7 +45,7 @@ public class Home extends NoDecorationWindow {
 
     private Map<String, String> helperText = new LinkedHashMap<>();
     {
-        helperText.put("Quit", "q");
+        helperText.put("Quit", "Q");
         helperText.put("Move between panels", "[1]-[4]");
         helperText.put("Navigation", "<Arrow keys>");
         helperText.put("Info", "i");
@@ -73,6 +76,8 @@ public class Home extends NoDecorationWindow {
 
     HelperText panelSpecificHelp = new HelperText();
 
+    WelcomePanel welcomePanel = new WelcomePanel(this::updateHelperText);
+
     TableDataPanel<Dependent> dependentDataPanel = new DependentData(this::updateHelperText, this::updateInfoBox);
 
     TableDataPanel<PolicyHolder> policyHolderDataPanel = new PolicyHolderData(this::updateHelperText,
@@ -100,22 +105,16 @@ public class Home extends NoDecorationWindow {
 
         // Horizontal container with the left containing the menu and the right
         // containing the content
-
         layoutPanel.setLayoutData(GridLayout.createLayoutData(
                 GridLayout.Alignment.FILL,
                 GridLayout.Alignment.FILL,
                 true,
                 true));
-        layoutPanel.setPreferredSize(new TerminalSize(10, 10));
 
         // --------------------------------------------------
         // Keyboards events
         // --------------------------------------------------
         addWindowListener(new HomeListener());
-
-        // --------------------------------------------------
-        // Infobox
-        // --------------------------------------------------
 
         // --------------------------------------------------
         // Add components
@@ -124,10 +123,10 @@ public class Home extends NoDecorationWindow {
         masterPanel.addComponent(helpPanel);
 
         helpPanel.addComponent(generalHelp);
+        helpPanel.addComponent(new Separator(Direction.VERTICAL));
         helpPanel.addComponent(panelSpecificHelp);
 
-        currentDataShown = dependentDataPanel;
-        renderDataPanel(currentDataShown);
+        layoutPanel.addComponent(welcomePanel.withBorder(Borders.singleLineBevel()));
 
         setComponent(masterPanel);
     }
@@ -140,11 +139,11 @@ public class Home extends NoDecorationWindow {
 
     private void renderDataPanel(TableDataPanel<?> panelToShow) {
         layoutPanel.removeAllComponents().addComponent(panelToShow.withBorder().setLayoutData(
-            GridLayout.createLayoutData(
-                    GridLayout.Alignment.FILL,
-                    GridLayout.Alignment.FILL,
-                    true,
-                    true)));
+                GridLayout.createLayoutData(
+                        GridLayout.Alignment.FILL,
+                        GridLayout.Alignment.FILL,
+                        true,
+                        true)));
     }
 
     private void switchAndRerender(TableDataPanel<?> newPanel) {
@@ -178,7 +177,7 @@ public class Home extends NoDecorationWindow {
                     break;
             }
             switch (keyStroke.getCharacter()) {
-                case 'q':
+                case 'Q':
                     close();
                     return;
                 case 'i':
@@ -187,6 +186,9 @@ public class Home extends NoDecorationWindow {
                     } else {
                         layoutPanel.addComponent(borderedInfoBox);
                     }
+                    return;
+                case 'h':
+                    getTextGUI().addWindowAndWait(new PopupHelpMsg());
                     return;
                 case '1':
                     switchAndRerender(dependentDataPanel);
@@ -205,6 +207,9 @@ public class Home extends NoDecorationWindow {
                 default:
                     break;
             }
+
+            // Genuenly don't know why TableDataPanel can handle key but this Panel can't. I'm going insane
+            welcomePanel.handleInput(keyStroke);
         }
 
         @Override
@@ -213,6 +218,7 @@ public class Home extends NoDecorationWindow {
 
         @Override
         public void onResized(Window window, TerminalSize oldSize, TerminalSize newSize) {
+            welcomePanel.onResized(newSize);
         }
 
         @Override

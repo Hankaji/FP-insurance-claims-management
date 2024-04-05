@@ -46,8 +46,6 @@ public class ClaimForm extends ProductForm {
 
     final ComboBox<String> insuredPerson = new ComboBox<>();
 
-    final ComboBox<String> cardList = new ComboBox<>();
-
     final TextBox examDateInput = new TextBox();
 
     final TextBox documents = new TextBox().setValidationPattern(Pattern.compile("^[a-zA-Z0-9,\\. ]+$"));
@@ -75,6 +73,7 @@ public class ClaimForm extends ProductForm {
      */
     public ClaimForm(Claim oldClaim) {
         super("Add new claim");
+        this.oldClaim = oldClaim;
 
         // Get all customers
         customers = Stream.concat(
@@ -82,38 +81,35 @@ public class ClaimForm extends ProductForm {
                 policyHolderMan.getAll().stream())
                 .collect(Collectors.toCollection(ArrayList::new));
 
+        // Filter customer with no card
+        customers = customers.stream()
+                .filter(c -> c.getInsuranceCard() != null)
+                .collect(Collectors.toCollection(ArrayList::new));
+
         // Customer list
         for (Customer c : customers) {
             // Add customer to the owner list
-            insuredPerson.addItem(c.getName() + " (" + c.getId() + ")");
+            String idString = " (" + c.getId() + ")";
+            insuredPerson.addItem(c.getName() + idString);
         }
         if (insuredPerson.getItemCount() == 0) {
             insuredPerson.addItem("No person available");
         }
         addField("Insured person", insuredPerson);
 
-        // Card list
-        for (InsuranceCard c : icm.getAll()) {
-            cardList.addItem(c.getCardNumber() + (c.getCardHolder().isBlank() ? "" : " (" + c.getCardHolder() + ")"));
-        }
-        if (cardList.getItemCount() == 0) {
-            cardList.addItem("No card available");
-        }
-        addField("Card", cardList);
-
         // Exam date
         addField("Exam date (dd/mm/yyyy)", examDateInput.setText(nullOrDefault(() -> oldClaim.getExamDate().format(formatter))));
 
         // Add documents
         addField("List of documents (comma separated)", documents.setText(
-                nullOrDefault(() -> oldClaim.getDocuments().stream().reduce("", (a, b) -> a + ", " + b))));
+                nullOrDefault(() -> String.join(", ", separateDoc(oldClaim.getDocuments().stream().collect(Collectors.joining(", ")))))));
 
         // Claim amount
         addField("Claim amount (in $)", claimAmountInput.setText(nullOrDefault(() -> String.valueOf(oldClaim.getClaimAmount()))));
 
         // Status
         addField("Status", status);
-        status.setSelectedItem(nullOrDefault(oldClaim::getStatus, Claim.Status.PENDING));
+        status.setSelectedItem(nullOrDefault(() -> oldClaim.getStatus(), Claim.Status.PENDING));
 
         // Separator
         inputFields.addComponent(new Separator(Direction.HORIZONTAL).setLayoutData(
@@ -135,23 +131,24 @@ public class ClaimForm extends ProductForm {
         // Claimdate
         LocalDateTime claimDate = LocalDateTime.now();
 
-        // Get customer
+        // Get customer and card
         String selectedInsured;
+        Customer insuredCustomer;
+        
+        String selectedCard;
+        InsuranceCard card;
         try {
             selectedInsured = insuredPerson.getSelectedItem().replaceAll("\\(.*?\\)", "").trim();
-            customers.stream()
+            insuredCustomer = customers.stream()
                     .filter(c -> c.getName().equals(selectedInsured))
                     .findFirst()
                     .get();
-        } catch (Exception e) {
-            throw new Exception("Insurance people cannot be blank, please create at least one");
-        }
 
-        // Get card
-        String selectedCard = cardList.getSelectedItem().replaceAll("\\(.*?\\)", "").trim();
-        InsuranceCard card = icm.getById(selectedCard).get();
-        if (card == null)
-            throw new Exception("Card cannot be blank, please create at least one");
+            selectedCard = insuredCustomer.getInsuranceCard().getCardNumber();
+            card = icm.getById(selectedCard).orElse(null);
+        } catch (Exception e) {
+            throw new Exception("Either people is blank or the insured person doens't has a card. Please create at least one.");
+        }
 
         // Exam date
         LocalDateTime examDate = LocalDate.parse(examDateInput.getText(), formatter).atStartOfDay();
@@ -179,6 +176,7 @@ public class ClaimForm extends ProductForm {
                 .build();
 
         ClaimManager.getInstance().add(newClaim);
+        insuredCustomer.getClaims().add(newClaim);
 
         return true;
     }
@@ -188,7 +186,7 @@ public class ClaimForm extends ProductForm {
 
         // Get claim
         if (oldClaim == null)
-            throw new Exception("Claim cannot be found. Consider using editData() method to find the claim");
+            throw new Exception("Claim cannot be found.");
 
         // Documents
         List<String> newDocList = separateDoc(documents.getText());

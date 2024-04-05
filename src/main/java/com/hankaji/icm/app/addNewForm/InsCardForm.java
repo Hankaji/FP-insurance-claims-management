@@ -44,10 +44,8 @@ public class InsCardForm extends ProductForm {
         super("Add new card");
 
         // Get all customers
-        customers = Stream.concat(
-                depMan.getAll().stream(),
-                policyHolderMan.getAll().stream())
-                .collect(Collectors.toCollection(ArrayList::new));
+        customers = new ArrayList<>(DependentManager.getInstance().getAll());
+        customers.addAll(PolicyHolderManager.getInstance().getAll());
 
         for (Customer c : customers) {
             // Add customer to the owner list, with a note if they have a card
@@ -90,17 +88,23 @@ public class InsCardForm extends ProductForm {
             switch (answer) {
                 case MessageDialogButton.OK:
                     break;
-                case null:
-                    return false;
                 default:
                     return false;
             }
 
-            // Remove the note that the user has a card
-            holder = holder.replace(hasCardFormat, "");
+            // Remove the the holder from the card
+            try {
+                Customer holderObj = customers.stream()
+                        .filter(c -> c.getName().equals(nameOnly))
+                        .findFirst()
+                        .get();
 
-            // Remove the card holder from the card
-            icm.getById(holder).get().setCardHolder("");
+                String otherCardNum = holderObj.getInsuranceCard().getCardNumber();
+                InsuranceCard otherCard = icm.getById(otherCardNum).get();
+                otherCard.setCardHolder("");
+            } catch (Exception e) {
+                throw new Exception("Error removing card from holder");
+            }
         }
 
         // Create the new card
@@ -112,7 +116,7 @@ public class InsCardForm extends ProductForm {
                 .build();
 
         // Add the card to the card holder
-        if (holder == emptyListStr) {
+        if (holder != emptyListStr) {
             Customer holderObj = customers.stream()
                     .filter(c -> c.getName().equals(nameOnly))
                     .findFirst()

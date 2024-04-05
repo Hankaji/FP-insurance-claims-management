@@ -86,6 +86,9 @@ public class Config {
         @SerializedName(value = "highlighted_fg")
         private String highlightedFg;
 
+        @SerializedName(value = "error_fg")
+        private String errorFg;
+
         public String getPriBg() {
             return priBg;
         }
@@ -140,6 +143,14 @@ public class Config {
 
         public void setHighlightedFg(String activeFg) {
             this.highlightedFg = activeFg;
+        }
+
+        public String getErrorFg() {
+            return errorFg;
+        }
+
+        public void setErrorFg(String errorFg) {
+            this.errorFg = errorFg;
         }
         
     }
