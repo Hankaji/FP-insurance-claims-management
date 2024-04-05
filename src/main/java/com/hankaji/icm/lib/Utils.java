@@ -1,7 +1,9 @@
 package com.hankaji.icm.lib;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.function.Supplier;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.GridLayout;
@@ -30,6 +32,34 @@ public class Utils {
     public static boolean isIDExisted(String id, Collection<String> ids) {
         return ids.contains(id);
     }
+
+    public static void createFolders(String[] paths) {
+        if (paths.length == 0) {
+            System.out.println("Please provide the file name as an argument.");
+            System.exit(1);
+        }
+
+        for (String folderPath : paths) {
+            File file = new File(folderPath);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+        }
+    }
+
+    public static <T> T nullOrDefault(Supplier<T> toGetValue, T defaultValue) {
+        try {
+            return toGetValue.get();
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
+
+    public static String nullOrDefault(Supplier<String> toGetValue) {
+        return nullOrDefault(toGetValue, "");
+    }
+
+    
 
     public static class LayoutUtils {
 

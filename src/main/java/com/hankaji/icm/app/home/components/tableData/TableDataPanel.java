@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.function.Function;
-
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.Border;
 import com.googlecode.lanterna.gui2.Borders;
@@ -17,23 +16,28 @@ import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.Separator;
 import com.googlecode.lanterna.gui2.table.Table;
+import com.googlecode.lanterna.input.KeyStroke;
 import com.hankaji.icm.config.Config;
 import com.hankaji.icm.lib.DisabledTableHeaderRenderer;
+import com.hankaji.icm.lib.GsonSerializable;
 import com.hankaji.icm.lib.HasBorder;
-import com.hankaji.icm.system.DataManager;
+import com.hankaji.icm.lib.StringInfo;
+import com.hankaji.icm.system.CRUD;
 
 import static com.hankaji.icm.lib.Utils.LayoutUtils.*;
 
-public abstract class TableDataPanel<T> extends Panel implements HasBorder {
+public abstract class TableDataPanel<T extends GsonSerializable & StringInfo> extends Panel implements HasBorder {
 
     // Fields
     private Config conf = Config.getInstance();
 
-    private final DataManager<T> db;
+    private final CRUD<T> db;
 
     Function<T, String[]> rowMapper;
 
     Consumer<Map<String, String>> updateHelperText;
+
+    protected int idColumn = 0;
 
     // Components
     protected Table<String> table;
@@ -46,10 +50,10 @@ public abstract class TableDataPanel<T> extends Panel implements HasBorder {
      *                    tableTitles
      * @param data        List of T objects
      */
-    public TableDataPanel(
+    public <DB extends CRUD<T>> TableDataPanel(
             Collection<String> tableTitles,
             Function<T, String[]> rowMapper,
-            DataManager<T> db,
+            DB db,
             Consumer<Map<String, String>> updateHelperText,
             Consumer<String> updateInfoBox) {
         super(new GridLayout(1));
@@ -113,7 +117,7 @@ public abstract class TableDataPanel<T> extends Panel implements HasBorder {
     protected abstract Map<String, String> useHelperText();
 
     protected String getObjectInfo() {
-        return "No info available.";
+        return db.getById(table.getTableModel().getRow(table.getSelectedRow()).get(idColumn)).get().showInfoBox();
     };
 
     protected void update() {
@@ -162,5 +166,44 @@ public abstract class TableDataPanel<T> extends Panel implements HasBorder {
     public Table<String> getTable() {
         return table;
     }
+
+    @Override
+    public boolean handleInput(KeyStroke key) {
+        switch (key.getCharacter()) {
+            case 'a':
+                onDeleteKeyPressed();
+                update();
+                return true;
+            case 'e':
+                onEditKeyPressed();
+                update();
+                return true;
+            case 'd':
+                onDeleteKeyPressed();
+                return true;
+            case null:
+                break;
+            default:
+                break;
+        }
+        return super.handleInput(key);
+    }
+
+    protected abstract void onAddKeyPressed();
+    protected abstract void onEditKeyPressed();
+
+    /**
+     * Delete the selected row from the table and the database.
+     * This method use idColumn protected field to get the id of the object to delete.
+     * Change the idColumn to the column index of the id if needed.
+     */
+    protected void onDeleteKeyPressed() {
+        // Get id and delete the row
+        String id = table.getTableModel().getRow(table.getSelectedRow()).get(idColumn);
+        table.getTableModel().removeRow(table.getSelectedRow());
+
+        T currObj = db.getById(id.trim()).get();
+        db.delete(currObj);
+    };
 
 }

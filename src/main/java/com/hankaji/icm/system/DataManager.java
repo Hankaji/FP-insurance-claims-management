@@ -9,6 +9,8 @@ import org.apache.commons.io.FileUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hankaji.icm.lib.GsonSerializable;
+import com.hankaji.icm.lib.Utils;
 
 /**
  * The DataManager class is an abstract class that provides a common structure and functionality for managing data of a specific type.
@@ -22,7 +24,7 @@ import com.google.gson.reflect.TypeToken;
  *
  * @param <T> the type of data managed by this DataManager
  */
-public abstract class DataManager<T> {
+public abstract class DataManager<T extends GsonSerializable> {
 
     /**
      * The set of data managed by this DataManager.
@@ -39,7 +41,7 @@ public abstract class DataManager<T> {
      */
     private final TypeToken<Set<T>> dataType;
 
-    private final Gson gson = createGson();
+    private final Gson gson = useGson();
 
     /**
      * Constructs a DataManager object with the given class type.
@@ -60,6 +62,9 @@ public abstract class DataManager<T> {
 
         // Load data from file
         try {
+            // Create the data folder if it does not exist
+            Utils.createFolders(new String[] { "./data" });
+
             File file = new File(String.format("./data/%s.json", fileName));
             String json = FileUtils.readFileToString(file, "UTF-8");
 
@@ -72,53 +77,6 @@ public abstract class DataManager<T> {
         }
         if (this.data == null) this.data = new HashSet<T>();
     }
-
-    /**
-     * Retrieves the data object with the specified ID.
-     *
-     * @param id the ID of the data object to retrieve
-     * @return the data object with the specified ID, or null if not found
-     */
-    public abstract T get(String id);
-
-    /**
-     * Retrieves all the data objects managed by this DataManager.
-     *
-     * @return a list of all the data objects
-     */
-    public Set<T> getAll() {
-        return data;
-    };
-
-    /**
-     * Adds a new data object to be managed by this DataManager.
-     *
-     * @param t the data object to add
-     */
-    public abstract void add(T t);
-
-    /**
-     * Updates an existing data object managed by this DataManager.
-     *
-     * @param t the data object to update
-     * @return true if the update was successful, false otherwise
-     */
-    public abstract boolean update(T t);
-
-    /**
-     * Deletes the data object with the specified ID from this DataManager.
-     *
-     * @param id the ID of the data object to delete
-     * @return true if the deletion was successful, false otherwise
-     */
-    public abstract boolean delete(String id);
-
-    /**
-     * Deletes all the data objects managed by this DataManager.
-     */
-    public void deleteAll() {
-        data.clear();
-    };
 
     /**
      * Saves the data managed by this DataManager to a file.
@@ -142,8 +100,9 @@ public abstract class DataManager<T> {
         return true;
     }
     
-    protected Gson createGson() {
+    protected Gson useGson() {
         Gson gson = new Gson();
         return gson;
     }
+
 }

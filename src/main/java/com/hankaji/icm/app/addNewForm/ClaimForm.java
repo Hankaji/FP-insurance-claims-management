@@ -1,5 +1,7 @@
 package com.hankaji.icm.app.addNewForm;
 
+import static com.hankaji.icm.lib.Utils.nullOrDefault;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -17,7 +19,6 @@ import com.googlecode.lanterna.gui2.Separator;
 import com.googlecode.lanterna.gui2.TextBox;
 import com.hankaji.icm.card.InsuranceCard;
 import com.hankaji.icm.claim.Claim;
-import com.hankaji.icm.claim.ClaimStatus;
 import com.hankaji.icm.components.ProductForm;
 import com.hankaji.icm.customer.Customer;
 import com.hankaji.icm.lib.ID;
@@ -53,31 +54,26 @@ public class ClaimForm extends ProductForm {
 
     final TextBox claimAmountInput = new TextBox().setValidationPattern(Pattern.compile("[0-9]*"));
 
-    final ComboBox<ClaimStatus> status = new ComboBox<>(
-            ClaimStatus.NEW,
-            ClaimStatus.PROCESSING,
-            ClaimStatus.DONE);
+    final ComboBox<Claim.Status> status = new ComboBox<>(
+            Claim.Status.PENDING,
+            Claim.Status.APPROVED,
+            Claim.Status.REJECTED);
 
     final TextBox bankInput = new TextBox().setValidationPattern(Pattern.compile("[A-Za-z ]*"));
     final TextBox nameInput = new TextBox().setValidationPattern(Pattern.compile("[A-Za-z ]*"));
     final TextBox numberInput = new TextBox().setValidationPattern(Pattern.compile("[0-9]*"));
 
     public ClaimForm() {
-        this(null, "", "", ClaimStatus.NEW, "", "", "");
+        this(null);
     }
 
     /**
-     * Add new claim with Placeholder (PH) values
+     * Add new claim. Oldclaim can be provided to insert placeholder data into the form.
+     * This is useful when editing a claim.
      * 
-     * @param documentPH
-     * @param claimAmountPH
-     * @param statusPH
-     * @param bankPH
-     * @param namePH
-     * @param numberPH
+     * @param oldClaim the claim to be used as placeholder data
      */
-    public ClaimForm(LocalDateTime examDatePH, String documentPH, String claimAmountPH, ClaimStatus statusPH, String bankPH, String namePH,
-            String numberPH) {
+    public ClaimForm(Claim oldClaim) {
         super("Add new claim");
 
         // Get all customers
@@ -106,27 +102,27 @@ public class ClaimForm extends ProductForm {
         addField("Card", cardList);
 
         // Exam date
-        addField("Exam date (dd/mm/yyyy)", examDatePH == null ? examDateInput.setText("") : examDateInput.setText(examDatePH.format(formatter)));
+        addField("Exam date (dd/mm/yyyy)", examDateInput.setText(nullOrDefault(() -> oldClaim.getExamDate().format(formatter))));
 
         // Add documents
         addField("List of documents (comma separated)", documents.setText(
-                documentPH.isBlank() ? "" : String.join(", ", separateDoc(documentPH))));
+                nullOrDefault(() -> oldClaim.getDocuments().stream().reduce("", (a, b) -> a + ", " + b))));
 
         // Claim amount
-        addField("Claim amount (in $)", claimAmountInput.setText(claimAmountPH));
+        addField("Claim amount (in $)", claimAmountInput.setText(nullOrDefault(() -> String.valueOf(oldClaim.getClaimAmount()))));
 
         // Status
         addField("Status", status);
-        status.setSelectedItem(statusPH);
+        status.setSelectedItem(nullOrDefault(oldClaim::getStatus, Claim.Status.PENDING));
 
         // Separator
         inputFields.addComponent(new Separator(Direction.HORIZONTAL).setLayoutData(
                 GridLayout.createHorizontallyFilledLayoutData(2)));
 
         // Backing info
-        addField("Banking info", bankInput.setText(bankPH));
-        addField("Name", nameInput.setText(namePH));
-        addField("Number", numberInput.setText(numberPH));
+        addField("Banking info", bankInput.setText(nullOrDefault(() -> oldClaim.getReceiverBankingInfo().split("-")[0])));
+        addField("Name", nameInput.setText(nullOrDefault(() -> oldClaim.getReceiverBankingInfo().split("-")[1])));
+        addField("Number", numberInput.setText(nullOrDefault(() -> oldClaim.getReceiverBankingInfo().split("-")[2])));
 
     }
 
@@ -153,7 +149,7 @@ public class ClaimForm extends ProductForm {
 
         // Get card
         String selectedCard = cardList.getSelectedItem().replaceAll("\\(.*?\\)", "").trim();
-        InsuranceCard card = icm.get(selectedCard);
+        InsuranceCard card = icm.getById(selectedCard).get();
         if (card == null)
             throw new Exception("Card cannot be blank, please create at least one");
 
@@ -217,11 +213,6 @@ public class ClaimForm extends ProductForm {
         ClaimManager.getInstance().update(oldClaim);
 
         return true;
-    }
-
-    @Override
-    public void editData(String id) {
-        oldClaim = ClaimManager.getInstance().get(id);
     }
 
     private List<String> reformatDoc(String claimID, String cardNumber, List<String> docList) {

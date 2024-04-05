@@ -53,7 +53,7 @@ public class DependentForm extends ProductForm {
 
         // Replace the selected card with the actual card Number since checklist contain
         // card number and card holder
-        InsuranceCard selectedCard = icm.get(cardList.getSelectedItem().replaceAll("\\(.*?\\)", "").trim());
+        InsuranceCard selectedCard = icm.getById(cardList.getSelectedItem().replaceAll("\\(.*?\\)", "").trim()).get();
 
         Dependent newDependent = Dependent.builder()
                 .setId("c-" + ID.generateID(7))

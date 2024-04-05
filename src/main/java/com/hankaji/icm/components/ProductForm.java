@@ -104,14 +104,6 @@ public abstract class ProductForm extends PopupWindow {
         return false;
     }
 
-    /**
-     * Override this method to allow editing.
-     * This method set the data that will be edited
-     * 
-     * @param id
-     */
-    public void editData(String id) {}
-
     public ProcessType getType() {
         return type;
     }

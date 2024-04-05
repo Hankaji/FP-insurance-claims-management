@@ -40,15 +40,6 @@ public class PolicyHolderData extends TableDataPanel<PolicyHolder> {
     }
 
     @Override
-    protected String getObjectInfo() {
-        StringInfo info = PolicyHolderManager.getInstance().get(
-            table.getTableModel().getRow(table.getSelectedRow()).get(1)
-        );
-
-        return info.showInfoBox();
-    }
-
-    @Override
     protected Map<String, String> useHelperText() {
         Map<String, String> helperText = new LinkedHashMap<>();
         helperText.put("Add", "a");
@@ -60,25 +51,11 @@ public class PolicyHolderData extends TableDataPanel<PolicyHolder> {
     }
 
     @Override
-    public boolean handleInput(KeyStroke key) {
-        switch (key.getCharacter()) {
-            case 'a':
-                ((WindowBasedTextGUI) getTextGUI()).addWindowAndWait(new PolicyHolderForm());
-                update();
-                return true;
-            case 'd':
-                {
-                    String id = table.getTableModel().getRow(table.getSelectedRow()).get(0);
-                    table.getTableModel().removeRow(table.getSelectedRow());
-                    PolicyHolderManager.getInstance().delete(id.trim());
-                }
-                return true;
-            case null:
-                break;
-            default:
-                break;
-        }
-        return super.handleInput(key);
+    protected void onAddKeyPressed() {
+        ((WindowBasedTextGUI) getTextGUI()).addWindowAndWait(new PolicyHolderForm());
     }
+
+    @Override
+    protected void onEditKeyPressed() {}
 
 }

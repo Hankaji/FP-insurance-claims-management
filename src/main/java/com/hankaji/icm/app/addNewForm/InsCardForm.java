@@ -100,7 +100,7 @@ public class InsCardForm extends ProductForm {
             holder = holder.replace(hasCardFormat, "");
 
             // Remove the card holder from the card
-            icm.get(holder).setCardHolder("");
+            icm.getById(holder).get().setCardHolder("");
         }
 
         // Create the new card

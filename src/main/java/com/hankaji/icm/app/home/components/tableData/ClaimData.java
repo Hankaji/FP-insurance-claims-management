@@ -11,7 +11,6 @@ import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.hankaji.icm.app.addNewForm.ClaimForm;
 import com.hankaji.icm.claim.Claim;
-import com.hankaji.icm.claim.ClaimStatus;
 import com.hankaji.icm.components.ProductForm.ProcessType;
 import com.hankaji.icm.services.ClaimManager;
 
@@ -52,12 +51,6 @@ public class ClaimData extends TableDataPanel<Claim> {
     }
 
     @Override
-    protected String getObjectInfo() {
-        return ClaimManager.getInstance().get(
-                table.getTableModel().getRow(table.getSelectedRow()).get(0)).showInfoBox();
-    }
-
-    @Override
     protected Map<String, String> useHelperText() {
         Map<String, String> helperText = new LinkedHashMap<>();
         helperText.put("Add", "a");
@@ -69,48 +62,12 @@ public class ClaimData extends TableDataPanel<Claim> {
         return helperText;
     }
 
-    private List<String> separateBanking(String bankInfo) {
-        return List.of(bankInfo.split("-"));
-    }
-
     @Override
     public boolean handleInput(KeyStroke key) {
         switch (key.getCharacter()) {
-            case 'a':
-                ((WindowBasedTextGUI) getTextGUI()).addWindowAndWait(new ClaimForm());
-                update();
-                return true;
-            case 'e': {
-                String id = table.getTableModel().getRow(table.getSelectedRow()).get(0);
-                Claim currClaim = ClaimManager.getInstance().get(id.trim());
-
-                List<String> bankInfo = separateBanking(currClaim.getReceiverBankingInfo());
-
-                ClaimForm form = new ClaimForm(
-                        currClaim.getExamDate(),
-                        String.join(", ", currClaim.getDocuments()),
-                        String.valueOf(currClaim.getClaimAmount()),
-                        currClaim.getStatus(),
-                        bankInfo.get(0),
-                        bankInfo.get(1),
-                        bankInfo.get(2));
-
-                form.setType(ProcessType.EDIT);
-                form.editData(id);
-
-                ((WindowBasedTextGUI) getTextGUI()).addWindowAndWait(form);
-            }
-                update();
-                return true;
-            case 'd': {
-                String id = table.getTableModel().getRow(table.getSelectedRow()).get(0);
-                table.getTableModel().removeRow(table.getSelectedRow());
-                ClaimManager.getInstance().delete(id.trim());
-            }
-                return true;
             case 's': {
                 String id = table.getTableModel().getRow(table.getSelectedRow()).get(0);
-                ClaimManager.getInstance().get(id.trim()).setStatus(ClaimStatus.DONE);
+                ClaimManager.getInstance().getById(id.trim()).get().setStatus(Claim.Status.REJECTED);
                 update();
             }
                 return true;
@@ -120,6 +77,23 @@ public class ClaimData extends TableDataPanel<Claim> {
                 break;
         }
         return super.handleInput(key);
+    }
+
+    @Override
+    protected void onAddKeyPressed() {
+        ((WindowBasedTextGUI) getTextGUI()).addWindowAndWait(new ClaimForm());
+    }
+
+    @Override
+    protected void onEditKeyPressed() {
+        String id = table.getTableModel().getRow(table.getSelectedRow()).get(0);
+        Claim currClaim = ClaimManager.getInstance().getById(id.trim()).get();
+
+        ClaimForm form = new ClaimForm(currClaim);
+
+        form.setType(ProcessType.EDIT);
+
+        ((WindowBasedTextGUI) getTextGUI()).addWindowAndWait(form);
     }
 
 }

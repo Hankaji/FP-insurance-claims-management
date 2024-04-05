@@ -9,11 +9,8 @@ import java.util.function.Consumer;
 import com.googlecode.lanterna.gui2.Border;
 import com.googlecode.lanterna.gui2.Borders;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
-import com.googlecode.lanterna.input.KeyStroke;
 import com.hankaji.icm.app.addNewForm.InsCardForm;
 import com.hankaji.icm.card.InsuranceCard;
-import com.hankaji.icm.lib.StringInfo;
-import com.hankaji.icm.services.DependentManager;
 import com.hankaji.icm.services.InsuranceCardManager;
 
 public class InsuranceCardData extends TableDataPanel<InsuranceCard> {
@@ -43,15 +40,6 @@ public class InsuranceCardData extends TableDataPanel<InsuranceCard> {
     }
 
     @Override
-    protected String getObjectInfo() {
-        StringInfo info = InsuranceCardManager.getInstance().get(
-            table.getTableModel().getRow(table.getSelectedRow()).get(0)
-        );
-
-        return info.showInfoBox();
-    }
-
-    @Override
     protected Map<String, String> useHelperText() {
         Map<String, String> helperText = new LinkedHashMap<>();
         helperText.put("Add", "a");
@@ -63,25 +51,11 @@ public class InsuranceCardData extends TableDataPanel<InsuranceCard> {
     }
 
     @Override
-    public boolean handleInput(KeyStroke key) {
-        switch (key.getCharacter()) {
-            case 'a':
-                ((WindowBasedTextGUI) getTextGUI()).addWindowAndWait(new InsCardForm());
-                update();
-                return true;
-            case 'd':
-                {
-                    String cardNumber = table.getTableModel().getRow(table.getSelectedRow()).get(0);
-                    table.getTableModel().removeRow(table.getSelectedRow());
-                    InsuranceCardManager.getInstance().delete(cardNumber.trim());
-                }
-                return true;
-            case null:
-                break;
-            default:
-                break;
-        }
-        return super.handleInput(key);
+    protected void onAddKeyPressed() {
+        ((WindowBasedTextGUI) getTextGUI()).addWindowAndWait(new InsCardForm());
     }
+
+    @Override
+    protected void onEditKeyPressed() {}
 
 }

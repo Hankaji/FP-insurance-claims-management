@@ -5,13 +5,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import com.hankaji.icm.customer.Dependent.Builder;
+import com.hankaji.icm.lib.GsonSerializable;
 import com.hankaji.icm.lib.StringInfo;
 
 
 /**
  * Represents an insurance card.
  */
-public class InsuranceCard implements StringInfo {
+public class InsuranceCard implements StringInfo, GsonSerializable {
     private String cardNumber;
     private String cardHolder;
     private String policyOwner;

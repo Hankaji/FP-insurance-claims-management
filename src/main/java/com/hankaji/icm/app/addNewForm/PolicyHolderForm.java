@@ -37,7 +37,7 @@ public class PolicyHolderForm extends DependentForm {
     @Override
     protected boolean onSubmit() {
         // Replace the selected card with the actual card Number since checklist contain card number and card holder
-        InsuranceCard selectedCard = icm.get(cardList.getSelectedItem().replaceAll("\\(.*?\\)", "").trim());
+        InsuranceCard selectedCard = icm.getById(cardList.getSelectedItem().replaceAll("\\(.*?\\)", "").trim()).get();
 
         PolicyHolder newPolicyHolder = PolicyHolder.builder()
                 .setId("c-" + ID.generateID(7))

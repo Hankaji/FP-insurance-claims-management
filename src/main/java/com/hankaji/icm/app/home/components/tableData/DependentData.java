@@ -19,14 +19,14 @@ public class DependentData extends TableDataPanel<Dependent> {
     public DependentData(Consumer<Map<String, String>> updateHelperText, Consumer<String> updateInfoBox) {
         super(
             List.of(
-                String.format("%-20s", "Name"),
                 String.format("%-12s", "ID"),
+                String.format("%-20s", "Name"),
                 String.format("%-12s", "Card ID"),
                 String.format("Claims amount")
             ),
             dep -> new String[] {
-                dep.getName(),
                 dep.getId(),
+                dep.getName(),
                 dep.getInsuranceCard() == null ? "N/A" : dep.getInsuranceCard().getCardNumber(),
                 String.valueOf(dep.getClaims().size())
             }, 
@@ -42,15 +42,6 @@ public class DependentData extends TableDataPanel<Dependent> {
     }
 
     @Override
-    protected String getObjectInfo() {
-        StringInfo info = DependentManager.getInstance().get(
-            table.getTableModel().getRow(table.getSelectedRow()).get(1)
-        );
-
-        return info.showInfoBox();
-    }
-
-    @Override
     protected Map<String, String> useHelperText() {
         Map<String, String> helperText = new LinkedHashMap<>();
         helperText.put("Add", "a");
@@ -62,25 +53,11 @@ public class DependentData extends TableDataPanel<Dependent> {
     }
 
     @Override
-    public boolean handleInput(KeyStroke key) {
-        switch (key.getCharacter()) {
-            case 'a':
-                ((WindowBasedTextGUI) getTextGUI()).addWindowAndWait(new DependentForm());
-                update();
-                return true;
-            case 'd':
-                {
-                    String id = table.getTableModel().getRow(table.getSelectedRow()).get(1);
-                    table.getTableModel().removeRow(table.getSelectedRow());
-                    DependentManager.getInstance().delete(id.trim());
-                }
-                return true;
-            case null:
-                break;
-            default:
-                break;
-        }
-        return super.handleInput(key);
+    protected void onAddKeyPressed() {
+        ((WindowBasedTextGUI) getTextGUI()).addWindowAndWait(new DependentForm());
     }
+
+    @Override
+    protected void onEditKeyPressed() {}
 
 }
