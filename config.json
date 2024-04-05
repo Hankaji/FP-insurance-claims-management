@@ -1,0 +1,16 @@
+{
+    "theme": {
+        "pri_bg": "#24283b",
+        "pri_fg": "#a9b1d6",
+
+        "active_bg": "#24283b",
+        "active_fg": "#9ece6a",
+
+        "selected_bg": "#414868",
+        "selected_fg": "#a9b1d6",
+        
+        "highlighted_fg": "#7aa2f7",
+
+        "error_fg": "#f7768e"
+    }
+}

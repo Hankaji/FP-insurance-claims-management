@@ -1,18 +1,26 @@
 package com.hankaji.icm.card;
+/** 
+* @author <Hoang Thai Phuc - s3978081> 
+* @version 1.0
+*
+* Libraries used: Lanterna, Gson, Apache Commons IO
+*/
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-import com.hankaji.icm.customer.Customer;
-import com.hankaji.icm.customer.PolicyHolder;
+import com.hankaji.icm.lib.GsonSerializable;
+import com.hankaji.icm.lib.StringInfo;
+
 
 /**
  * Represents an insurance card.
  */
-public class InsuranceCard {
+public class InsuranceCard implements StringInfo, GsonSerializable {
     private String cardNumber;
-    private Customer cardHolder;
-    private PolicyHolder policyHolder;
-    private Date expirationDate;
+    private String cardHolder;
+    private String policyOwner;
+    private LocalDateTime expirationDate;
 
     /**
      * Constructs an InsuranceCard object with the specified card number, card holder, policy holder, and expiration date.
@@ -22,11 +30,11 @@ public class InsuranceCard {
      * @param policyHolder   the policy holder
      * @param expirationDate the expiration date
      */
-    public InsuranceCard(String cardNumber, Customer cardHolder, PolicyHolder policyHolder, Date expirationDate) {
+    public InsuranceCard(String cardNumber, String cardHolder, String policyHolder, LocalDateTime expirationDate) {
         if (!validateCardNumber(cardNumber));
         this.cardNumber = cardNumber;
         this.cardHolder = cardHolder;
-        this.policyHolder = policyHolder;
+        this.policyOwner = policyHolder;
         this.expirationDate = expirationDate;
     }
 
@@ -68,7 +76,7 @@ public class InsuranceCard {
      *
      * @return the card holder
      */
-    public Customer getCardHolder() {
+    public String getCardHolder() {
         return cardHolder;
     }
 
@@ -77,7 +85,7 @@ public class InsuranceCard {
      *
      * @param cardHolder the card holder to set
      */
-    public void setCardHolder(Customer cardHolder) {
+    public void setCardHolder(String cardHolder) {
         this.cardHolder = cardHolder;
     }
 
@@ -86,8 +94,8 @@ public class InsuranceCard {
      *
      * @return the policy holder
      */
-    public PolicyHolder getPolicyHolder() {
-        return policyHolder;
+    public String getPolicyOwner() {
+        return policyOwner;
     }
 
     /**
@@ -95,8 +103,8 @@ public class InsuranceCard {
      *
      * @param policyHolder the policy holder to set
      */
-    public void setPolicyHolder(PolicyHolder policyHolder) {
-        this.policyHolder = policyHolder;
+    public void setPolicyHolder(String policyHolder) {
+        this.policyOwner = policyHolder;
     }
 
     /**
@@ -104,7 +112,7 @@ public class InsuranceCard {
      *
      * @return the expiration date
      */
-    public Date getExpirationDate() {
+    public LocalDateTime getExpirationDate() {
         return expirationDate;
     }
 
@@ -113,10 +121,53 @@ public class InsuranceCard {
      *
      * @param expirationDate the expiration date to set
      */
-    public void setExpirationDate(Date expirationDate) {
-        if (new Date().compareTo(expirationDate) > 0) {
+    public void setExpirationDate(LocalDateTime expirationDate) {
+        if (expirationDate.isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Expiration date cant be in the past");
         }
         this.expirationDate = expirationDate;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private String cardNumber;
+        private String cardHolder;
+        private String policyOwner;
+        private LocalDateTime expirationDate;
+
+        public Builder setCardNumber(String cardNumber) {
+            this.cardNumber = cardNumber;
+            return this;
+        }
+
+        public Builder setCardHolder(String cardHolder) {
+            this.cardHolder = cardHolder;
+            return this;
+        }
+
+        public Builder setPolicyOwner(String policyOwner) {
+            this.policyOwner = policyOwner;
+            return this;
+        }
+
+        public Builder setExpirationDate(LocalDateTime expirationDate) {
+            this.expirationDate = expirationDate;
+            return this;
+        }
+
+        public InsuranceCard build() {
+            return new InsuranceCard(cardNumber, cardHolder, policyOwner, expirationDate);
+        }
+    }
+
+    @Override
+    public String showInfoBox() {
+        return "Card Number: " + getCardNumber() + "\n" +
+                "Card Holder: " + getCardHolder() + "\n" +
+                "Policy Owner: " + getPolicyOwner() + "\n" +
+                "Expiration Date: " + getExpirationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 }

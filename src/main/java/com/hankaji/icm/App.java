@@ -1,19 +1,29 @@
+package com.hankaji.icm;
 /** 
 * @author <Hoang Thai Phuc - s3978081> 
-*/ 
-package com.hankaji.icm;
+* @version 1.0
+*
+* Libraries used: Lanterna, Gson, Apache Commons IO
+*/
 
 import java.io.IOException;
 
-import com.googlecode.lanterna.SGR;
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
+import com.googlecode.lanterna.TextColor.ANSI;
+import com.googlecode.lanterna.graphics.SimpleTheme;
+import com.googlecode.lanterna.graphics.Theme;
+import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
+import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
+import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.terminal.TerminalResizeListener;
+// import com.hankaji.icm.app.addNewForm.AddDependent;
+import com.hankaji.icm.app.home.Home;
+import com.hankaji.icm.config.Config;
+import com.hankaji.icm.services.ClaimManager;
+import com.hankaji.icm.services.DependentManager;
+import com.hankaji.icm.services.InsuranceCardManager;
+import com.hankaji.icm.services.PolicyHolderManager;
+
+import static com.hankaji.icm.lib.Utils.useHex;
 
 /**
  * The head Application program of the project
@@ -22,77 +32,56 @@ import com.googlecode.lanterna.terminal.TerminalResizeListener;
 public class App  {
     public static void main( String[] args ) {
         DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
+        Screen screen = null;
 
-        Terminal terminal = null;
+        Config conf = Config.load();
+
         try {
-            terminal = defaultTerminalFactory.createTerminal();
-            terminal.enterPrivateMode();
-            terminal.clearScreen();
-            terminal.setCursorVisible(false);
+            // Create screen
+            screen = defaultTerminalFactory.createScreen();
+            screen.startScreen();
 
-            final TextGraphics textGraphics = terminal.newTextGraphics();
+            // Instantiate the MultiWindow Text GUI
+            final WindowBasedTextGUI textGUI = new MultiWindowTextGUI(screen);
 
-            // terminal.addResizeListener(new TerminalResizeListener() {
-            //     @Override
-            //     public void onResized(Terminal terminal, TerminalSize newSize) {
-            //         // Be careful here though, this is likely running on a separate thread. Lanterna is threadsafe in 
-            //         // a best-effort way so while it shouldn't blow up if you call terminal methods on multiple threads, 
-            //         // it might have unexpected behavior if you don't do any external synchronization
-            //         try {
-            //             terminal.clearScreen();
+            // ------------------------------ Theme ------------------------------
+            // load theme from config
+            Config.Theme theme = conf.getTheme();
 
-            //             if (newSize.getColumns() < 50 || newSize.getRows() < 30) {
-            //                 textGraphics.drawLine(0, 0, newSize.getColumns() - 1, newSize.getRows() - 1, ' ');
-            //                 textGraphics.putString(
-            //                     (newSize.getColumns() - 1 - "Terminal Size too small ".length() - newSize.toString().length()) / 2,
-            //                     newSize.getRows() / 2 - 1,
-            //                     "Terminal Size too small ", SGR.BOLD);
-            //                 textGraphics.putString(((newSize.getColumns() - 1 - "Terminal Size too small ".length()) / 2) + "Terminal Size too small ".length(),
-            //                     newSize.getRows() / 2 - 1, newSize.toString());
-            //             }
-                    
-            //             terminal.flush();
-            //         }
-            //         catch(Exception e) {
-            //             // Not much we can do here
-            //             throw new RuntimeException(e);
-            //         }
-            //     }
-            // });
+            // Create default Theme
+            SimpleTheme defaultTheme = new SimpleTheme(useHex(theme.getPriFg()), useHex(theme.getPriBg()));
 
-            textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
-            textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-            textGraphics.putString(2, 1, "ICM - Press ESC to exit", SGR.BOLD);
+            SimpleTheme.Definition defaultThemeDef = defaultTheme.getDefaultDefinition();
+            defaultThemeDef.setSelected(useHex(theme.getSelectedFg()), useHex(theme.getSelectedBg()));
+            defaultThemeDef.setActive(useHex(theme.getActiveFg()), useHex(theme.getActiveBg()));
 
-            textGraphics.setForegroundColor(TextColor.ANSI.DEFAULT);
-            textGraphics.setBackgroundColor(TextColor.ANSI.DEFAULT);
-            textGraphics.putString(5, 3, "Terminal Size: ", SGR.BOLD);
-            textGraphics.putString(5 + "Terminal Size: ".length(), 3, terminal.getTerminalSize().toString());
+            Theme defautBackgroundPane = new SimpleTheme(ANSI.DEFAULT, useHex(theme.getPriBg()));
 
-            KeyStroke key = terminal.readInput();
-            if (key != null && key.getKeyType() == KeyType.Escape) {
-                return;
-            }
 
-            textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
-            textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
-            textGraphics.putString(5, 10, "You pressed: " + key.getCharacter(), SGR.BOLD);
+            textGUI.setTheme(defaultTheme);
+            textGUI.getBackgroundPane().setTheme(defautBackgroundPane);
 
-            terminal.flush();
+            // textGUI.addWindowAndWait(new AddDependent());
+            textGUI.addWindowAndWait(new Home());
 
-            Thread.sleep(10000);
-            
-        } catch(Exception  e) {
+        } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("Error: " + e.getMessage());
         } finally {
-            if(terminal != null) {
+            if (screen != null) {
                 try {
-                    terminal.close();
-                }
-                catch(IOException e) {
+                    screen.close();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+
+            // Save data before exit
+            DependentManager.getInstance().saveData();
+            PolicyHolderManager.getInstance().saveData();
+            InsuranceCardManager.getInstance().saveData();
+            ClaimManager.getInstance().saveData();
         }
+
     }
 }
