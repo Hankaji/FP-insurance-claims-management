@@ -1,5 +1,13 @@
 package com.hankaji.icm.customer;
 
+/** 
+ * The abstract class representing a customer in the insurance claims management system.
+ * 
+ * @author <Hoang Thai Phuc - s3978081> 
+ * @version 1.0
+ *
+ * Libraries used: Lanterna, Gson, Apache Commons IO
+ */
 import java.util.ArrayList;
 
 import com.hankaji.icm.card.InsuranceCard;
@@ -14,6 +22,15 @@ public abstract class Customer implements StringInfo, GsonSerializable {
     private InsuranceCard insuranceCard;
     private ArrayList<Claim> claims;
 
+    /**
+     * Constructs a customer with the specified id, name, insurance card, and claims.
+     * 
+     * @param id the id of the customer in the format of c-numbers
+     * @param name the name of the customer
+     * @param insuranceCard the insurance card of the customer
+     * @param claims the list of claims associated with the customer
+     * @throws IllegalArgumentException if the id is invalid
+     */
     protected Customer(String id, String name, InsuranceCard insuranceCard, ArrayList<Claim> claims) throws IllegalArgumentException {
         validateId(id);
         this.id = id;
@@ -36,26 +53,56 @@ public abstract class Customer implements StringInfo, GsonSerializable {
         return true;
     }
 
+    /**
+     * Returns the id of the customer.
+     * 
+     * @return the id of the customer
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * Returns the name of the customer.
+     * 
+     * @return the name of the customer
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Returns the insurance card of the customer.
+     * 
+     * @return the insurance card of the customer
+     */
     public InsuranceCard getInsuranceCard() {
         return insuranceCard;
     }
 
+    /**
+     * Sets the insurance card of the customer.
+     * 
+     * @param insuranceCard the insurance card to be set
+     */
     public void setInsuranceCard(InsuranceCard insuranceCard) {
         this.insuranceCard = insuranceCard;
     }
 
+    /**
+     * Returns the list of claims associated with the customer.
+     * 
+     * @return the list of claims associated with the customer
+     */
     public ArrayList<Claim> getClaims() {
         return claims;
     }
 
+    /**
+     * Sets the list of claims associated with the customer.
+     * 
+     * @param claims the list of claims to be set
+     */
     public void setClaims(ArrayList<Claim> claims) {
         this.claims = claims;
     }

@@ -1,10 +1,15 @@
 package com.hankaji.icm.services;
+/** 
+* @author <Hoang Thai Phuc - s3978081> 
+* @version 1.0
+*
+* Libraries used: Lanterna, Gson, Apache Commons IO
+*/
 
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,16 +19,27 @@ import com.hankaji.icm.lib.adapter.LocalDateTimeAdapter;
 import com.hankaji.icm.system.CRUD;
 import com.hankaji.icm.system.DataManager;
 
-import static com.hankaji.icm.lib.Utils.isIDExisted;
-
+/**
+ * The InsuranceCardManager class is responsible for managing operations related to InsuranceCard objects.
+ */
 public class InsuranceCardManager extends DataManager<InsuranceCard> implements CRUD<InsuranceCard> {
 
     private static InsuranceCardManager instance;
 
+    /**
+     * Constructs a new InsuranceCardManager object.
+     * It initializes the superclass with the InsuranceCard class and a TypeToken for a Set of InsuranceCard objects.
+     */
     public InsuranceCardManager() {
         super(InsuranceCard.class, new TypeToken<Set<InsuranceCard>>(){});
     }
 
+    /**
+     * Returns the singleton instance of the InsuranceCardManager class.
+     * If the instance is null, it creates a new instance and returns it.
+     * 
+     * @return The singleton instance of the InsuranceCardManager class.
+     */
     public static InsuranceCardManager getInstance() {
         if (instance == null) {
             instance = new InsuranceCardManager();

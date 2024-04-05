@@ -1,4 +1,10 @@
 package com.hankaji.icm.app.home.components;
+/** 
+* @author <Hoang Thai Phuc - s3978081> 
+* @version 1.0
+*
+* Libraries used: Lanterna, Gson, Apache Commons IO
+*/
 
 import static com.hankaji.icm.lib.Utils.useHex;
 
@@ -29,6 +35,9 @@ import com.hankaji.icm.services.DependentManager;
 import com.hankaji.icm.services.InsuranceCardManager;
 import com.hankaji.icm.services.PolicyHolderManager;
 
+/**
+ * A custom panel component that displays the welcome message.
+ */
 public class WelcomePanel extends Panel {
     private final String welcomeMessage = " ___                                             ____ _       _             __  __                                                   _   \n"
             + //
@@ -62,6 +71,11 @@ public class WelcomePanel extends Panel {
 
     private Label helpMessageLabel = new Label(helpMessage);
 
+    /**
+     * Constructs a new WelcomePanel instance with the specified updateHelperText
+     * 
+     * @param updateHelperText the consumer that updates the helper text
+     */
     public WelcomePanel(Consumer<Map<String, String>> updateHelperText) {
         super(Utils.LayoutUtils.createGridLayoutwithCustomMargin(1, 1));
 
@@ -133,6 +147,11 @@ public class WelcomePanel extends Panel {
         return super.handleInput(key);
     }
 
+    /**
+     * Updates the welcome message and help message when the terminal is resized.
+     * 
+     * @param newSize the new terminal size
+     */
     public void onResized(TerminalSize newSize) {
         if (newSize.getColumns() < 145) {
             welcomeMessageLabel.setText(fallbackWelcomeMessage);

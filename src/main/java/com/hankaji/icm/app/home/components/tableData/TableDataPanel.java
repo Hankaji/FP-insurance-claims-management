@@ -1,4 +1,10 @@
 package com.hankaji.icm.app.home.components.tableData;
+/** 
+* @author <Hoang Thai Phuc - s3978081> 
+* @version 1.0
+*
+* Libraries used: Lanterna, Gson, Apache Commons IO
+*/
 
 import java.util.Collection;
 import java.util.List;
@@ -6,6 +12,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.function.Function;
+
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.Border;
 import com.googlecode.lanterna.gui2.Borders;
@@ -26,6 +33,11 @@ import com.hankaji.icm.system.CRUD;
 
 import static com.hankaji.icm.lib.Utils.LayoutUtils.*;
 
+/**
+ * A panel that displays data in a table format.
+ *
+ * @param <T> the type of data to be displayed in the table
+ */
 public abstract class TableDataPanel<T extends GsonSerializable & StringInfo> extends Panel implements HasBorder {
 
     // Fields
@@ -43,12 +55,13 @@ public abstract class TableDataPanel<T extends GsonSerializable & StringInfo> ex
     protected Table<String> table;
 
     /**
-     * @param tableTitles List of table titles
-     * @param rowMapper   Function which take a PocicyHolder and return a String
-     *                    array, which will be used as a row in the table.
-     *                    Array returned must have the same length as the
-     *                    tableTitles
-     * @param data        List of T objects
+     * Constructs a TableDataPanel with the specified table titles, row mapper function, database, and update callbacks.
+     *
+     * @param tableTitles       the list of table titles
+     * @param rowMapper         the function that maps a T object to a string array representing a row in the table
+     * @param db                the database for CRUD operations
+     * @param updateHelperText  the callback function to update the helper text
+     * @param updateInfoBox     the callback function to update the info box
      */
     public <DB extends CRUD<T>> TableDataPanel(
             Collection<String> tableTitles,
@@ -66,7 +79,7 @@ public abstract class TableDataPanel<T extends GsonSerializable & StringInfo> ex
                 true,
                 true));
 
-        // Tabel header
+        // Table header
         Panel tableHeaderPanel = new Panel(createGridLayoutwithCustomMargin(tableTitles.size(), 0));
         for (String title : tableTitles) {
             Label headerLabel = new Label(title);
@@ -109,6 +122,11 @@ public abstract class TableDataPanel<T extends GsonSerializable & StringInfo> ex
         addComponent(table);
     }
 
+    /**
+     * Called when the panel is added to a container.
+     *
+     * @param container the container to which the panel is added
+     */
     @Override
     public synchronized void onAdded(Container container) {
         super.onAdded(container);
@@ -120,12 +138,25 @@ public abstract class TableDataPanel<T extends GsonSerializable & StringInfo> ex
         });
     }
 
+    /**
+     * Returns the helper text to be displayed.
+     *
+     * @return the map of helper text
+     */
     protected abstract Map<String, String> useHelperText();
 
+    /**
+     * Returns the information of the selected object.
+     *
+     * @return the information of the selected object
+     */
     protected String getObjectInfo() {
         return db.getById(table.getTableModel().getRow(table.getSelectedRow()).get(idColumn)).get().showInfoBox();
     };
 
+    /**
+     * Updates the table with the latest data from the database.
+     */
     protected void update() {
         table.getTableModel().clear();
         for (T dep : db.getAll()) {
@@ -135,10 +166,10 @@ public abstract class TableDataPanel<T extends GsonSerializable & StringInfo> ex
     }
 
     /**
-     * Truncate cell if it is longer than the header.
-     * 
-     * @param cells Array of cells
-     * @return Array of truncated cells
+     * Truncates the cell if it is longer than the header.
+     *
+     * @param cells the array of cells
+     * @return the array of truncated cells
      */
     private String[] truncateCell(String[] cells) {
         List<String> cols = table.getTableModel().getColumnLabels();
@@ -164,15 +195,31 @@ public abstract class TableDataPanel<T extends GsonSerializable & StringInfo> ex
         return truncatedCells;
     }
 
+    /**
+     * Returns the panel with a border.
+     *
+     * @return the panel with a border
+     */
     @Override
     public synchronized Border withBorder() {
         return super.withBorder(Borders.doubleLineBevel("Table Data"));
     }
 
+    /**
+     * Returns the table component.
+     *
+     * @return the table component
+     */
     public Table<String> getTable() {
         return table;
     }
 
+    /**
+     * Handles the input key stroke.
+     *
+     * @param key the input key stroke
+     * @return {@code true} if the key stroke is handled, {@code false} otherwise
+     */
     @Override
     public boolean handleInput(KeyStroke key) {
         switch (key.getCharacter()) {
@@ -195,14 +242,19 @@ public abstract class TableDataPanel<T extends GsonSerializable & StringInfo> ex
         return super.handleInput(key);
     }
 
+    /**
+     * Called when the add key is pressed.
+     */
     protected abstract void onAddKeyPressed();
 
+    /**
+     * Called when the edit key is pressed.
+     */
     protected abstract void onEditKeyPressed();
 
     /**
-     * Delete the selected row from the table and the database.
-     * This method use idColumn protected field to get the id of the object to
-     * delete.
+     * Deletes the selected row from the table and the database.
+     * This method uses the idColumn protected field to get the id of the object to delete.
      * Change the idColumn to the column index of the id if needed.
      */
     protected void onDeleteKeyPressed() {

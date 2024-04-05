@@ -1,4 +1,10 @@
 package com.hankaji.icm.app.addNewForm;
+/** 
+* @author <Hoang Thai Phuc - s3978081> 
+* @version 1.0
+*
+* Libraries used: Lanterna, Gson, Apache Commons IO
+*/
 
 import static com.hankaji.icm.lib.Utils.nullOrDefault;
 
@@ -27,6 +33,10 @@ import com.hankaji.icm.services.DependentManager;
 import com.hankaji.icm.services.InsuranceCardManager;
 import com.hankaji.icm.services.PolicyHolderManager;
 
+/**
+ * Represents a form for adding a new claim.
+ * Extends the {@link ProductForm} class.
+ */
 public class ClaimForm extends ProductForm {
 
     // Fields
@@ -61,13 +71,16 @@ public class ClaimForm extends ProductForm {
     final TextBox nameInput = new TextBox().setValidationPattern(Pattern.compile("[A-Za-z ]*"));
     final TextBox numberInput = new TextBox().setValidationPattern(Pattern.compile("[0-9]*"));
 
+    /**
+     * Constructs a new instance of the ClaimForm class.
+     * Calls the parameterized constructor with a null oldClaim.
+     */
     public ClaimForm() {
         this(null);
     }
 
     /**
-     * Add new claim. Oldclaim can be provided to insert placeholder data into the form.
-     * This is useful when editing a claim.
+     * Constructs a new instance of the ClaimForm class with the specified oldClaim.
      * 
      * @param oldClaim the claim to be used as placeholder data
      */
@@ -213,15 +226,33 @@ public class ClaimForm extends ProductForm {
         return true;
     }
 
+    /**
+     * Reformat the document list.
+     * <h4>Example:</h4>
+     * <p>myDoc1 => 1234567890_1234567_myDoc1.pdf</p>
+     * 
+     * @param claimID
+     * @param cardNumber
+     * @param docList
+     * @return
+     */
     private List<String> reformatDoc(String claimID, String cardNumber, List<String> docList) {
         return docList.stream().map(
                 doc -> String.format("%s_%s_%s.pdf", claimID, cardNumber, doc))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    // doc1, doc2, doc3
-    // doc1.pdf, doc2.pdf, doc3.pdf
-    // 1_1_doc1.pdf, 1_1_doc2.pdf, 1_1_doc3.pdf
+    
+    /**
+     * Separate the document list.
+     * 
+     * <h4>Tested format: </h4>
+     * <p> doc1, doc2, doc3 </p>
+     * <p> doc1.pdf, doc2.pdf, doc3.pdf </p>
+     * <p> 1_1_doc1.pdf, 1_1_doc2.pdf, 1_1_doc3.pdf </p>
+     * @param docList
+     * @return
+     */
     private List<String> separateDoc(String docList) {
         if (docList.isBlank())
             return new ArrayList<>();

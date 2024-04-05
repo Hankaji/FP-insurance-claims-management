@@ -1,4 +1,10 @@
 package com.hankaji.icm.app.home;
+/** 
+* @author <Hoang Thai Phuc - s3978081> 
+* @version 1.0
+*
+* Libraries used: Lanterna, Gson, Apache Commons IO
+*/
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -36,10 +42,24 @@ import com.hankaji.icm.customer.PolicyHolder;
 import static com.hankaji.icm.lib.Utils.extendsCollection;
 import static com.hankaji.icm.lib.Utils.LayoutUtils.*;
 
+
 /**
- * The Home class represents the main window of the application.
- * It extends the NoDecorationWindow class and provides functionality
- * for switching between different panels and rendering data panels.
+ * The main window of the insurance claims management application.
+ * It extends the NoDecorationWindow class and provides functionality for switching between panels,
+ * displaying helper text, and handling keyboard events.
+ * 
+ * This window consists of a master panel that contains a layout panel and a help panel.
+ * The layout panel is divided into two sections: the left section contains the menu and the right section
+ * contains the content panel that displays the data.
+ * 
+ * Supports keyboard shortcuts for navigating between panels, closing the application,
+ * displaying information, and showing help messages.
+ * 
+ * The HomeListener class is a WindowListener that listens for keyboard events and handles the input.
+ * It provides methods for switching between panels, closing the application, displaying information,
+ * and showing help messages.
+ * 
+ * @author Thai Phuc
  */
 public class Home extends NoDecorationWindow {
 
@@ -88,6 +108,10 @@ public class Home extends NoDecorationWindow {
 
     TableDataPanel<Claim> claimDataPanel = new ClaimData(this::updateHelperText, this::updateInfoBox);
 
+    /**
+     * Constructs a new Home object with the specified title.
+     * This window is full screen and contains a master panel that contains a layout panel and a help panel.
+     */
     public Home() {
         super("Home");
         setHints(extendsCollection(getHints(), Hint.FULL_SCREEN));
@@ -131,12 +155,22 @@ public class Home extends NoDecorationWindow {
         setComponent(masterPanel);
     }
 
+    /**
+     * Switches to the specified panel.
+     * 
+     * @param newPanel The panel to switch to.
+     */
     private void switchWindow(TableDataPanel<?> newPanel) {
         if (currentDataShown == newPanel)
             return;
         currentDataShown = newPanel;
     }
 
+    /**
+     * Renders the specified panel.
+     * 
+     * @param panelToShow The panel to render.
+     */
     private void renderDataPanel(TableDataPanel<?> panelToShow) {
         layoutPanel.removeAllComponents().addComponent(panelToShow.withBorder().setLayoutData(
                 GridLayout.createLayoutData(
@@ -146,15 +180,30 @@ public class Home extends NoDecorationWindow {
                         true)));
     }
 
+    /**
+     * Switches to the specified panel and renders it.
+     * 
+     * @param newPanel
+     */
     private void switchAndRerender(TableDataPanel<?> newPanel) {
         switchWindow(newPanel);
         renderDataPanel(newPanel);
     }
 
+    /**
+     * Updates the helper text with the specified text.
+     * 
+     * @param helperText The helper text to update.
+     */
     private void updateHelperText(Map<String, String> helperText) {
         panelSpecificHelp.updateHelperText(helperText);
     }
 
+    /**
+     * Updates the information box with the specified information.
+     * 
+     * @param info The information to update.
+     */
     private void updateInfoBox(String info) {
         infoBox.removeAllComponents().addComponent(new Label(info));
     }

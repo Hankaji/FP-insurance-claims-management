@@ -1,4 +1,10 @@
 package com.hankaji.icm.system;
+/** 
+* @author <Hoang Thai Phuc - s3978081> 
+* @version 1.0
+*
+* Libraries used: Lanterna, Gson, Apache Commons IO
+*/
 
 import java.io.File;
 import java.nio.file.NoSuchFileException;
@@ -111,6 +117,12 @@ public abstract class DataManager<T extends GsonSerializable> {
         return true;
     }
     
+    /**
+     * Retrieves the data managed by this DataManager.
+     * Overwrite this method to use custom Gson object.
+     *
+     * @return the data managed by this DataManager
+     */
     protected Gson useGson() {
         Gson gson = new Gson();
         return gson;

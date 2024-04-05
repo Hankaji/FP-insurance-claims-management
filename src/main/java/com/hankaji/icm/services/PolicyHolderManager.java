@@ -1,5 +1,10 @@
 package com.hankaji.icm.services;
-
+/** 
+* @author <Hoang Thai Phuc - s3978081> 
+* @version 1.0
+*
+* Libraries used: Lanterna, Gson, Apache Commons IO
+*/
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -14,14 +19,27 @@ import com.hankaji.icm.lib.adapter.LocalDateTimeAdapter;
 import com.hankaji.icm.system.CRUD;
 import com.hankaji.icm.system.DataManager;
 
+/**
+ * The PolicyHolderManager class is responsible for managing operations related to PolicyHolder objects.
+ */
 public class PolicyHolderManager extends DataManager<PolicyHolder> implements CRUD<PolicyHolder> {
 
     private static PolicyHolderManager instance;
 
+    /**
+     * Constructs a new PolicyHolderManager object.
+     * It initializes the superclass with the PolicyHolder class and a TypeToken for a Set of PolicyHolder objects.
+     */
     public PolicyHolderManager() {
         super(PolicyHolder.class, new TypeToken<Set<PolicyHolder>>(){});
     }
 
+    /**
+     * Returns the singleton instance of the PolicyHolderManager class.
+     * If the instance is null, it creates a new instance and returns it.
+     * 
+     * @return The singleton instance of the PolicyHolderManager class.
+     */
     public static PolicyHolderManager getInstance() {
         if (instance == null) {
             instance = new PolicyHolderManager();

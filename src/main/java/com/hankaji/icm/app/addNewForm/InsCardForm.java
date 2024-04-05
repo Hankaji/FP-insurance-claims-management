@@ -1,10 +1,14 @@
 package com.hankaji.icm.app.addNewForm;
+/** 
+* @author <Hoang Thai Phuc - s3978081> 
+* @version 1.0
+*
+* Libraries used: Lanterna, Gson, Apache Commons IO
+*/
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.googlecode.lanterna.gui2.ComboBox;
 import com.googlecode.lanterna.gui2.TextBox;
@@ -18,6 +22,9 @@ import com.hankaji.icm.services.DependentManager;
 import com.hankaji.icm.services.InsuranceCardManager;
 import com.hankaji.icm.services.PolicyHolderManager;
 
+/**
+ * Represents a form for adding a new insurance card extending the ProductForm class.
+ */
 public class InsCardForm extends ProductForm {
 
     // Fields
@@ -40,6 +47,9 @@ public class InsCardForm extends ProductForm {
 
     final ComboBox<String> inputExpirationDate = new ComboBox<>("1 year", "2 years", "3 years", "4 years", "5 years");
 
+    /**
+     * Constructs a new InsCardForm with the default title "Add new card".
+     */
     public InsCardForm() {
         super("Add new card");
 

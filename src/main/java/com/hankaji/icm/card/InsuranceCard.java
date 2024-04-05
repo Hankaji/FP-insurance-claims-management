@@ -1,10 +1,14 @@
 package com.hankaji.icm.card;
+/** 
+* @author <Hoang Thai Phuc - s3978081> 
+* @version 1.0
+*
+* Libraries used: Lanterna, Gson, Apache Commons IO
+*/
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
-import com.hankaji.icm.customer.Dependent.Builder;
 import com.hankaji.icm.lib.GsonSerializable;
 import com.hankaji.icm.lib.StringInfo;
 

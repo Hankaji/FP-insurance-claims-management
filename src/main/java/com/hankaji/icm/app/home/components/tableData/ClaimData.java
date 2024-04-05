@@ -1,4 +1,10 @@
 package com.hankaji.icm.app.home.components.tableData;
+/** 
+* @author <Hoang Thai Phuc - s3978081> 
+* @version 1.0
+*
+* Libraries used: Lanterna, Gson, Apache Commons IO
+*/
 
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
@@ -14,10 +20,20 @@ import com.hankaji.icm.claim.Claim;
 import com.hankaji.icm.components.ProductForm.ProcessType;
 import com.hankaji.icm.services.ClaimManager;
 
+/**
+ * This class represents a panel that displays claim data in a table format.
+ * It extends the TableDataPanel class and provides specific implementation for claim data.
+ */
 public class ClaimData extends TableDataPanel<Claim> {
 
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+    /**
+     * Constructs a ClaimData object with the specified updateHelperText and updateInfoBox consumers.
+     * 
+     * @param updateHelperText A consumer that updates the helper text.
+     * @param updateInfoBox A consumer that updates the info box.
+     */
     public ClaimData(Consumer<Map<String, String>> updateHelperText, Consumer<String> updateInfoBox) {
         super(List.of(
                 String.format("%-12s", "ID"),

@@ -1,4 +1,10 @@
 package com.hankaji.icm.app.home.components.tableData;
+/** 
+* @author <Hoang Thai Phuc - s3978081> 
+* @version 1.0
+*
+* Libraries used: Lanterna, Gson, Apache Commons IO
+*/
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,8 +18,17 @@ import com.hankaji.icm.app.addNewForm.PolicyHolderForm;
 import com.hankaji.icm.customer.PolicyHolder;
 import com.hankaji.icm.services.PolicyHolderManager;
 
+/**
+ * Represents a panel that displays policy holder data in a table format.
+ */
 public class PolicyHolderData extends TableDataPanel<PolicyHolder> {
 
+    /**
+     * Constructs a new PolicyHolderData panel.
+     * 
+     * @param updateHelperText Consumer function to update the helper text.
+     * @param updateInfoBox    Consumer function to update the info box.
+     */
     public PolicyHolderData(Consumer<Map<String, String>> updateHelperText, Consumer<String> updateInfoBox) {
         super(List.of(
                 String.format("%-12s", "ID"),
@@ -33,11 +48,21 @@ public class PolicyHolderData extends TableDataPanel<PolicyHolder> {
                 updateInfoBox);
     }
 
+    /**
+     * Returns the panel with a border.
+     * 
+     * @return The panel with a border.
+     */
     @Override
     public Border withBorder() {
         return withBorder(Borders.singleLine("[2] Policy Holder"));
     }
 
+    /**
+     * Returns the helper text to be displayed.
+     * 
+     * @return The helper text as a map of action descriptions and corresponding key bindings.
+     */
     @Override
     protected Map<String, String> useHelperText() {
         Map<String, String> helperText = new LinkedHashMap<>();
@@ -49,11 +74,17 @@ public class PolicyHolderData extends TableDataPanel<PolicyHolder> {
         return helperText;
     }
 
+    /**
+     * Opens the PolicyHolderForm window when the add key is pressed.
+     */
     @Override
     protected void onAddKeyPressed() {
         ((WindowBasedTextGUI) getTextGUI()).addWindowAndWait(new PolicyHolderForm());
     }
 
+    /**
+     * Empty method for editing policy holder data.
+     */
     @Override
     protected void onEditKeyPressed() {
     }

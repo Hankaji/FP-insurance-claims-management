@@ -1,4 +1,10 @@
 package com.hankaji.icm.components;
+/** 
+* @author <Hoang Thai Phuc - s3978081> 
+* @version 1.0
+*
+* Libraries used: Lanterna, Gson, Apache Commons IO
+*/
 
 import com.googlecode.lanterna.gui2.Button;
 import com.googlecode.lanterna.gui2.Component;
@@ -14,6 +20,9 @@ import com.hankaji.icm.app.PopupWindow;
 
 import static com.hankaji.icm.lib.Utils.LayoutUtils.createGridLayoutwithCustomMargin;
 
+/**
+ * A form for adding or editing products.
+ */
 public abstract class ProductForm extends PopupWindow {
 
     // Fields
@@ -23,6 +32,11 @@ public abstract class ProductForm extends PopupWindow {
     private Panel masterLayout = new Panel(new LinearLayout(Direction.VERTICAL));
     protected Panel inputFields = new Panel(createGridLayoutwithCustomMargin(2, 1, 0).setHorizontalSpacing(3));
 
+    /**
+     * Constructs a ProductForm object with the specified title.
+     * 
+     * @param title the title of the form
+     */
     public ProductForm(String title) {
         super(title);
 
@@ -84,6 +98,12 @@ public abstract class ProductForm extends PopupWindow {
         setComponent(masterLayout);
     }
 
+    /**
+     * Adds a field to the form with the specified field name and input component.
+     * 
+     * @param fieldName the name of the field
+     * @param input the input component for the field
+     */
     protected void addField(String fieldName, Component input) {
         inputFields.addComponent(new Label(fieldName).setLayoutData(
                 GridLayout.createHorizontallyFilledLayoutData()));
@@ -92,31 +112,38 @@ public abstract class ProductForm extends PopupWindow {
         inputFields.addComponent(input);
     }
 
+    /**
+     * This method is called when the form is submitted.
+     * Subclasses must override this method to handle form submission.
+     * 
+     * @return true if the form submission is successful, false otherwise
+     * @throws Exception if an error occurs during form submission
+     */
     protected abstract boolean onSubmit() throws Exception;
 
     /**
      * Override this method to allow editing.
-     * This method is called when the form is submitted
+     * This method is called when the form is submitted.
      * 
-     * @return true if the form is editable
+     * @return true if the form is editable, false otherwise
+     * @throws Exception if an error occurs during form submission
      */
     protected boolean onEdit() throws Exception {
         return false;
     }
 
+    /**
+     * Returns the type of the form.
+     * 
+     * @return the type of the form
+     */
     public ProcessType getType() {
         return type;
     }
 
     /**
-     * <p> Set the type of the form. </p>
-     * <p> This is used to determine the action to be taken when the form is submitted. </p>
-     * 
-     * <h4> Add mode: </h4>
-     * <p> This is the default type. It is used to add new data. Class must overrive method onSubmit() in order for this to work </p>
-     * 
-     * <h4> Edit mode: </h4>
-     * <p> This is used to edit existing data. Class must override method onEdit() and editdata() in order for this to work </p>
+     * Sets the type of the form.
+     * This is used to determine the action to be taken when the form is submitted.
      * 
      * @param type the type of the form, default is ADD
      */
@@ -124,6 +151,10 @@ public abstract class ProductForm extends PopupWindow {
         this.type = type;
     }
 
+    /**
+     * Process type of the form.
+     * When using EDIT, onEdit() method will be called instead of onSubmit().
+     */
     public static enum ProcessType {
         ADD,
         EDIT

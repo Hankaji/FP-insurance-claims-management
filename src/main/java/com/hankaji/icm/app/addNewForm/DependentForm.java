@@ -1,5 +1,10 @@
 package com.hankaji.icm.app.addNewForm;
-
+/** 
+* @author <Hoang Thai Phuc - s3978081> 
+* @version 1.0
+*
+* Libraries used: Lanterna, Gson, Apache Commons IO
+*/
 import java.util.regex.Pattern;
 
 import com.googlecode.lanterna.gui2.ComboBox;
@@ -11,6 +16,9 @@ import com.hankaji.icm.lib.ID;
 import com.hankaji.icm.services.DependentManager;
 import com.hankaji.icm.services.InsuranceCardManager;
 
+/** 
+ * Form for adding a new dependent which extends the ProductForm class.
+ */
 public class DependentForm extends ProductForm {
 
     // Fields
@@ -21,10 +29,18 @@ public class DependentForm extends ProductForm {
 
     final ComboBox<String> cardList = new ComboBox<String>();
 
+    /**
+     * Constructs a new DependentForm with the default title "Add new dependent".
+     */
     public DependentForm() {
         this("Add new dependent");
     }
 
+    /**
+     * Constructs a new DependentForm with the specified title.
+     * 
+     * @param title the title of the form
+     */
     protected DependentForm(String title) {
         super(title);
 
@@ -43,6 +59,14 @@ public class DependentForm extends ProductForm {
         addField("Select insurance card", cardList);
     }
 
+    /**
+     * Overrides the onSubmit method from the ProductForm class.
+     * This method is called when the form is submitted.
+     * It adds a new dependent to the database and updates the selected insurance card.
+     * 
+     * @return true if the form submission is successful, false otherwise
+     * @throws Exception if the name is empty
+     */
     @Override
     protected boolean onSubmit() throws Exception {
         DependentManager db = DependentManager.getInstance();

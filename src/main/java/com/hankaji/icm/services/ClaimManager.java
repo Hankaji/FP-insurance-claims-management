@@ -1,9 +1,13 @@
 package com.hankaji.icm.services;
+/** 
+* @author <Hoang Thai Phuc - s3978081> 
+* @version 1.0
+*
+* Libraries used: Lanterna, Gson, Apache Commons IO
+*/
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -15,15 +19,28 @@ import com.hankaji.icm.lib.adapter.LocalDateTimeAdapter;
 import com.hankaji.icm.system.CRUD;
 import com.hankaji.icm.system.DataManager;
 
+/**
+ * The ClaimManager class is responsible for managing operations related to Claim objects.
+ */
 public class ClaimManager extends DataManager<Claim> implements CRUD<Claim> {
 
     private static ClaimManager instance;
 
+    /**
+     * Constructs a new ClaimManager object.
+     * It initializes the superclass with the Claim class and a TypeToken for a Set of Claim objects.
+     */
     public ClaimManager() {
         super(Claim.class, new TypeToken<Set<Claim>>() {
         });
     }
 
+    /**
+     * Returns the singleton instance of the ClaimManager class.
+     * If the instance is null, it creates a new instance and returns it.
+     * 
+     * @return The singleton instance of the ClaimManager class.
+     */
     public static ClaimManager getInstance() {
         if (instance == null) {
             instance = new ClaimManager();

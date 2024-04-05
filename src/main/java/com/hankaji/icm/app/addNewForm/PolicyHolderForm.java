@@ -1,4 +1,10 @@
 package com.hankaji.icm.app.addNewForm;
+/** 
+* @author <Hoang Thai Phuc - s3978081> 
+* @version 1.0
+*
+* Libraries used: Lanterna, Gson, Apache Commons IO
+*/
 
 import java.util.ArrayList;
 
@@ -13,6 +19,9 @@ import com.hankaji.icm.lib.ID;
 import com.hankaji.icm.services.DependentManager;
 import com.hankaji.icm.services.PolicyHolderManager;
 
+/**
+ * Represents a form for adding a new policy holder which extends the DependentForm class.
+ */
 public class PolicyHolderForm extends DependentForm {
 
     // Fields
@@ -25,6 +34,9 @@ public class PolicyHolderForm extends DependentForm {
 
     Button openCheckList;
 
+    /**
+     * Constructs a new PolicyHolderForm with the default title "Add new policy holder".
+     */
     public PolicyHolderForm() {
         super("Add new policy holder");
 
@@ -54,6 +66,9 @@ public class PolicyHolderForm extends DependentForm {
         return true;
     }
 
+    /**
+     * A popup window that displays a list of dependents to select from.
+     */
     private class DepCheckList extends PopupWindow {
 
         // Components
