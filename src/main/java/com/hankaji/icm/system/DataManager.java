@@ -61,6 +61,16 @@ public abstract class DataManager<T extends GsonSerializable> {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> saveData()));
 
         // Load data from file
+        loadData();
+    }
+
+    /**
+     * Retrieves the data managed by this DataManager.
+     *
+     * @return the data managed by this DataManager
+     */
+    public void loadData() {
+        // Load data from file
         try {
             // Create the data folder if it does not exist
             Utils.createFolders(new String[] { "./data" });

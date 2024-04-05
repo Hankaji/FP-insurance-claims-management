@@ -2,9 +2,13 @@ package com.hankaji.icm.app.home.components;
 
 import static com.hankaji.icm.lib.Utils.useHex;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Consumer;
+
+import org.apache.commons.io.FileUtils;
 
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TerminalSize;
@@ -20,6 +24,10 @@ import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.hankaji.icm.config.Config;
 import com.hankaji.icm.lib.Utils;
+import com.hankaji.icm.services.ClaimManager;
+import com.hankaji.icm.services.DependentManager;
+import com.hankaji.icm.services.InsuranceCardManager;
+import com.hankaji.icm.services.PolicyHolderManager;
 
 public class WelcomePanel extends Panel {
     private final String welcomeMessage = " ___                                             ____ _       _             __  __                                                   _   \n"
@@ -100,6 +108,18 @@ public class WelcomePanel extends Panel {
                         MessageDialogButton.Continue);
                 switch (confirmation) {
                     case Continue:
+                        // Populate the database
+                        // Copy all files in ./data/default to ./data
+                        try {
+                            FileUtils.copyDirectory(new File("./data/default"), new File("./data"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            System.out.println("Error populating the database");
+                        }
+                        DependentManager.getInstance().loadData();
+                        PolicyHolderManager.getInstance().loadData();
+                        InsuranceCardManager.getInstance().loadData();
+                        ClaimManager.getInstance().loadData();
                         break;
                     default:
                         break;
