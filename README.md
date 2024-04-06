@@ -25,21 +25,44 @@ An insurance claims management console application project built with java for F
 
 ## Installation guide
 
-### Run from source
-
 First clone this git repository:
 ```bash
 $ git clone https://github.com/Hankaji/FP-insurance-claims-management.git
 ```
 
-Install dependencies
+Then `cd` into the project folder
+
 ```bash
-$ mvn install
+$ cd ./FP-insurance-claims-management/
 ```
 
-Run the source file
+Install dependencies
 ```bash
-$ mvn exec:java
+$ mvn clean install  # With maven installed
+$ ./mvnw clean install  # Without maven installed (Use ./mvnw.cmd if you're on Window)
+```
+
+### Run source code
+
+```bash
+$ mvn exec:java # With maven installed
+$ ./mvnw exec:java # Without maven installed (Use ./mvnw.cmd if you're on Window)
+```
+
+### Build executeable jar
+
+First bundle source code using maven assembly
+
+```bash
+$ mvn clean compile assembly:single # With maven installed
+$ ./mvnw clean compile assembly:single # Without maven installed (Use ./mvnw.cmd if you're on Window)
+```
+
+Run executable jar
+
+```bash
+$ cd ./target
+$ java -jar target/insurance-claims-management-1.0-jar-with-dependencies.jar
 ```
 
 ## Usage
@@ -56,3 +79,7 @@ $ mvn exec:java
 | `d`       | Delete data                       |
 | `e`       | Edit data                         |
 | `s`       | Set status to `DONE`              |
+
+## Note
+
+For best experience, it is suggested to run this program in a separated terminal window and use terminal that support 256bit colors. Please also make terminal size as big as possible (or better, full screen)
