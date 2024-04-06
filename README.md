@@ -62,7 +62,7 @@ Run executable jar
 
 ```bash
 $ cd ./target
-$ java -jar target/insurance-claims-management-1.0-jar-with-dependencies.jar
+$ java -jar ./insurance-claims-management-1.0-jar-with-dependencies.jar
 ```
 
 ## Usage
