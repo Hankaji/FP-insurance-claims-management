@@ -63,9 +63,9 @@ public class ClaimForm extends ProductForm {
     final TextBox claimAmountInput = new TextBox().setValidationPattern(Pattern.compile("[0-9]*"));
 
     final ComboBox<Claim.Status> status = new ComboBox<>(
-            Claim.Status.PENDING,
-            Claim.Status.APPROVED,
-            Claim.Status.REJECTED);
+            Claim.Status.NEW,
+            Claim.Status.PROCESSING,
+            Claim.Status.DONE);
 
     final TextBox bankInput = new TextBox().setValidationPattern(Pattern.compile("[A-Za-z ]*"));
     final TextBox nameInput = new TextBox().setValidationPattern(Pattern.compile("[A-Za-z ]*"));
@@ -122,7 +122,7 @@ public class ClaimForm extends ProductForm {
 
         // Status
         addField("Status", status);
-        status.setSelectedItem(nullOrDefault(() -> oldClaim.getStatus(), Claim.Status.PENDING));
+        status.setSelectedItem(nullOrDefault(() -> oldClaim.getStatus(), Claim.Status.NEW));
 
         // Separator
         inputFields.addComponent(new Separator(Direction.HORIZONTAL).setLayoutData(
@@ -231,10 +231,10 @@ public class ClaimForm extends ProductForm {
      * <h4>Example:</h4>
      * <p>myDoc1 => 1234567890_1234567_myDoc1.pdf</p>
      * 
-     * @param claimID
-     * @param cardNumber
-     * @param docList
-     * @return
+     * @param claimID The id of the claim
+     * @param cardNumber The card number
+     * @param docList The list of documents
+     * @return The reformatted list of documents
      */
     private List<String> reformatDoc(String claimID, String cardNumber, List<String> docList) {
         return docList.stream().map(
@@ -250,8 +250,9 @@ public class ClaimForm extends ProductForm {
      * <p> doc1, doc2, doc3 </p>
      * <p> doc1.pdf, doc2.pdf, doc3.pdf </p>
      * <p> 1_1_doc1.pdf, 1_1_doc2.pdf, 1_1_doc3.pdf </p>
-     * @param docList
-     * @return
+     * 
+     * @param docList The list of documents
+     * @return The separated list of documents
      */
     private List<String> separateDoc(String docList) {
         if (docList.isBlank())

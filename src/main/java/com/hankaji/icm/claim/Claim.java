@@ -347,9 +347,9 @@ public class Claim implements StringInfo, GsonSerializable {
      * The status of the claim.
      */
     public static enum Status {
-        PENDING,
-        APPROVED,
-        REJECTED
+        NEW,
+        PROCESSING,
+        DONE
     }
 
 }

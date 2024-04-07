@@ -83,7 +83,7 @@ public class ClaimData extends TableDataPanel<Claim> {
         switch (key.getCharacter()) {
             case 's': {
                 String id = table.getTableModel().getRow(table.getSelectedRow()).get(0);
-                ClaimManager.getInstance().getById(id.trim()).get().setStatus(Claim.Status.REJECTED);
+                ClaimManager.getInstance().getById(id.trim()).get().setStatus(Claim.Status.DONE);
                 update();
             }
                 return true;
