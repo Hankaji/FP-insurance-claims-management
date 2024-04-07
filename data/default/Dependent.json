@@ -20,7 +20,7 @@
                     "f-1044600124_8301892336_brokenArm.pdf"
                 ],
                 "claimAmount": 20000,
-                "status": "PENDING",
+                "status": "NEW",
                 "receiverBankingInfo": "ACB-Aurora-20576981"
             }
         ]
@@ -45,7 +45,7 @@
                     "f-2946517083_1870946934_scratchedHand.pdf"
                 ],
                 "claimAmount": 10000,
-                "status": "PENDING",
+                "status": "NEW",
                 "receiverBankingInfo": "Chase-Marcus-1870946934"
             }
         ]
@@ -88,7 +88,7 @@
                     "f-9476820351_2563808852_scratchedHand.pdf"
                 ],
                 "claimAmount": 13500,
-                "status": "APPROVED",
+                "status": "PROCESSING",
                 "receiverBankingInfo": "ACB-Lily-2563808852"
             }
         ]
@@ -120,7 +120,7 @@
             "f-7205368912_9894280680_cutForehead.pdf"
         ],
         "claimAmount": 17500,
-        "status": "PENDING",
+        "status": "NEW",
         "receiverBankingInfo": "Bank of America-Isabella-9894280680"
             },
             {
@@ -134,7 +134,7 @@
                     "f-6854120937_9894280680_fracturedLeg.pdf"
                 ],
                 "claimAmount": 16500,
-                "status": "REJECTED",
+                "status": "DONE",
                 "receiverBankingInfo": "Chase-Isabella-9894280680"
             },
             {
@@ -148,7 +148,7 @@
                     "f-8392715062_9894280680_bruisedArm.pdf"
                 ],
                 "claimAmount": 15500,
-                "status": "PENDING",
+                "status": "NEW",
                 "receiverBankingInfo": "Bank of America-Isabella-9894280680"
             },
             {
@@ -161,7 +161,7 @@
                     "f-9057432816_9894280680_twistedAnkle.pdf"
                 ],
                 "claimAmount": 8000,
-                "status": "APPROVED",
+                "status": "PROCESSING",
                 "receiverBankingInfo": "ACB-Isabella-9894280680"
             }
         ]
@@ -188,7 +188,7 @@
                     "f-8302196405_7392086747_bruisedArm.pdf"
                 ],
                 "claimAmount": 18500,
-                "status": "PENDING",
+                "status": "NEW",
                 "receiverBankingInfo": "Bank of America-Tristan Storm-8301892336"
             }
         ]
@@ -219,7 +219,7 @@
                     "f-1567849230_7724636815_bruisedBack.pdf"
                 ],
                 "claimAmount": 12000,
-                "status": "APPROVED",
+                "status": "PROCESSING",
                 "receiverBankingInfo": "HSBC-Desmond-7724636815"
             },
             {
@@ -232,7 +232,7 @@
                     "f-3598014726_7724636815_scratchedHand.pdf"
                 ],
                 "claimAmount": 22000,
-                "status": "PENDING",
+                "status": "NEW",
                 "receiverBankingInfo": "HSBC-Desmond-7724636815"
             }
         ]
@@ -268,7 +268,7 @@
                     "f-4583201976_4350215448_sprainedAnkle.pdf"
                 ],
                 "claimAmount": 10500,
-                "status": "REJECTED",
+                "status": "DONE",
                 "receiverBankingInfo": "Citi-Elara-20576981"
             }
         ]

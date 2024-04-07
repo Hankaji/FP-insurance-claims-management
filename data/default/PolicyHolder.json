@@ -67,7 +67,7 @@
                     "f-5839204761_6941166682_burnedArm.pdf"
                 ],
                 "claimAmount": 10000,
-                "status": "REJECTED",
+                "status": "DONE",
                 "receiverBankingInfo": "Wells Fargo-Jessica-6941166682"
             }
         ]
@@ -97,7 +97,7 @@
                     "f-7326514890_5277375920_bruisedBack.pdf"
                 ],
                 "claimAmount": 9500,
-                "status": "PENDING",
+                "status": "NEW",
                 "receiverBankingInfo": "Chase-Christopher Jones-8301892336"
             }
         ]
@@ -204,7 +204,7 @@
                     "f-5278103946_5602850070_fracturedLeg.pdf"
                 ],
                 "claimAmount": 9000,
-                "status": "APPROVED",
+                "status": "PROCESSING",
                 "receiverBankingInfo": "HSBC-Madison-5602850070"
             },
             {
@@ -219,7 +219,7 @@
                     "f-6894321057_5602850070_scratchedHand.pdf"
                 ],
                 "claimAmount": 12000,
-                "status": "REJECTED",
+                "status": "DONE",
                 "receiverBankingInfo": "HSBC-Madison-5602850070"
             }
         ]

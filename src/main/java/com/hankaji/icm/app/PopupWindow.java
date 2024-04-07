@@ -49,7 +49,7 @@ public class PopupWindow extends DefaultWindow {
         // Put string "Exit window: q" at the bottom right corner
         graphics.putString(
                 graphics.getSize().getColumns() - hint.length() - 1,
-                graphics.getSize().getRows() - 1,
+                graphics.getSize().getRows(),
                 hint);
     }
 
