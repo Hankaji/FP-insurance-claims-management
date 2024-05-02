@@ -7,9 +7,6 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
-import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.gui2.GridLayout;
-
 /**
  * Utility class containing various helper methods.
  */
@@ -30,16 +27,6 @@ public class Utils {
             newCollection.add(element);
         }
         return newCollection;
-    }
-
-    /**
-     * Creates a TextColor object from a hexadecimal color value.
-     *
-     * @param value The hexadecimal color value
-     * @return The TextColor object representing the color
-     */
-    public static TextColor useHex(String value) {
-        return TextColor.Factory.fromString(value);
     }
 
     /**
@@ -107,54 +94,6 @@ public class Utils {
      */
     public static Optional<String> extractFromStr(Pattern pattern, String str) {
         return Optional.ofNullable(pattern.matcher(str).group(1));
-    }
-
-    /**
-     * Utility class for creating Grid Layouts with custom margins.
-     */
-    public static class LayoutUtils {
-
-        /**
-         * Creates a GridLayout with custom margins.
-         *
-         * @param cols          The number of columns in the grid
-         * @param marginTop     The top margin size
-         * @param marginRight   The right margin size
-         * @param marginBottom  The bottom margin size
-         * @param marginLeft    The left margin size
-         * @return The created GridLayout
-         */
-        public static GridLayout createGridLayoutwithCustomMargin(int cols, int marginTop, int marginRight, int marginBottom, int marginLeft) {
-            return new GridLayout(cols)
-                    .setTopMarginSize(marginTop)
-                    .setRightMarginSize(marginRight)
-                    .setBottomMarginSize(marginBottom)
-                    .setLeftMarginSize(marginLeft);
-        }
-
-        /**
-         * Creates a GridLayout with custom horizontal and vertical margins.
-         *
-         * @param cols            The number of columns in the grid
-         * @param marginHorizontal The horizontal margin size
-         * @param marginVertical   The vertical margin size
-         * @return The created GridLayout
-         */
-        public static GridLayout createGridLayoutwithCustomMargin(int cols, int marginHorizontal, int marginVertical) {
-            return createGridLayoutwithCustomMargin(cols, marginVertical, marginHorizontal, marginVertical, marginHorizontal);
-        }
-
-        /**
-         * Creates a GridLayout with custom margins.
-         *
-         * @param cols   The number of columns in the grid
-         * @param margin The margin size
-         * @return The created GridLayout
-         */
-        public static GridLayout createGridLayoutwithCustomMargin(int cols, int margin) {
-            return createGridLayoutwithCustomMargin(cols, margin, margin);
-        }
-
     }
 
 }
