@@ -136,18 +136,4 @@ public class PolicyHolder extends Customer {
 
     }
 
-    /**
-     * Returns a string representation of the policy holder's information.
-     *
-     * @return a string representation of the policy holder's information
-     */
-    @Override
-    public String showInfoBox() {
-        return "Name: " + getName() + "\n" +
-                "ID: " + getId() + "\n" +
-                "Insurance Card: " + getInsuranceCard() + "\n" +
-                "Dependents: " + getDependents() +
-                getClaims().stream().map(Claim::getId).reduce("", (a, b) -> a + "\n" + b);
-    }
-
 }

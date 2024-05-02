@@ -102,17 +102,4 @@ public class Dependent extends Customer {
 
     }
 
-    /**
-     * Returns a string representation of the dependent's information.
-     *
-     * @return a string representation of the dependent's information
-     */
-    @Override
-    public String showInfoBox() {
-        return "Name: " + getName() + "\n" +
-                "ID: " + getId() + "\n" +
-                "Insurance Card: " + (getInsuranceCard() == null ? "N/A" : getInsuranceCard().getCardNumber()) +
-                getClaims().stream().map(Claim::getId).reduce("", (a, b) -> a + "\n" + b);
-    }
-
 }

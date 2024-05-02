@@ -10,13 +10,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import com.hankaji.icm.lib.GsonSerializable;
-import com.hankaji.icm.lib.StringInfo;
 
 
 /**
  * Represents an insurance claim.
  */
-public class Claim implements StringInfo, GsonSerializable {
+public class Claim implements GsonSerializable {
     private final String id;
     private final LocalDateTime claimDate;
     private final String insuredPerson;
@@ -328,19 +327,6 @@ public class Claim implements StringInfo, GsonSerializable {
             return new Claim(id, claimDate, insuredPerson, cardNumber, examDate, documents, claimAmount, status,
                     receiverBankingInfo);
         }
-    }
-
-    @Override
-    public String showInfoBox() {
-        return "ID: " + getId() + "\n\n" +
-                "Claim Date: " + getClaimDate() + "\n\n" +
-                "Insured Person: " + getInsuredPerson() + "\n\n" +
-                "Card Number: " + getCardNumber() + "\n\n" +
-                "Exam Date: " + getExamDate() + "\n\n" +
-                "Documents: " + getDocuments().stream().reduce("", (a, b) -> a + "\n\t" + b) + "\n\n" +
-                "Claim Amount: " + getClaimAmount() + "\n\n" +
-                "Status: " + getStatus() + "\n\n" +
-                "Receiver Banking Info: " + getReceiverBankingInfo();
     }
 
     /**

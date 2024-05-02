@@ -10,13 +10,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import com.hankaji.icm.lib.GsonSerializable;
-import com.hankaji.icm.lib.StringInfo;
-
 
 /**
  * Represents an insurance card.
  */
-public class InsuranceCard implements StringInfo, GsonSerializable {
+public class InsuranceCard implements GsonSerializable {
     private String cardNumber;
     private String cardHolder;
     private String policyOwner;
@@ -163,11 +161,4 @@ public class InsuranceCard implements StringInfo, GsonSerializable {
         }
     }
 
-    @Override
-    public String showInfoBox() {
-        return "Card Number: " + getCardNumber() + "\n" +
-                "Card Holder: " + getCardHolder() + "\n" +
-                "Policy Owner: " + getPolicyOwner() + "\n" +
-                "Expiration Date: " + getExpirationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-    }
 }
