@@ -1,4 +1,5 @@
 package com.hankaji.icm.card;
+
 /** 
 * @author <Hoang Thai Phuc - s3978081> 
 * @version 1.0
@@ -7,8 +8,6 @@ package com.hankaji.icm.card;
 */
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import com.hankaji.icm.lib.GsonSerializable;
 
 /**
@@ -21,7 +20,8 @@ public class InsuranceCard implements GsonSerializable {
     private LocalDateTime expirationDate;
 
     /**
-     * Constructs an InsuranceCard object with the specified card number, card holder, policy holder, and expiration date.
+     * Constructs an InsuranceCard object with the specified card number, card
+     * holder, policy holder, and expiration date.
      *
      * @param cardNumber     the card number
      * @param cardHolder     the card holder
@@ -29,7 +29,8 @@ public class InsuranceCard implements GsonSerializable {
      * @param expirationDate the expiration date
      */
     public InsuranceCard(String cardNumber, String cardHolder, String policyHolder, LocalDateTime expirationDate) {
-        if (!validateCardNumber(cardNumber));
+        if (!validateCardNumber(cardNumber))
+            ;
         this.cardNumber = cardNumber;
         this.cardHolder = cardHolder;
         this.policyOwner = policyHolder;
