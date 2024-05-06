@@ -47,6 +47,18 @@
         <artifactId>materialfx</artifactId>
         <version>11.17.0</version>
     </dependency>
+    <!-- Postgres Driver -->
+    <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>42.7.3</version>
+    </dependency>
+    <!-- JavaFX -->
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-controls</artifactId>
+        <version>22.0.1</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -124,18 +136,11 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.5.0</version>
         </plugin>
-        <!-- Maven exec -->
+        <!-- JavaFX Plugin -->
         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>3.2.0</version>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>java</goal>
-                    </goals>
-                </execution>
-            </executions>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-maven-plugin</artifactId>
+            <version>0.0.8</version>
             <configuration>
                 <mainClass>com.hankaji.icm.App</mainClass>
             </configuration>
