@@ -14,7 +14,7 @@ import java.util.Set;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.hankaji.icm.customer.Dependent;
+import com.hankaji.icm.models.customer.Dependent;
 import com.hankaji.icm.lib.adapter.LocalDateTimeAdapter;
 import com.hankaji.icm.system.CRUD;
 import com.hankaji.icm.system.DataManager;

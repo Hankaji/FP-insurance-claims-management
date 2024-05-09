@@ -1,4 +1,4 @@
-package com.hankaji.icm.customer;
+package com.hankaji.icm.models.customer;
 /** 
 * @author <Hoang Thai Phuc - s3978081> 
 * @version 1.0
@@ -8,8 +8,8 @@ package com.hankaji.icm.customer;
 
 import java.util.ArrayList;
 
-import com.hankaji.icm.card.InsuranceCard;
-import com.hankaji.icm.claim.Claim;
+import com.hankaji.icm.models.Claim;
+import com.hankaji.icm.models.InsuranceCard;
 
 /**
  * Represents a dependent customer in the insurance claims management system.
