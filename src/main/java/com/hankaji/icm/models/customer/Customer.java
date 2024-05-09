@@ -1,4 +1,4 @@
-package com.hankaji.icm.customer;
+package com.hankaji.icm.models.customer;
 
 /** 
  * The abstract class representing a customer in the insurance claims management system.
@@ -10,8 +10,8 @@ package com.hankaji.icm.customer;
  */
 import java.util.ArrayList;
 
-import com.hankaji.icm.card.InsuranceCard;
-import com.hankaji.icm.claim.Claim;
+import com.hankaji.icm.models.Claim;
+import com.hankaji.icm.models.InsuranceCard;
 import com.hankaji.icm.lib.GsonSerializable;
 
 public abstract class Customer implements GsonSerializable {
