@@ -18,3 +18,5 @@ data/*.json
 UML
 
 .java-version
+
+.idea
