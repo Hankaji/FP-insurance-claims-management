@@ -1,0 +1,18 @@
+.sidebar {
+    -fx-background-color: #232c3c;
+}
+
+.button {
+    -fx-background-color: transparent !important;
+    -fx-border-radius: 4 !important;
+    -fx-font-weight: bold !important;
+    -fx-font-size: 14 !important;
+
+    -fx-text-fill: #ffffff !important;
+    -fx-alignment: center-left !important;
+}
+
+#avatar {
+    -fx-background-image: url('https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/114131672/original/5f03e84975a3e52c91166d03b89c6af7e061ca44/send-you-a-random-meme-image-that-will-tickle-your-fancy.jpg');
+    -fx-background-position: center center;
+}

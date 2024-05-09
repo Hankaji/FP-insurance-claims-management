@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane id="RootView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <VBox alignment="TOP_CENTER" prefHeight="580.0" spacing="12.0" styleClass="sidebar" stylesheets="@../styles/style.css" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER_LEFT">
+               <children>
+                  <Label text="ICMS" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <MFXButton maxWidth="1.7976931348623157E308" styleClass="icm-button" stylesheets="@../styles/style.css" text="Dashboard">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </MFXButton>
+            <MFXButton layoutX="22.0" layoutY="63.0" maxWidth="1.7976931348623157E308" styleClass="icm-button" stylesheets="@../styles/style.css" text="Insurances">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </MFXButton>
+            <MFXButton alignment="CENTER" layoutX="22.0" layoutY="548.0" maxWidth="1.7976931348623157E308" styleClass="icm-button" stylesheets="@../styles/style.css" text="Setting">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </MFXButton>
+            <VBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="8.0">
+                     <children>
+                        <Circle fx:id="avatar" fill="WHITE" radius="12.0" stroke="#c1c1c1" strokeType="INSIDE" />
+                        <MFXButton alignment="CENTER" style="-fx-padding: 0;" styleClass="icm-button" stylesheets="@../styles/style.css" text="Logout">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+               </children></VBox>
+         </children>
+         <padding>
+            <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+         </padding>
+      </VBox>
+   </left>
+</BorderPane>
