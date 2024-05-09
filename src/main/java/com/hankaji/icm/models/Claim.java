@@ -1,4 +1,4 @@
-package com.hankaji.icm.claim;
+package com.hankaji.icm.models;
 /** 
 * @author <Hoang Thai Phuc - s3978081> 
 * @version 1.0

@@ -21,7 +21,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         
-        Scene scene = new Scene(new LogInPage(), 640, 480);
+        Scene scene = new Scene(new LogInPage(), 1024, 580);
 
         stage.setTitle("Insurance Claim Management System");
         stage.setScene(scene);

@@ -34,7 +34,6 @@
         <artifactId>gson</artifactId>
         <version>2.10.1</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
     <!-- Common IO -->
     <dependency>
         <groupId>commons-io</groupId>
