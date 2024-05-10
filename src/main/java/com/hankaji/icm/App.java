@@ -6,6 +6,7 @@ package com.hankaji.icm;
 * Libraries used: JavaFX, MaterialFX
 */
 
+import com.hankaji.icm.views.DependentsHomePage;
 import com.hankaji.icm.views.LogInPage;
 
 import javafx.application.Application;
@@ -20,11 +21,16 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        
-        Scene scene = new Scene(new LogInPage(), 640, 480);
+
+//        Scene scene = new Scene(new LogInPage(), 640, 480);
+        Scene dependentsScene = new Scene(new DependentsHomePage(), 1000, 500);
 
         stage.setTitle("Insurance Claim Management System");
-        stage.setScene(scene);
+//        stage.setScene(scene);
+        stage.setScene(dependentsScene);
+        stage.setMinWidth(1000);
+        stage.setMinHeight(500);
+//        stage.setFullScreen(true);
         stage.show();
     }
     public static void main( String[] args ) {
