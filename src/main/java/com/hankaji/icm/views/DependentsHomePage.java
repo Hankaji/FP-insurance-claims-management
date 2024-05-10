@@ -1,5 +1,6 @@
 package com.hankaji.icm.views;
 
+import com.hankaji.icm.views.components.ClaimForm;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.geometry.Insets;
@@ -91,7 +92,7 @@ public class DependentsHomePage extends HBox {
         VBox rightPart = new VBox();
 
         // Styling the right part
-        rightPart.setPadding(new Insets(16));
+        rightPart.setPadding(new Insets(8));
 
         // Set the width of the right part to be 80% of the parent width
         rightPart.prefWidthProperty().bind(this.widthProperty().multiply(0.8));
@@ -114,26 +115,8 @@ public class DependentsHomePage extends HBox {
         // Styling for the title
         firstRowTitle.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 24));
 
-        // Create a search field for the first row
-//        StackPane searchField = getTextFieldWithImage();
-        TextField searchField = getTextField();
-
-        // Create a notification button for the first row
-        MFXButton notificationButton = new MFXButton();
-
-        // Create a spacer node
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-
-        // Create a container for the search field and the notification button
-        HBox searchFieldAndNotificationContainer = new HBox(searchField);
-        HBox.setHgrow(searchFieldAndNotificationContainer, Priority.ALWAYS);
-
-        // Add components to the first row
-        firstRow.getChildren().addAll(firstRowTitle, spacer, searchFieldAndNotificationContainer);
-
-        // Set the search field to grow horizontally
-        HBox.setHgrow(searchField, Priority.ALWAYS);
+        // Add the title to the first row
+        firstRow.getChildren().add(firstRowTitle);
 
         // Create the second row for the right part
         HBox secondRow = new HBox();
@@ -145,9 +128,21 @@ public class DependentsHomePage extends HBox {
         // Add components to the second row
         secondRow.getChildren().add(secondRowText);
 
+        // Create the third row
+        HBox thirdRow = new HBox();
+
+        // Create a ClaimForm object
+        ClaimForm claimForm = new ClaimForm();
+
+        // Add the ClaimForm to the third row
+        thirdRow.setAlignment(Pos.CENTER);
+        thirdRow.setPadding(new Insets(8));
+        thirdRow.setAlignment(Pos.CENTER);
+
+        thirdRow.getChildren().add(claimForm);
 
         // Add rows to the right part
-        rightPart.getChildren().addAll(firstRow, secondRow);
+        rightPart.getChildren().addAll(firstRow, secondRow, thirdRow);
 
         // Add rightPart to the DependentsHomePage
         this.getChildren().add(rightPart);
@@ -178,31 +173,6 @@ public class DependentsHomePage extends HBox {
 //
 //        return stackPane;
 //    }
-
-    private static TextField getTextField() {
-
-        final double SEARCH_FIELD_WIDTH = 200;
-        final double SEARCH_FIELD_HEIGHT = 20;
-
-        TextField searchField = new TextField();
-
-        // Set preferred width and height of searchField
-        searchField.setMinWidth(100);
-        searchField.setMaxWidth(SEARCH_FIELD_WIDTH);
-        searchField.setPrefWidth(SEARCH_FIELD_WIDTH);
-        searchField.setMinHeight(10);
-        searchField.setMaxHeight(SEARCH_FIELD_HEIGHT);
-        searchField.setPrefHeight(SEARCH_FIELD_HEIGHT);
-
-        // Remove any margins or paddings or unnecessary styling
-        searchField.setStyle("-fx-margin: 0;");
-
-        // Styling for the search field
-        searchField.setAlignment(Pos.CENTER_LEFT);
-        searchField.setPadding(new Insets(4, 8, 4, 8));
-
-        return searchField;
-    }
 
     // Create a label with an icon and text
     private Label createInteractiveLabel(String text, String iconPath) {
