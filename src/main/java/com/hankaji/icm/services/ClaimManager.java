@@ -1,15 +1,4 @@
 package com.hankaji.icm.services;
-/** 
-* @author <Hoang Thai Phuc - s3978081> 
-* @version 1.0
-*
-* Libraries used: Lanterna, Gson, Apache Commons IO
-*/
-
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.Set;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -17,30 +6,28 @@ import com.google.gson.reflect.TypeToken;
 import com.hankaji.icm.claim.Claim;
 import com.hankaji.icm.lib.adapter.LocalDateTimeAdapter;
 import com.hankaji.icm.system.CRUD;
-import com.hankaji.icm.system.DataManager;
 
-/**
- * The ClaimManager class is responsible for managing operations related to Claim objects.
- */
-public class ClaimManager extends DataManager<Claim> implements CRUD<Claim> {
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.*;
+
+public class ClaimManager implements CRUD<Claim> {
 
     private static ClaimManager instance;
+    private static final String JSON_FILE_PATH = "data/default/Claim.json";
+    private Set<Claim> data;
+    private Gson gson;
 
-    /**
-     * Constructs a new ClaimManager object.
-     * It initializes the superclass with the Claim class and a TypeToken for a Set of Claim objects.
-     */
-    public ClaimManager() {
-        super(Claim.class, new TypeToken<Set<Claim>>() {
-        });
+    private ClaimManager() {
+        data = new HashSet<>();
+        gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                .create();
+        loadData();
     }
 
-    /**
-     * Returns the singleton instance of the ClaimManager class.
-     * If the instance is null, it creates a new instance and returns it.
-     * 
-     * @return The singleton instance of the ClaimManager class.
-     */
     public static ClaimManager getInstance() {
         if (instance == null) {
             instance = new ClaimManager();
@@ -49,10 +36,16 @@ public class ClaimManager extends DataManager<Claim> implements CRUD<Claim> {
     }
 
     @Override
-    public Gson useGson() {
-        return new GsonBuilder()
-                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
-                .create();
+    public void loadData() {
+        try {
+            String content = Files.readString(Paths.get(JSON_FILE_PATH));
+            Set<Claim> claims = gson.fromJson(content, new TypeToken<Set<Claim>>() {}.getType());
+            if (claims != null) {
+                data.addAll(claims);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -68,32 +61,37 @@ public class ClaimManager extends DataManager<Claim> implements CRUD<Claim> {
     @Override
     public void add(Claim claim) {
         data.add(claim);
+        saveDataToJson();
     }
 
-    /**
-     * Updates the specified claim with the given parameters.
-     * 
-     * @param claim the claim to update
-     * @param params required parameters for updating the claim
-     */
     @Override
     public void update(Claim claim) {
-        if (data.contains(claim)) {
-            Optional<Claim> updateClaim = getById(claim.getId());
-            if (updateClaim.isPresent()) {
-                Claim updatedClaim = updateClaim.get();
-                updatedClaim.setExamDate(claim.getExamDate());
-                updatedClaim.setDocuments(claim.getDocuments());
-                updatedClaim.setClaimAmount(claim.getClaimAmount());
-                updatedClaim.setStatus(claim.getStatus());
-                updatedClaim.setReceiverBankingInfo(claim.getReceiverBankingInfo());
-            }
-        }
+        delete(claim);
+        add(claim);
     }
 
     @Override
     public void delete(Claim claim) {
         data.remove(claim);
+        saveDataToJson();
     }
 
+    @Override
+    public Claim searchById(String id) {
+        for (Claim claim : data) {
+            if (claim.getId().equals(id)) {
+                return claim;
+            }
+        }
+        return null;
+    }
+
+    private void saveDataToJson() {
+        String json = gson.toJson(data);
+        try {
+            Files.writeString(Paths.get(JSON_FILE_PATH), json);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

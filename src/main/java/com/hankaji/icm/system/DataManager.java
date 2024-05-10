@@ -1,29 +1,17 @@
 package com.hankaji.icm.system;
-/** 
-* @author <Hoang Thai Phuc - s3978081> 
-* @version 1.0
-*
-* Libraries used: Lanterna, Gson, Apache Commons IO
-*/
-
-import java.io.File;
-import java.nio.file.NoSuchFileException;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.apache.commons.io.FileUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hankaji.icm.lib.GsonSerializable;
 import com.hankaji.icm.lib.Utils;
+import org.apache.commons.io.FileUtils;
 
-/**
- * The DataManager class is an abstract class that provides a common structure and functionality for managing data of a specific type.
- * It includes methods for retrieving, adding, updating, and deleting data, as well as saving the data to a file.
- *
- * @param <T> the type of data managed by the DataManager
- */
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.NoSuchFileException;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * This abstract class represents a data manager that provides basic CRUD operations for managing data of a specific type.
  * It also provides functionality to load and save data from/to a file.
@@ -47,14 +35,17 @@ public abstract class DataManager<T extends GsonSerializable> {
      */
     private final TypeToken<Set<T>> dataType;
 
-    private final Gson gson = useGson();
+    /**
+     * The Gson object for JSON serialization/deserialization.
+     */
+    protected final Gson gson;
 
     /**
      * Constructs a DataManager object with the given class type.
      * The class type is used to determine the file name for data storage.
      * It also adds a shutdown hook to save data before the program exits.
      *
-     * @param clazz the class type of the data managed by this DataManager
+     * @param clazz     the class type of the data managed by this DataManager
      * @param typeToken the TypeToken object for the data type
      */
     protected DataManager(Class<T> clazz, TypeToken<Set<T>> typeToken) {
@@ -63,8 +54,11 @@ public abstract class DataManager<T extends GsonSerializable> {
         // create a Type object for the data type
         this.dataType = typeToken;
 
+        // Create Gson instance
+        this.gson = useGson();
+
         // Add a shutdown hook to save data before the program exits
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> saveData()));
+        Runtime.getRuntime().addShutdownHook(new Thread(this::saveData));
 
         // Load data from file
         loadData();
@@ -72,27 +66,25 @@ public abstract class DataManager<T extends GsonSerializable> {
 
     /**
      * Retrieves the data managed by this DataManager.
-     *
-     * @return the data managed by this DataManager
      */
     public void loadData() {
         // Load data from file
         try {
             // Create the data folder if it does not exist
-            Utils.createFolders(new String[] { "./data" });
+            Utils.createFolders(new String[]{"./data"});
 
             File file = new File(String.format("./data/%s.json", fileName));
             String json = FileUtils.readFileToString(file, "UTF-8");
 
-            this.data = gson.fromJson(json, dataType);
+            this.data = gson.fromJson(json, dataType.getType());
         } catch (NoSuchFileException e) {
             System.out.println(String.format("No data of %s found, initializing new data", fileName));
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
             System.out.println(String.format("Error loading data of %s", fileName));
             System.exit(1);
         }
-        if (this.data == null) this.data = new HashSet<T>();
+        if (this.data == null) this.data = new HashSet<>();
     }
 
     /**
@@ -109,23 +101,22 @@ public abstract class DataManager<T extends GsonSerializable> {
             File file = new File(String.format("./data/%s.json", fileName));
             FileUtils.createParentDirectories(file);
             FileUtils.writeStringToFile(file, json, "UTF-8");
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
 
         return true;
     }
-    
+
     /**
      * Retrieves the data managed by this DataManager.
-     * Overwrite this method to use custom Gson object.
+     * Overwrite this method to use a custom Gson object.
      *
      * @return the data managed by this DataManager
      */
     protected Gson useGson() {
-        Gson gson = new Gson();
-        return gson;
+        return new Gson();
     }
 
 }

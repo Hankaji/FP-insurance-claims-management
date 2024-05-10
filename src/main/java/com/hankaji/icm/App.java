@@ -1,13 +1,12 @@
 package com.hankaji.icm;
-/** 
-* @author <Hoang Thai Phuc - s3978081> 
+/**
+* @author <Hoang Thai Phuc - s3978081>
 * @version 1.0
 *
 * Libraries used: JavaFX, MaterialFX
 */
 
-import com.hankaji.icm.views.DependentsHomePage;
-import com.hankaji.icm.views.LogInPage;
+import com.hankaji.icm.views.ClaimController;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -23,7 +22,7 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
 
 //        Scene scene = new Scene(new LogInPage(), 640, 480);
-        Scene dependentsScene = new Scene(new DependentsHomePage(), 1000, 500);
+        Scene dependentsScene = new Scene(new ClaimController().createUI(), 1000, 500);
 
         stage.setTitle("Insurance Claim Management System");
 //        stage.setScene(scene);

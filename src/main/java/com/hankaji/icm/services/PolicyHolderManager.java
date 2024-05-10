@@ -14,6 +14,7 @@ import java.util.Set;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.hankaji.icm.claim.Claim;
 import com.hankaji.icm.customer.PolicyHolder;
 import com.hankaji.icm.lib.adapter.LocalDateTimeAdapter;
 import com.hankaji.icm.system.CRUD;
@@ -78,5 +79,10 @@ public class PolicyHolderManager extends DataManager<PolicyHolder> implements CR
     public void delete(PolicyHolder PolicyHolder) {
         data.remove(PolicyHolder);
     }
-    
+
+    @Override
+    public Claim searchById(String id) {
+        return null;
+    }
+
 }

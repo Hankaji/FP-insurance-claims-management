@@ -14,6 +14,7 @@ import java.util.Set;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.hankaji.icm.claim.Claim;
 import com.hankaji.icm.customer.Dependent;
 import com.hankaji.icm.lib.adapter.LocalDateTimeAdapter;
 import com.hankaji.icm.system.CRUD;
@@ -77,6 +78,11 @@ public class DependentManager extends DataManager<Dependent> implements CRUD<Dep
     @Override
     public void delete(Dependent dependent) {
         data.remove(dependent);
+    }
+
+    @Override
+    public Claim searchById(String id) {
+        return null;
     }
 
 }

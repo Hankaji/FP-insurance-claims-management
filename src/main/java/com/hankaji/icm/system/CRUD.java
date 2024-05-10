@@ -9,9 +9,12 @@ package com.hankaji.icm.system;
 import java.util.Collection;
 import java.util.Optional;
 
+import com.hankaji.icm.claim.Claim;
 import com.hankaji.icm.lib.GsonSerializable;
 
 public interface CRUD<T extends GsonSerializable> {
+    void loadData();
+
     /**
      * Retrieves the data object with the specified ID.
      *
@@ -51,4 +54,5 @@ public interface CRUD<T extends GsonSerializable> {
      */
     public abstract void delete(T t);
 
+    Claim searchById(String id);
 }
