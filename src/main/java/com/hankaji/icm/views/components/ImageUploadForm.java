@@ -6,7 +6,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -32,12 +31,8 @@ public class ImageUploadForm extends VBox {
 
         // Create a Pane as the background
         uploadImagePane.setAlignment(Pos.CENTER);
-        uploadImagePane.setSpacing(20);
-        uploadImagePane.setPadding(new Insets(10));
-        uploadImagePane.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(16), Insets.EMPTY)));
-
-        uploadImagePane.setPrefWidth(400);
-
+        uploadImagePane.setSpacing(12);
+        uploadImagePane.getStyleClass().add("upload-images-pane");
         getChildren().add(uploadImagePane);
 
         Image uploadImageFiles = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/file-upload.png")));
@@ -51,14 +46,14 @@ public class ImageUploadForm extends VBox {
 
 
         Text uploadImageText = new Text("Drop Your Image Here");
-        uploadImageText.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
+        uploadImageText.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 14));
 
         upperContent.setAlignment(Pos.CENTER);
+        upperContent.setSpacing(8);
         upperContent.getChildren().addAll(uploadImageView, uploadImageText);
 
         Button uploadImageButton = getSelectButton();
         uploadImageButton.getStyleClass().add("upload-images-button");
-        uploadImageButton.setPadding(new Insets(8,64,8,64));
 
         uploadImagePane.getChildren().addAll(upperContent, uploadImageButton);
 
