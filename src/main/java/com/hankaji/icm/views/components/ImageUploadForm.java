@@ -41,11 +41,12 @@ public class ImageUploadForm extends VBox {
 
         Image uploadImageFiles = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/file-upload.png")));
         ImageView uploadImageView = new ImageView(uploadImageFiles);
-        uploadImageView.setFitWidth(100);
+        uploadImageView.setFitWidth(50);
+        uploadImageView.setFitHeight(50);
         uploadImageView.setPreserveRatio(true);
 
         Text uploadImageText = new Text("Drop Your Image Here");
-        uploadImageText.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 16));
+        uploadImageText.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
 
         upperContent.setAlignment(Pos.CENTER);
         upperContent.getChildren().addAll(uploadImageView, uploadImageText);
