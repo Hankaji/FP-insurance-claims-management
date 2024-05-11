@@ -1,12 +1,14 @@
 package com.hankaji.icm.views.components;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -113,6 +115,20 @@ public class ClaimForm extends VBox {
         TextField claimDescription = new TextField();
         claimDescription.setPromptText("Ex: I was involved in a car accident on 12/12/2021");
 
+        // Set a maximum character limit
+        final int maxCharacterCount = 400; // Set the maximum character count
+        claimDescription.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > maxCharacterCount) {
+                claimDescription.setText(oldValue);
+            }
+        });
+
+        // Create a label to display the used characters out of the total allowable characters
+        Label characterCountLabel = new Label();
+        characterCountLabel.textProperty().bind(Bindings.createStringBinding(() ->
+                        "Current characters: " + claimDescription.getText().length() + "/" + maxCharacterCount,
+                claimDescription.textProperty()));
+
         // Label of the claim amount
         Label claimAmountLabel = new Label("Claim Amount ($)");
 
@@ -134,10 +150,8 @@ public class ClaimForm extends VBox {
         TextField receivedBankingInfo = new TextField();
         receivedBankingInfo.setPromptText("Ex: ACB-John Doe-1234567890");
 
-
-
         // Add the components to the left column and styling
-        leftColumn.getChildren().addAll(leftTitle, claimTitleLabel, claimTitle, claimDescriptionLabel, claimDescription, claimAmountLabel, claimAmount, receivedBankingInfoLabel, receivedBankingInfo);
+        leftColumn.getChildren().addAll(leftTitle, claimTitleLabel, claimTitle, claimDescriptionLabel, claimDescription, characterCountLabel, claimAmountLabel, claimAmount, receivedBankingInfoLabel, receivedBankingInfo);
 
         // Styling for labels
         claimTitleLabel.getStyleClass().add("claim-form-label");
@@ -281,7 +295,6 @@ public class ClaimForm extends VBox {
             return null;
         }
     }
-
 
 
 }

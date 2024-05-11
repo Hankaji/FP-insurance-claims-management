@@ -8,8 +8,25 @@
     -fx-margin: 8px 2px;
 }
 
+.submit-button:pressed {
+    -fx-background-color: #005a8c;
+}
+
 .upload-images-button {
     -fx-background-color: black;
+    -fx-text-fill: #fff;
+    -fx-font-weight: normal;
+    -fx-font-size: 16px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+}
+
+.upload-images-button:pressed {
+    -fx-background-color: #006496;
+}
+
+.remove-image-button {
+    -fx-background-color: red;
     -fx-text-fill: #fff;
     -fx-font-weight: normal;
     -fx-font-size: 16px;

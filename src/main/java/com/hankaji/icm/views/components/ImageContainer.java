@@ -20,12 +20,15 @@ public class ImageContainer extends HBox {
         this.file = file;
 
         Button removeButton = new Button("X");
+        removeButton.getStyleClass().add("remove-image-button");
+
         removeButton.setOnAction(e -> {
             upperContent.getChildren().remove(this);
             if (upperContent.getChildren().isEmpty()) {
-                uploadImageView.setFitWidth(100);
+                uploadImageView.setFitWidth(50);
+                uploadImageView.setFitHeight(50);
                 uploadImageView.setPreserveRatio(true);
-                uploadImageText.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 16));
+                uploadImageText.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
 
                 upperContent.getChildren().addAll(uploadImageView, uploadImageText);
             }
