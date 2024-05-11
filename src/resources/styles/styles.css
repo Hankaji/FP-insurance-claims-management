@@ -12,6 +12,26 @@
     -fx-background-color: #005a8c;
 }
 
+.clear-button {
+    -fx-background-color: gray;
+    -fx-text-fill: #fff;
+    -fx-background-radius: 8px;
+    -fx-padding: 4px 32px;
+    -fx-font-size: 16px;
+    -fx-cursor: hand;
+    -fx-margin: 8px 2px;
+}
+
+.clear-button:pressed {
+    -fx-background-color: darkgray;
+}
+
+.dialog-pane {
+    -fx-background-color: #f0f0f0;
+    -fx-background-radius: 8px;
+    -fx-padding: 16px;
+}
+
 .upload-images-button {
     -fx-background-color: black;
     -fx-text-fill: #fff;

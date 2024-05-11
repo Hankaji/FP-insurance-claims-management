@@ -6,10 +6,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -60,6 +57,11 @@ public class ClaimForm extends VBox {
         HBox.setHgrow(spacer, Priority.ALWAYS);
         titleAndSaveButton.getChildren().add(spacer);
 
+        // Create a Clear Button
+        MFXButton clearButton = new MFXButton("Clear");
+        HBox.setHgrow(clearButton, Priority.ALWAYS);
+        titleAndSaveButton.getChildren().add(clearButton);
+
         // Create a Submit Button
         MFXButton submitButton = new MFXButton("Submit");
         HBox.setHgrow(submitButton, Priority.ALWAYS);
@@ -90,6 +92,9 @@ public class ClaimForm extends VBox {
         Text leftTitle = new Text("Details");
         leftTitle.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 18));
         setHalignment(leftTitle, HPos.LEFT);
+
+        // Styling for the Clear Button
+        clearButton.getStyleClass().add("clear-button");
 
         // Styling for the Submit Button
         submitButton.getStyleClass().add("submit-button");
@@ -183,6 +188,35 @@ public class ClaimForm extends VBox {
         // Set the vertical alignment of the rightColumn to TOP
         GridPane.setValignment(rightColumn, VPos.TOP);
 
+        // Add an action to the Clear Button
+        // Add an action to the Clear Button
+        clearButton.setOnAction(e -> {
+            // Check if all the fields are already empty
+            if (claimTitle.getText().isEmpty() && claimDescription.getText().isEmpty() && claimAmount.getText().isEmpty() && receivedBankingInfo.getText().isEmpty() && imageUploadForm.getSelectedFiles().isEmpty()) {
+                // If they are, exit the action
+                return;
+            }
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Clear Form");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to clear the form?");
+
+            DialogPane dialogPane = alert.getDialogPane();
+            dialogPane.getStyleClass().add("dialog-pane");
+
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    // Clear all the fields
+                    claimTitle.clear();
+                    claimDescription.clear();
+                    claimAmount.clear();
+                    receivedBankingInfo.clear();
+                    imageUploadForm.clearSelectedFiles();
+                }
+            });
+        });
+
         // Add an action to the Submit Button
         submitButton.setOnAction(e -> {
             List<String> missingFields = new ArrayList<>();
@@ -234,7 +268,7 @@ public class ClaimForm extends VBox {
                 // Print the claim information
                 System.out.println("Claim ID: " + claimId);
                 System.out.println("Claim Date: " + claimFormattedDate);
-                System.out.println("Card Number" + cardNumber);
+                System.out.println("Card Number: " + cardNumber);
                 System.out.println("Status: " + status);
                 System.out.println("Claim Title: " + claimTitle.getText());
                 System.out.println("Claim Description: " + claimDescription.getText());

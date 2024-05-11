@@ -1,6 +1,5 @@
 package com.hankaji.icm.views.components;
 
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -26,10 +25,12 @@ public class ImageUploadForm extends VBox {
     private final ImageView uploadImageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/file-upload.png"))));
     private final Text uploadImageText = new Text("Drop Your Image Here");
 
+    private final double initialUploadImageViewFitWidth;
+    private final Font initialUploadImageTextFont;
+
     public ImageUploadForm() {
 
         // Create a Pane as the background
-        VBox uploadImagePane = new VBox();
         uploadImagePane.setAlignment(Pos.CENTER);
         uploadImagePane.setSpacing(20);
         uploadImagePane.setPadding(new Insets(10));
@@ -44,6 +45,10 @@ public class ImageUploadForm extends VBox {
         uploadImageView.setFitWidth(50);
         uploadImageView.setFitHeight(50);
         uploadImageView.setPreserveRatio(true);
+
+        initialUploadImageViewFitWidth = uploadImageView.getFitWidth();
+        initialUploadImageTextFont = uploadImageText.getFont();
+
 
         Text uploadImageText = new Text("Drop Your Image Here");
         uploadImageText.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
@@ -71,9 +76,9 @@ public class ImageUploadForm extends VBox {
     public void clearSelectedFiles() {
         selectedFiles.clear();
         upperContent.getChildren().clear();
-        uploadImageView.setFitWidth(100);
+        uploadImageView.setFitWidth(initialUploadImageViewFitWidth);
         uploadImageView.setPreserveRatio(true);
-        uploadImageText.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 16));
+        uploadImageText.setFont(initialUploadImageTextFont);
         upperContent.getChildren().addAll(uploadImageView, uploadImageText);
     }
 
