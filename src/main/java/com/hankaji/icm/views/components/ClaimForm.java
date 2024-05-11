@@ -82,7 +82,7 @@ public class ClaimForm extends VBox {
         leftColumn.setSpacing(10);
         leftColumn.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, new CornerRadii(16), Insets.EMPTY)));
         gridPane.add(leftColumn, 0, 0);
-        leftColumn.prefHeightProperty().bind(gridPane.heightProperty());
+        leftColumn.prefHeightProperty().bind(leftColumn.heightProperty());
         leftColumn.setPadding(new Insets(16, 24, 16, 24));
 
         Text leftTitle = new Text("Details");
@@ -227,11 +227,23 @@ public class ClaimForm extends VBox {
                 System.out.println("Claim Amount: " + claimAmount.getText());
                 System.out.println("Received Banking Info: " + receivedBankingInfo.getText());
 
+                // Print the names of the selected image files
+                List<File> selectedFiles = imageUploadForm.getSelectedFiles();
+                if (!selectedFiles.isEmpty()) {
+                    System.out.println("Uploaded Images:");
+                    for (File file : selectedFiles) {
+                        System.out.println(file.getName());
+                    }
+                } else {
+                    System.out.println("No images were uploaded.");
+                }
+
                 // Clear all the fields
                 claimTitle.clear();
                 claimDescription.clear();
                 claimAmount.clear();
                 receivedBankingInfo.clear();
+                imageUploadForm.clearSelectedFiles();
 
                 // Show a notification
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
