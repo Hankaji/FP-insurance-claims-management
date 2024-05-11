@@ -23,6 +23,8 @@ public class ImageUploadForm extends VBox {
     private final VBox uploadImagePane = new VBox();
     private static final List<File> selectedFiles = new ArrayList<>();
     private final VBox upperContent = new VBox();
+    private final ImageView uploadImageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/file-upload.png"))));
+    private final Text uploadImageText = new Text("Drop Your Image Here");
 
     public ImageUploadForm() {
 
@@ -63,6 +65,15 @@ public class ImageUploadForm extends VBox {
 
     public List<File> getSelectedFiles() {
         return selectedFiles;
+    }
+
+    public void clearSelectedFiles() {
+        selectedFiles.clear();
+        upperContent.getChildren().clear();
+        uploadImageView.setFitWidth(100);
+        uploadImageView.setPreserveRatio(true);
+        uploadImageText.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 16));
+        upperContent.getChildren().addAll(uploadImageView, uploadImageText);
     }
 
     private Button getSelectButton() {
