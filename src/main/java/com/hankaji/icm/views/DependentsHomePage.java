@@ -135,7 +135,6 @@ public class DependentsHomePage extends HBox {
         ClaimForm claimForm = new ClaimForm();
 
         // Add the ClaimForm to the third row
-        thirdRow.setAlignment(Pos.CENTER);
         thirdRow.setPadding(new Insets(8));
         thirdRow.setAlignment(Pos.CENTER);
 

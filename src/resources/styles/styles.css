@@ -8,18 +8,18 @@
     -fx-margin: 8px 2px;
 }
 
-.select-images-button {
-    -fx-background-color: white;
-    -fx-text-fill: black;
+.upload-images-button {
+    -fx-background-color: black;
+    -fx-text-fill: #fff;
     -fx-font-weight: normal;
+    -fx-font-size: 16px;
     -fx-background-radius: 8px;
-    -fx-border: 4px solid black;
     -fx-cursor: hand;
 }
 
 .claim-form-label {
     -fx-font-family: "Arial";
-    -fx-font-size: 14px;
+    -fx-font-size: 16px;
     -fx-text-fill: #000;
     -fx-font-style: italic;
     -fx-font-weight: 500;
@@ -28,7 +28,6 @@
 .claim-form-field {
     -fx-background-radius: 8px;
     -fx-font-family: "Arial";
-    -fx-padding: 4px 8px;
-    -fx-font-size: 14px;
-    -fx-preferred-width: 300px;
+    -fx-font-size: 16px;
+    -fx-padding: 4px;
 }

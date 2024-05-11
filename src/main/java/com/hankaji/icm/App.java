@@ -35,11 +35,11 @@ public class App extends Application {
 
         stage.setTitle("Insurance Claim Management System");
 //        stage.setScene(scene);
-        dependentsScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
-        stage.setScene(dependentsScene);
-        stage.setMinWidth(1000);
-        stage.setMinHeight(500);
-        System.out.println(dependentsScene.getStylesheets());
+        // dependentsScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
+        // stage.setScene(dependentsScene);
+        stage.setMinWidth(1200);
+        stage.setMinHeight(600);
+        // System.out.println(dependentsScene.getStylesheets());
 //        stage.setFullScreen(true);
         stage.show();
     }

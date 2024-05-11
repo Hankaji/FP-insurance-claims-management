@@ -9,13 +9,17 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static javafx.scene.layout.GridPane.setHalignment;
@@ -33,68 +37,176 @@ public class ClaimForm extends VBox {
         // Create a GridPane
         GridPane gridPane = new GridPane();
 
-        // Add the GridPane to the VBox
-        getChildren().add(gridPane);
+        // Set the gridPane properties
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
 
-        // Set the VBox properties
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.setHgap(20);
-        gridPane.setVgap(20);
-        gridPane.setPadding(new Insets(8, 16, 8, 16));
+        // Create an HBox for the title and the Save button
+        HBox titleAndSaveButton = new HBox();
+        titleAndSaveButton.setSpacing(10); // Adjust the spacing as needed
+        titleAndSaveButton.setMaxWidth(Double.MAX_VALUE);
+        titleAndSaveButton.setPadding(new Insets(16, 0, 16, 0));
 
         // Create the Form Title and Styling
         Label formTitle = new Label("Claim Form");
-        formTitle.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 24));
-        gridPane.add(formTitle, 1,0);
+        formTitle.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 32));
+        titleAndSaveButton.getChildren().add(formTitle);
+
+        // Create a spacer node
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        titleAndSaveButton.getChildren().add(spacer);
+
+        // Create a Submit Button
+        MFXButton submitButton = new MFXButton("Submit");
+        HBox.setHgrow(submitButton, Priority.ALWAYS);
+        titleAndSaveButton.getChildren().add(submitButton);
+
+        getChildren().add(titleAndSaveButton);
+
+        // Add the GridPane to the VBox
+        getChildren().add(gridPane);
+
+        // Set the column constraints for the GridPane
+        ColumnConstraints column1 = new ColumnConstraints();
+        column1.setPercentWidth(60);
+        gridPane.getColumnConstraints().add(column1);
+
+        ColumnConstraints column2 = new ColumnConstraints();
+        column2.setPercentWidth(40);
+        gridPane.getColumnConstraints().add(column2);
+
+        // Create a VBox for the left column
+        VBox leftColumn = new VBox();
+        leftColumn.setSpacing(10);
+        leftColumn.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, new CornerRadii(16), Insets.EMPTY)));
+        gridPane.add(leftColumn, 0, 0);
+        leftColumn.prefHeightProperty().bind(gridPane.heightProperty());
+        leftColumn.setPadding(new Insets(16, 24, 16, 24));
+
+        Text leftTitle = new Text("Details");
+        leftTitle.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 18));
+        setHalignment(leftTitle, HPos.LEFT);
+
+        // Styling for the Submit Button
+        submitButton.getStyleClass().add("submit-button");
 
         // Label of the claim title
-        Label claimTitleLabel = new Label("Claim Title:");
+        Label claimTitleLabel = new Label("Claim Title");
 
         // Create TextField for the claim title
         TextField claimTitle = new TextField();
         claimTitle.setPromptText("Ex: Car Accident Claim");
 
+        // Validate the claim title to only letters and spaces and ignore non-alphabetical input
+        claimTitle.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("^[a-zA-Z\\s]*$")) {
+                claimTitle.setText(newValue.replaceAll("[^a-zA-Z\\s]", ""));
+            }
+        });
+
         // Label of the claim description
-        Label claimDescriptionLabel = new Label("Claim Description:");
+        Label claimDescriptionLabel = new Label("Claim Description");
 
         // Create TextField for the claim description
         TextField claimDescription = new TextField();
         claimDescription.setPromptText("Ex: I was involved in a car accident on 12/12/2021");
 
         // Label of the claim amount
-        Label claimAmountLabel = new Label("Claim Amount:");
+        Label claimAmountLabel = new Label("Claim Amount ($)");
 
         // Create TextField for the claim amount
         TextField claimAmount = new TextField();
         claimAmount.setPromptText("Ex: 1000");
 
+        // Validate the claim amount and ignore non-numeric input
+        claimAmount.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                claimAmount.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+        });
+
         // Label of the received banking info
-        Label receivedBankingInfoLabel = new Label("Received Banking Info:");
+        Label receivedBankingInfoLabel = new Label("Received Banking Info");
 
         // Create TextField for the received banking info
         TextField receivedBankingInfo = new TextField();
         receivedBankingInfo.setPromptText("Ex: ACB-John Doe-1234567890");
 
-        // Create an ImageUploadForm Label
-        Label imageUploadFormLabel = new Label("Upload Image:");
 
-        // Create an ImageUploadForm Field
+
+        // Add the components to the left column and styling
+        leftColumn.getChildren().addAll(leftTitle, claimTitleLabel, claimTitle, claimDescriptionLabel, claimDescription, claimAmountLabel, claimAmount, receivedBankingInfoLabel, receivedBankingInfo);
+
+        // Styling for labels
+        claimTitleLabel.getStyleClass().add("claim-form-label");
+        claimDescriptionLabel.getStyleClass().add("claim-form-label");
+        claimAmountLabel.getStyleClass().add("claim-form-label");
+        receivedBankingInfoLabel.getStyleClass().add("claim-form-label");
+
+        // Styling for TextFields
+        claimTitle.setPadding(new Insets(8,16,8,16));
+        claimDescription.setPadding(new Insets(8,16,8,16));
+        claimAmount.setPadding(new Insets(8,16,8,16));
+        receivedBankingInfo.setPadding(new Insets(8,16,8,16));
+
+        Text rightTitle = new Text("Feature Images");
+        rightTitle.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 18));
+
         ImageUploadForm imageUploadForm = new ImageUploadForm();
 
-        // Create a Submit Button
-        MFXButton submitButton = new MFXButton("Submit");
+        // Create a VBox for the right column
+        VBox rightColumn = new VBox();
+        rightColumn.setSpacing(10);
+        rightColumn.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, new CornerRadii(16), Insets.EMPTY)));
+        gridPane.add(rightColumn, 1, 0);
+        rightColumn.maxHeightProperty().bind(imageUploadForm.getUploadImagePane().heightProperty());
+        rightColumn.setPadding(new Insets(16, 24, 16, 24));
+
+        rightColumn.getChildren().addAll(rightTitle, imageUploadForm);
+
+        // Set the vertical alignment of the rightColumn to TOP
+        GridPane.setValignment(rightColumn, VPos.TOP);
 
         // Add an action to the Submit Button
         submitButton.setOnAction(e -> {
+            List<String> missingFields = new ArrayList<>();
+
             String claimTitleValidation = validateTextField(claimTitle, "claim title");
             String claimDescriptionValidation = validateTextField(claimDescription, "claim description");
             String claimAmountValidation = validateTextField(claimAmount, "claim amount");
             String receivedBankingInfoValidation = validateTextField(receivedBankingInfo, "received banking info");
 
+
+            if (claimTitle.getText().trim().isEmpty()) {
+                missingFields.add("Claim Title");
+            }
+            if (claimDescription.getText().trim().isEmpty()) {
+                missingFields.add("Claim Description");
+            }
+            if (claimAmount.getText().trim().isEmpty()) {
+                missingFields.add("Claim Amount");
+            }
+            if (receivedBankingInfo.getText().trim().isEmpty()) {
+                missingFields.add("Received Banking Info");
+            }
+
+            if (!missingFields.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Missing Information");
+                alert.setHeaderText(null);
+                alert.setContentText("Please fill in the following fields: " + String.join(", ", missingFields));
+
+                alert.showAndWait();
+            }
+
             if (claimTitleValidation == null && claimDescriptionValidation == null && claimAmountValidation == null && receivedBankingInfoValidation == null) {
                 // Generate a random claim ID
                 Random random = new Random();
                 String claimId = "f-" + String.format("%010d", random.nextInt(1_000_000_000));
+
+                // Temporary random card number
+                String cardNumber = String.format("%010d", random.nextInt(1_000_000_000));
 
                 // Get the current date
                 LocalDate claimDate = LocalDate.now();
@@ -107,15 +219,12 @@ public class ClaimForm extends VBox {
                 // Print the claim information
                 System.out.println("Claim ID: " + claimId);
                 System.out.println("Claim Date: " + claimFormattedDate);
+                System.out.println("Card Number" + cardNumber);
                 System.out.println("Status: " + status);
                 System.out.println("Claim Title: " + claimTitle.getText());
                 System.out.println("Claim Description: " + claimDescription.getText());
                 System.out.println("Claim Amount: " + claimAmount.getText());
                 System.out.println("Received Banking Info: " + receivedBankingInfo.getText());
-
-                for (File file : imageUploadForm.getSelectedFiles()) {
-                    System.out.println("Selected file: " + file.getName());
-                }
 
                 // Clear all the fields
                 claimTitle.clear();
@@ -132,6 +241,7 @@ public class ClaimForm extends VBox {
                 alert.showAndWait();
 
             } else {
+
                 if (claimTitleValidation != null) {
                     System.out.println(claimTitleValidation);
                 }
@@ -147,66 +257,6 @@ public class ClaimForm extends VBox {
             }
         });
 
-        // Add the Labels and TextFields to the GridPane
-        gridPane.add(claimTitleLabel, 0, 1);
-        gridPane.add(claimTitle, 1, 1);
-        GridPane.setColumnSpan(claimTitle, 2);
-
-        gridPane.add(claimDescriptionLabel, 0, 2);
-        gridPane.add(claimDescription, 1, 2);
-        GridPane.setColumnSpan(claimDescription, 2);
-
-        gridPane.add(claimAmountLabel, 0, 3);
-        gridPane.add(claimAmount, 1, 3);
-        GridPane.setColumnSpan(claimAmount, 2);
-
-        gridPane.add(receivedBankingInfoLabel, 0, 4);
-        gridPane.add(receivedBankingInfo, 1, 4);
-        GridPane.setColumnSpan(receivedBankingInfo, 2);
-
-        gridPane.add(imageUploadFormLabel, 0, 5);
-        gridPane.add(imageUploadForm, 1, 5);
-        GridPane.setColumnSpan(imageUploadForm, 2);
-
-        gridPane.add(submitButton, 1, 6);
-
-        // Styling for labels
-        claimTitleLabel.getStyleClass().add("claim-form-label");
-        claimDescriptionLabel.getStyleClass().add("claim-form-label");
-        claimAmountLabel.getStyleClass().add("claim-form-label");
-        receivedBankingInfoLabel.getStyleClass().add("claim-form-label");
-        imageUploadFormLabel.getStyleClass().add("claim-form-label");
-
-        // Styling for TextFields
-        claimTitle.getStyleClass().add("claim-form-textfield");
-        claimDescription.getStyleClass().add("claim-form-textfield");
-        claimAmount.getStyleClass().add("claim-form-textfield");
-        receivedBankingInfo.getStyleClass().add("claim-form-textfield");
-
-        // Styling for the Submit Button
-        submitButton.getStyleClass().add("submit-button");
-
-        // Set the GridPane column constraints
-        setHalignment(claimTitleLabel, HPos.LEFT);
-        setHalignment(claimDescriptionLabel, HPos.LEFT);
-        setHalignment(claimAmountLabel, HPos.LEFT);
-        setHalignment(receivedBankingInfoLabel, HPos.LEFT);
-        setHalignment(submitButton, HPos.LEFT);
-        setHalignment(imageUploadFormLabel, HPos.LEFT);
-
-        ColumnConstraints column1 = new ColumnConstraints();
-        column1.setHgrow(Priority.ALWAYS);
-        gridPane.getColumnConstraints().addAll(column1);
-
-        // Set the GridPane row constraints
-        setValignment(imageUploadFormLabel, VPos.TOP);
-
-        for (int i = 0; i < 7; i++) {
-            RowConstraints row = new RowConstraints();
-            row.setVgrow(Priority.ALWAYS);
-            gridPane.getRowConstraints().add(row);
-        }
-
     }
 
     private String validateTextField(TextField textField, String fieldName) {
@@ -218,5 +268,7 @@ public class ClaimForm extends VBox {
             return null;
         }
     }
+
+
 
 }
