@@ -40,12 +40,13 @@ public class ClaimForm extends VBox {
         // Set the gridPane properties
         gridPane.setHgap(10);
         gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(16));
 
         // Create an HBox for the title and the Save button
         HBox titleAndSaveButton = new HBox();
         titleAndSaveButton.setSpacing(10); // Adjust the spacing as needed
         titleAndSaveButton.setMaxWidth(Double.MAX_VALUE);
-        titleAndSaveButton.setPadding(new Insets(16, 0, 16, 0));
+        titleAndSaveButton.setPadding(new Insets(16));
 
         // Create the Form Title and Styling
         Label formTitle = new Label("Claim Form");
