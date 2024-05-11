@@ -26,15 +26,15 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
 
 //        Scene scene = new Scene(new LogInPage(), 640, 480);
-        Scene dependentsScene = new Scene(new DependentsHomePage(), 1000, 500);
+        Scene dependentsScene = new Scene(new DependentsHomePage(), 1200, 600);
 //        Scene scene = new Scene(new ClaimForm(), 640, 480);
 
         stage.setTitle("Insurance Claim Management System");
 //        stage.setScene(scene);
         dependentsScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
         stage.setScene(dependentsScene);
-        stage.setMinWidth(1000);
-        stage.setMinHeight(500);
+        stage.setMinWidth(1200);
+        stage.setMinHeight(600);
         System.out.println(dependentsScene.getStylesheets());
 //        stage.setFullScreen(true);
         stage.show();
