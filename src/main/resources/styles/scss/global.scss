@@ -1,0 +1,18 @@
+.sidebar {
+    -fx-background-color: #232c3c;
+}
+
+.button {
+    -fx-background-color: transparent;
+    -fx-border-radius: 8;
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+
+    -fx-text-fill: #ffffff;
+    -fx-alignment: left;
+
+    &:hover {
+        -fx-background-color: #c1c1c120;
+    }
+
+}

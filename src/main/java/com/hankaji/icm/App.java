@@ -9,6 +9,8 @@ package com.hankaji.icm;
 import com.hankaji.icm.views.LogInPage;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -20,14 +22,22 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+
+        System.out.println(getClass().getResource("/fxml/RootView.fxml"));
+
+        Parent page = FXMLLoader.load(getClass().getResource("/fxml/RootView.fxml"));
         
-        Scene scene = new Scene(new LogInPage(), 1024, 580);
+        Scene scene = new Scene(page, 1024, 580);
 
         stage.setTitle("Insurance Claim Management System");
         stage.setScene(scene);
         stage.show();
     }
     public static void main( String[] args ) {
-        launch();
+        try {
+            launch();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
