@@ -181,7 +181,7 @@ public class ClaimForm extends VBox {
             List<String> missingFields = new ArrayList<>();
 
             String claimTitleValidation = validateTextField(claimTitleTF, "claim title");
-            // String claimDescriptionValidation = validateTextField(claimDescriptionTF, "claim description");
+             String claimDescriptionValidation = validateTextArea(claimDescriptionTF, "claim description");
             String claimAmountValidation = validateTextField(claimAmount, "claim amount");
             String receivedBankingInfoValidation = validateTextField(receivedBankingInfo, "received banking info");
 
@@ -312,6 +312,16 @@ public class ClaimForm extends VBox {
             return "Please enter the " + fieldName + "!";
         } else {
             textField.setStyle("");
+            return null;
+        }
+    }
+
+    private String validateTextArea(TextArea textArea, String fieldName) {
+        if (textArea.getText().trim().isEmpty()) {
+            textArea.setStyle("-fx-border-color: red;");
+            return "Please enter the " + fieldName + "!";
+        } else {
+            textArea.setStyle("");
             return null;
         }
     }
