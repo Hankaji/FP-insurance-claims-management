@@ -6,7 +6,7 @@ package com.hankaji.icm;
 * Libraries used: JavaFX, MaterialFX
 */
 
-import com.hankaji.icm.views.LogInPage;
+import com.hankaji.icm.views.LogIn;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -23,11 +23,11 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        System.out.println(getClass().getResource("/fxml/RootView.fxml"));
+        // System.out.println(getClass().getResource("/fxml/RootView.fxml"));
 
-        Parent page = FXMLLoader.load(getClass().getResource("/fxml/RootView.fxml"));
+        // Parent page = FXMLLoader.load(getClass().getResource("/fxml/RootView.fxml"));
         
-        Scene scene = new Scene(page, 1024, 580);
+        Scene scene = new Scene(new LogIn(), 1024, 580);
 
         stage.setTitle("Insurance Claim Management System");
         stage.setScene(scene);
