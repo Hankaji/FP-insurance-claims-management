@@ -1,4 +1,5 @@
 package com.hankaji.icm;
+
 /** 
 * @author <Hoang Thai Phuc - s3978081> 
 * @version 1.0
@@ -30,20 +31,21 @@ public class App extends Application {
         // System.out.println(getClass().getResource("/fxml/RootView.fxml"));
 
         // Parent page = FXMLLoader.load(getClass().getResource("/fxml/RootView.fxml"));
-        
+
         Scene scene = new Scene(new LogIn(), 1024, 580);
 
         stage.setTitle("Insurance Claim Management System");
-//        stage.setScene(scene);
+        stage.setScene(scene);
         // dependentsScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
         // stage.setScene(dependentsScene);
-        stage.setMinWidth(1200);
-        stage.setMinHeight(600);
+        stage.setMinWidth(1024);
+        stage.setMinHeight(580);
         // System.out.println(dependentsScene.getStylesheets());
-//        stage.setFullScreen(true);
+        // stage.setFullScreen(true);
         stage.show();
     }
-    public static void main( String[] args ) {
+
+    public static void main(String[] args) {
         try {
             launch();
         } catch (Exception e) {

@@ -1,0 +1,43 @@
+.login {
+    &-form {
+        -fx-padding: 24px 24px 56px 24px;
+        -fx-background-color: white;
+        -fx-border-color: #c1c1c1;
+        -fx-border-radius: 8px;
+        -fx-background-radius: 8px;
+    }
+    
+    &-title {
+        -fx-font-size: 24px;
+        -fx-text-fill: #000;
+        -fx-font-weight: bold;
+        -fx-font-family: "Arial";
+    }
+    
+    &-button {
+        -fx-background-color: #3050B0 !important;
+        -fx-text-fill: #000;
+        -fx-font-weight: normal;
+        -fx-alignment: center !important;
+        -fx-font-size: 16px;
+        -fx-background-radius: 8px;
+        -fx-padding: 8px 32px;
+        -fx-cursor: hand;
+
+        &:hover {
+            -fx-background-color: #345acd !important;
+        }
+
+        &:pressed {
+            -fx-background-color: rgb(25, 25, 140) !important;
+        }
+    }
+}
+
+.authorization-container {
+    -fx-background-color: white;
+    -fx-background-image: url("/images/bg.jpg");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
