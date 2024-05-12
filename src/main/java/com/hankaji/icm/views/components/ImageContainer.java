@@ -16,7 +16,7 @@ import java.io.File;
 public class ImageContainer extends HBox {
     private final File file;
 
-    public ImageContainer(File file, VBox upperContent, ImageView uploadImageView, Text uploadImageText) {
+    public ImageContainer(File file, VBox upperContent, ImageView uploadImageView, Text uploadImageText, ImageUploadForm imageUploadForm) {
         this.file = file;
 
         Button removeButton = new Button("X");
@@ -24,6 +24,8 @@ public class ImageContainer extends HBox {
 
         removeButton.setOnAction(e -> {
             upperContent.getChildren().remove(this);
+            imageUploadForm.getSelectedFiles().remove(file);
+            System.out.println("Removed file: " + file.getName());
             if (upperContent.getChildren().isEmpty()) {
                 uploadImageView.setFitWidth(50);
                 uploadImageView.setFitHeight(50);

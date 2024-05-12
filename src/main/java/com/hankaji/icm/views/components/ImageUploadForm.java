@@ -1,6 +1,5 @@
 package com.hankaji.icm.views.components;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -88,11 +87,12 @@ public class ImageUploadForm extends VBox {
                 selectedFiles.addAll(newSelectedFiles);
                 upperContent.getChildren().clear();
                 for (File file : newSelectedFiles) {
-                    ImageContainer imageContainer = new ImageContainer(file, upperContent, new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/file-upload.png")))), new Text("Drop Your Image Here"));
+                    ImageContainer imageContainer = new ImageContainer(file, upperContent, uploadImageView, uploadImageText, this);
                     upperContent.getChildren().add(imageContainer);
                     System.out.println("Selected file: " + file.getName());
                 }
             }
+
         });
 
         selectButton.setMinWidth(100);
