@@ -3,17 +3,15 @@
 }
 
 .button {
-  -fx-background-color: transparent !important;
-  -fx-border-radius: 4 !important;
-  -fx-font-weight: bold !important;
-  -fx-font-size: 14 !important;
-  -fx-text-fill: #ffffff !important;
-  -fx-alignment: center-left !important;
+  -fx-background-color: transparent;
+  -fx-border-radius: 8;
+  -fx-font-weight: bold;
+  -fx-font-size: 14;
+  -fx-text-fill: #ffffff;
+  -fx-alignment: left;
 }
-
-#avatar {
-  -fx-background-image: url("https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/114131672/original/5f03e84975a3e52c91166d03b89c6af7e061ca44/send-you-a-random-meme-image-that-will-tickle-your-fancy.jpg");
-  -fx-background-position: center center;
+.button:hover {
+  -fx-background-color: rgba(193, 193, 193, 0.1254901961);
 }
 
 /*# sourceMappingURL=style.css.map */
