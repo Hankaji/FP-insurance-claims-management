@@ -6,9 +6,13 @@ package com.hankaji.icm.models;
 * Libraries used: Lanterna, Gson, Apache Commons IO
 */
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import com.hankaji.icm.components.ImageUploadForm;
 import com.hankaji.icm.lib.GsonSerializable;
 
 
@@ -17,14 +21,18 @@ import com.hankaji.icm.lib.GsonSerializable;
  */
 public class Claim implements GsonSerializable {
     private final String id;
-    private final LocalDateTime claimDate;
+    private LocalDateTime claimDate;
     private final String insuredPerson;
-    private final String cardNumber;
+    private String cardNumber;
     private LocalDateTime examDate;
     private ArrayList<String> documents; // ClaimId_CardNumber_DocumentName.pdf
     private int claimAmount;
     private Status status;
     private String receiverBankingInfo; // Bank – Name – Number
+
+    private String claimTitle;
+    private String claimDescription;
+    private List<File> imageFiles;
 
     /**
      * Constructs a Claim object with the specified parameters.
@@ -38,9 +46,10 @@ public class Claim implements GsonSerializable {
      * @param claimAmount         the amount of the claim
      * @param status              the status of the claim
      * @param receiverBankingInfo the banking information of the claim receiver
+     * @param selectedFiles
      */
     public Claim(String id, LocalDateTime claimDate, String insuredPerson, String cardNumber, LocalDateTime examDate,
-                 ArrayList<String> documents, int claimAmount, Status status, String receiverBankingInfo) {
+                 ArrayList<String> documents, int claimAmount, Status status, String receiverBankingInfo, String claimTitle, String claimDescription, List<File> selectedFiles) {
         validateId(id);
         this.id = id;
         this.claimDate = claimDate;
@@ -51,6 +60,11 @@ public class Claim implements GsonSerializable {
         this.claimAmount = claimAmount;
         this.status = status;
         this.receiverBankingInfo = receiverBankingInfo;
+
+        this.claimTitle = claimTitle;
+        this.claimDescription = claimDescription;
+        this.imageFiles = selectedFiles;
+
     }
 
     /**
@@ -88,6 +102,10 @@ public class Claim implements GsonSerializable {
         return claimDate;
     }
 
+    public void setClaimDate(LocalDateTime claimDate) {
+        this.claimDate = claimDate;
+    }
+
     /**
      * Returns the name of the insured person.
      *
@@ -104,6 +122,10 @@ public class Claim implements GsonSerializable {
      */
     public String getCardNumber() {
         return cardNumber;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
     }
 
     /**
@@ -196,6 +218,30 @@ public class Claim implements GsonSerializable {
         this.receiverBankingInfo = receiverBankingInfo;
     }
 
+    public String getClaimTitle() {
+        return claimTitle;
+    }
+
+    public void setClaimTitle(String claimTitle) {
+        this.claimTitle = claimTitle;
+    }
+
+    public String getClaimDescription() {
+        return claimDescription;
+    }
+
+    public void setClaimDescription(String claimDescription) {
+        this.claimDescription = claimDescription;
+    }
+
+    public List<File> getImageFiles() {
+        return imageFiles;
+    }
+
+    public void setImageFiles(List<File> imageFiles) {
+        this.imageFiles = imageFiles;
+    }
+
     /**
      * Returns a new Builder instance to build a Claim object.
      *
@@ -218,6 +264,11 @@ public class Claim implements GsonSerializable {
         private int claimAmount;
         private Status status;
         private String receiverBankingInfo;
+
+        private String claimTitle;
+        private String claimDescription;
+        private ImageUploadForm imageUploadForm;
+
 
         /**
          * Sets the ID of the claim.
@@ -325,8 +376,28 @@ public class Claim implements GsonSerializable {
          */
         public Claim build() {
             return new Claim(id, claimDate, insuredPerson, cardNumber, examDate, documents, claimAmount, status,
-                    receiverBankingInfo);
+                    receiverBankingInfo, claimTitle, claimDescription, imageUploadForm.getSelectedFiles());
         }
+    }
+
+    @Override
+    public String toString() {
+        String imageFileNames = imageFiles.stream().map(File::getName).collect(Collectors.joining(", "));
+
+        return "Claim{" +
+                "id='" + id + '\'' +
+                ", claimDate=" + claimDate +
+                ", insuredPerson='" + insuredPerson + '\'' +
+                ", cardNumber='" + cardNumber + '\'' +
+                ", examDate=" + examDate +
+                ", documents=" + documents +
+                ", claimAmount=" + claimAmount +
+                ", status=" + status +
+                ", receiverBankingInfo='" + receiverBankingInfo + '\'' +
+                ", claimTitle='" + claimTitle + '\'' +
+                ", claimDescription='" + claimDescription + '\'' +
+                ", imageFiles=" + imageFileNames +
+                '}';
     }
 
     /**

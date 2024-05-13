@@ -1,6 +1,7 @@
-package com.hankaji.icm.views.components;
+package com.hankaji.icm.components;
 
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class ImageUploadForm extends VBox {
+
     private final VBox uploadImagePane = new VBox();
     private static final List<File> selectedFiles = new ArrayList<>();
     private final VBox upperContent = new VBox();
@@ -25,6 +27,8 @@ public class ImageUploadForm extends VBox {
 
     private final double initialUploadImageViewFitWidth;
     private final Font initialUploadImageTextFont;
+
+    private final Button uploadImageButton;
 
     public ImageUploadForm() {
 
@@ -51,7 +55,7 @@ public class ImageUploadForm extends VBox {
         upperContent.setSpacing(8);
         upperContent.getChildren().addAll(uploadImageView, uploadImageText);
 
-        Button uploadImageButton = getSelectButton();
+        uploadImageButton = getSelectButton();
         uploadImageButton.getStyleClass().add("upload-images-button");
 
         uploadImagePane.getChildren().addAll(upperContent, uploadImageButton);
@@ -99,4 +103,21 @@ public class ImageUploadForm extends VBox {
 
         return selectButton;
     }
+
+    public void setRemoveButtonVisible(boolean visible) {
+        for (Node node : upperContent.getChildren()) {
+            if (node instanceof ImageContainer) {
+                if (visible) {
+                    ((ImageContainer) node).getChildren().add(((ImageContainer) node).getRemoveButton());
+                } else {
+                    ((ImageContainer) node).getChildren().remove(((ImageContainer) node).getRemoveButton());
+                }
+            }
+        }
+    }
+
+    public Button getUploadImageButton() {
+        return uploadImageButton;
+    }
+
 }

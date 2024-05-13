@@ -1,6 +1,6 @@
 package com.hankaji.icm.views;
 
-import com.hankaji.icm.views.components.ClaimForm;
+import com.hankaji.icm.components.ClaimForm;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -13,9 +13,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
+
 import java.io.InputStream;
 
 public class DependentsHomePage extends HBox {

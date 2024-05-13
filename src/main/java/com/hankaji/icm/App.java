@@ -7,9 +7,7 @@ package com.hankaji.icm;
 */
 
 import com.hankaji.icm.views.DependentsHomePage;
-import com.hankaji.icm.views.LogInPage;
 
-import com.hankaji.icm.views.components.ClaimForm;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -31,7 +29,9 @@ public class App extends Application {
 
         stage.setTitle("Insurance Claim Management System");
 //        stage.setScene(scene);
-        dependentsScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
+        dependentsScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/claim-form.css")).toExternalForm());
+        dependentsScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/update-button.css")).toExternalForm());
+
         stage.setScene(dependentsScene);
         stage.setMinWidth(1200);
         stage.setMinHeight(600);

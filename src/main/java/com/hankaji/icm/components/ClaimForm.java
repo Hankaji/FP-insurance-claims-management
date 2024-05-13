@@ -1,40 +1,62 @@
-package com.hankaji.icm.views.components;
+package com.hankaji.icm.components;
 
+import com.hankaji.icm.models.Claim;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXTextField;
-import io.github.palexdev.materialfx.enums.FloatMode;
 import javafx.beans.binding.Bindings;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 import java.io.File;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hankaji.icm.components.FPTextArea;
-import com.hankaji.icm.components.FormTextField;
-
-import static javafx.scene.layout.GridPane.setHalignment;
-import static javafx.scene.layout.GridPane.setValignment;
-
 public class ClaimForm extends VBox {
+
+    protected List<Claim> claims = new ArrayList<>();
+    private Claim currentClaim = null;
 
     public enum Status {
         NEW,
         PROCESSING,
         DONE
+    }
+
+    public void displayLastClaim() {
+        if (!claims.isEmpty()) {
+            Claim lastClaim = claims.getLast(); // Get the last claim in the list
+
+            System.out.println("Claim ID: " + lastClaim.getId());
+            System.out.println("Claim Date: " + lastClaim.getClaimDate());
+            System.out.println("Card Number: " + lastClaim.getCardNumber());
+            System.out.println("Status: " + lastClaim.getStatus());
+            System.out.println("Claim Title: " + lastClaim.getClaimTitle());
+            System.out.println("Claim Description: " + lastClaim.getClaimDescription());
+            System.out.println("Claim Amount: " + lastClaim.getClaimAmount());
+            System.out.println("Received Banking Info: " + lastClaim.getReceiverBankingInfo());
+
+            // Print the names of the selected image files
+            List<File> selectedFiles = lastClaim.getImageFiles();
+            if (!selectedFiles.isEmpty()) {
+                System.out.println("Uploaded Images:");
+                for (File file : selectedFiles) {
+                    System.out.println(file.getName());
+                }
+            } else {
+                System.out.println("No images were uploaded.");
+            }
+        } else {
+            System.out.println("No claims have been submitted yet.");
+        }
     }
 
     public ClaimForm() {
@@ -136,13 +158,18 @@ public class ClaimForm extends VBox {
         submitButton.getStyleClass().add("submit-button");
         HBox.setHgrow(submitButton, Priority.ALWAYS);
 
+        // Create the Update Button Object
+        MFXButton updateButton = new MFXButton("Edit");
+        updateButton.getStyleClass().add("update-button");
+        HBox.setHgrow(updateButton, Priority.ALWAYS);
+
         // Create an HBox for the buttons
         HBox buttonBox = new HBox();
         buttonBox.setMaxWidth(Double.MAX_VALUE);
         buttonBox.setAlignment(Pos.CENTER_RIGHT);
         buttonBox.setSpacing(12);
         buttonBox.getChildren().addAll(clearButton, submitButton);
-        
+
         // Add the GridPane to the VBox
         getChildren().addAll(gridPane, buttonBox);
 
@@ -176,12 +203,13 @@ public class ClaimForm extends VBox {
             });
         });
 
+
         // Add an action to the Submit Button
         submitButton.setOnAction(e -> {
             List<String> missingFields = new ArrayList<>();
 
             String claimTitleValidation = validateTextField(claimTitleTF, "claim title");
-             String claimDescriptionValidation = validateTextArea(claimDescriptionTF, "claim description");
+            String claimDescriptionValidation = validateTextArea(claimDescriptionTF);
             String claimAmountValidation = validateTextField(claimAmount, "claim amount");
             String receivedBankingInfoValidation = validateTextField(receivedBankingInfo, "received banking info");
 
@@ -207,7 +235,7 @@ public class ClaimForm extends VBox {
                 alert.showAndWait();
             }
 
-            if (claimTitleValidation == null && claimAmountValidation == null
+            if (claimTitleValidation == null && claimDescriptionValidation == null && claimAmountValidation == null
                     && receivedBankingInfoValidation == null) {
                 // Generate a random claim ID
                 Random random = new Random();
@@ -217,40 +245,57 @@ public class ClaimForm extends VBox {
                 String cardNumber = String.format("%010d", random.nextInt(1_000_000_000));
 
                 // Get the current date
-                LocalDate claimDate = LocalDate.now();
+                LocalDateTime claimDate = LocalDateTime.now();
                 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                 String claimFormattedDate = claimDate.format(dateFormatter);
 
                 // Set the status to NEW
-                Status status = Status.NEW;
+//                Status status = Status.NEW;
+                Claim.Status status = Claim.Status.NEW;
 
-                // Print the claim information
-                System.out.println("Claim ID: " + claimId);
-                System.out.println("Claim Date: " + claimFormattedDate);
-                System.out.println("Card Number: " + cardNumber);
-                System.out.println("Status: " + status);
-                System.out.println("Claim Title: " + claimTitleTF.getText());
-                System.out.println("Claim Description: " + claimDescriptionTF.getText());
-                System.out.println("Claim Amount: " + claimAmount.getText());
-                System.out.println("Received Banking Info: " + receivedBankingInfo.getText());
+                // Create a new claim object
+                Claim claim = new Claim(claimId, claimDate, claimTitleTF.getText(), cardNumber, claimDate,
+                        new ArrayList<>(), Integer.parseInt(claimAmount.getText()), status, receivedBankingInfo.getText(), claimTitleTF.getText(), claimDescriptionTF.getText(), imageUploadForm.getSelectedFiles());
 
-                // Print the names of the selected image files
-                List<File> selectedFiles = imageUploadForm.getSelectedFiles();
-                if (!selectedFiles.isEmpty()) {
-                    System.out.println("Uploaded Images:");
-                    for (File file : selectedFiles) {
-                        System.out.println(file.getName());
-                    }
+                // Add the claim to the list of claims
+                claims.add(claim);
+
+                // Set the current claim to the last claim in the list
+                currentClaim = claim;
+
+                System.out.println(currentClaim);
+
+//                System.out.println(claim);
+
+                claims.forEach(System.out::println);
+
+                System.out.println(claims.size() + " claims have been submitted.");
+                displayLastClaim();
+
+
+                if (currentClaim == null) {
+
+                    claims.add(claim);
+                    currentClaim = claim;
+
                 } else {
-                    System.out.println("No images were uploaded.");
-                }
 
-                // Clear all the fields
-                claimTitleTF.clear();
-                claimDescriptionTF.clear();
-                claimAmount.clear();
-                receivedBankingInfo.clear();
-                imageUploadForm.clearSelectedFiles();
+                    // Find the claim with the same ID
+                    Claim existingClaim = claims.stream().filter(c -> c.getId().equals(currentClaim.getId())).findFirst().orElse(null);
+
+                    if (existingClaim != null) {
+
+                        existingClaim.setCardNumber(currentClaim.getCardNumber());
+                        existingClaim.setClaimAmount(currentClaim.getClaimAmount());
+                        existingClaim.setClaimDate(currentClaim.getClaimDate());
+                        existingClaim.setClaimDescription(currentClaim.getClaimDescription());
+                        existingClaim.setClaimTitle(currentClaim.getClaimTitle());
+                        existingClaim.setImageFiles(currentClaim.getImageFiles());
+                        existingClaim.setReceiverBankingInfo(currentClaim.getReceiverBankingInfo());
+                        existingClaim.setStatus(currentClaim.getStatus());
+
+                    }
+                }
 
                 // Show a notification
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -259,6 +304,23 @@ public class ClaimForm extends VBox {
                 alert.setContentText("Claim has been submitted successfully!");
 
                 alert.showAndWait();
+
+                clearButton.setDisable(true);
+                clearButton.setVisible(false);
+                submitButton.setDisable(true);
+                submitButton.setVisible(false);
+                buttonBox.getChildren().add(updateButton);
+
+
+                // Make the fields uneditable
+                claimTitleTF.setEditable(false);
+                claimDescriptionTF.setEditable(false);
+                claimAmount.setEditable(false);
+                receivedBankingInfo.setEditable(false);
+                imageUploadForm.setRemoveButtonVisible(false);
+
+                // Disable the Upload Image button
+                imageUploadForm.getUploadImagePane().getChildren().remove(imageUploadForm.getUploadImageButton());
 
             } else {
 
@@ -272,6 +334,29 @@ public class ClaimForm extends VBox {
                     System.out.println(receivedBankingInfoValidation);
                 }
             }
+        });
+
+        updateButton.setOnAction(e -> {
+            // Set the current claim to the last claim in the list
+            currentClaim = claims.getLast();
+
+            // Make the fields editable
+            claimTitleTF.setEditable(true);
+            claimDescriptionTF.setEditable(true);
+            claimAmount.setEditable(true);
+            receivedBankingInfo.setEditable(true);
+            imageUploadForm.setRemoveButtonVisible(true);
+
+            // Hide the Update button and show the Clear and Submit buttons
+            clearButton.setVisible(true);
+            clearButton.setDisable(false);
+            submitButton.setVisible(true);
+            submitButton.setDisable(false);
+
+            buttonBox.getChildren().remove(updateButton);
+
+            // Enable the Upload Image button
+            imageUploadForm.getUploadImagePane().getChildren().add(imageUploadForm.getUploadImageButton());
         });
 
     }
@@ -316,10 +401,10 @@ public class ClaimForm extends VBox {
         }
     }
 
-    private String validateTextArea(TextArea textArea, String fieldName) {
+    private String validateTextArea(TextArea textArea) {
         if (textArea.getText().trim().isEmpty()) {
             textArea.setStyle("-fx-border-color: red;");
-            return "Please enter the " + fieldName + "!";
+            return "Please enter the " + "claim description" + "!";
         } else {
             textArea.setStyle("");
             return null;
