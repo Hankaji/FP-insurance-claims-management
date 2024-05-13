@@ -61,6 +61,7 @@
     -fx-font-size: 16px;
     -fx-background-radius: 8px;
     -fx-cursor: hand;
+    -fx-padding: 1px 8px;
 }
 
 .upload-images-pane {
