@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- JDBC Database connection settings -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres</property>
+        <property name="hibernate.connection.username">postgres.sixxaurzsrdqcukvvvmg</property>
+        <property name="hibernate.connection.password">Thienson@2610</property>
+
+        <!-- SQL Dialect -->
+        <property name="dialect"> org.hibernate.dialect.PostgreSQLDialect</property>
+
+        <!-- Echo all SQL Statement -->
+        <property name="show_sql">true</property>
+
+        <!-- Specify your entity package -->
+        <mapping class="com.hankaji.icm.models.customer.mappedCustomer"/>
+    </session-factory>
+</hibernate-configuration>
