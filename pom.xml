@@ -21,18 +21,6 @@
   </properties>
 
   <dependencies>
-    <!-- Hibernate-->
-      <dependency>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate-core</artifactId>
-          <version>6.5.0.Final</version>
-      </dependency>
-    <!-- Postgresql-->
-      <dependency>
-          <groupId>org.postgresql</groupId>
-          <artifactId>postgresql</artifactId>
-          <version>42.7.3</version>
-      </dependency>
     <!-- JUnit -->
     <dependency>
       <groupId>junit</groupId>
@@ -57,12 +45,6 @@
         <groupId>io.github.palexdev</groupId>
         <artifactId>materialfx</artifactId>
         <version>11.17.0</version>
-    </dependency>
-    <!-- Postgres Driver -->
-    <dependency>
-        <groupId>org.postgresql</groupId>
-        <artifactId>postgresql</artifactId>
-        <version>42.7.3</version>
     </dependency>
     <!-- JavaFX -->
     <dependency>

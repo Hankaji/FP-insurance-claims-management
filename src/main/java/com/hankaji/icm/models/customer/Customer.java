@@ -12,12 +12,7 @@ import java.util.ArrayList;
 
 import com.hankaji.icm.models.Claim;
 import com.hankaji.icm.models.InsuranceCard;
-import com.hankaji.icm.models.User;
 import com.hankaji.icm.lib.GsonSerializable;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Table;
 
 public abstract class Customer implements GsonSerializable {
 

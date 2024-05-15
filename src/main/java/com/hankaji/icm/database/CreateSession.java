@@ -17,7 +17,7 @@ public class CreateSession {
         SessionFactory sessionFactory = null;
         // A SessionFactory is set up once for an application!
         final StandardServiceRegistry registry =
-                new StandardServiceRegistryBuilder().configure()
+                new StandardServiceRegistryBuilder().configure("/configs/hibernate.cfg.xml")
                         .build();
         try {
             sessionFactory =
