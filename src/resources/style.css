@@ -1,10 +1,22 @@
-.status-label {
-    -fx-background-color: transparent;
-    -fx-border-color: black;
-    -fx-border-radius: 15px;
-    -fx-border-width: 2px;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-padding: 5px 10px;
-    -fx-font-size: 12px;
+/* CSS for ListView cell */
+.list-view .claim-cell {
+    -fx-padding: 10px;
+    -fx-background-color: #f0f0f0;
+    -fx-background-radius: 10px;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+}
+
+.list-view .claim-cell:hover {
+    -fx-background-color: #e0e0e0;
+}
+
+.list-view .claim-cell:selected {
+    -fx-background-color: #cce6ff;
+}
+
+.list-view .claim-cell .text {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
 }

@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Side;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -181,10 +182,11 @@ public class ClaimController {
                         setGraphic(null);
                     } else {
                         // Create the cell content here
-                        Label idLabel = new Label(item.getId());
-                        Label insuredPersonLabel = new Label(item.getInsuredPerson());
-                        Label cardNumberLabel = new Label(item.getCardNumber());
-                        Label statusLabel = new Label(item.getStatus().toString());
+                        Label blankLabel = createLabel("", 15);
+                        Label idLabel = createLabel(item.getId(), 200);
+                        Label insuredPersonLabel = createLabel(item.getInsuredPerson(), 200);
+                        Label cardNumberLabel = createLabel(item.getCardNumber(), 200);
+                        Label statusLabel = createLabel(item.getStatus().toString(), 150);
 
                         // Create the "three vertical dots" button
                         Button dotsButton = new Button("\u22EE"); // Unicode character for vertical ellipsis
@@ -210,34 +212,33 @@ public class ClaimController {
                             contextMenu.show(dotsButton, Side.RIGHT, 0, 0);
                         });
 
-                        GridPane cellContent = new GridPane();
-                        cellContent.addRow(0, createEmptyLabel(), idLabel, insuredPersonLabel, cardNumberLabel, statusLabel, dotsButton);
-                        cellContent.getColumnConstraints().addAll(
-                                new ColumnConstraints(20), // Spacing column
-                                new ColumnConstraints(200),
-                                new ColumnConstraints(200),
-                                new ColumnConstraints(200),
-                                new ColumnConstraints(170),
-                                new ColumnConstraints(50)
-                        );
-                        cellContent.setHgap(10.0);
-                        cellContent.setVgap(5.0);
-                        setGraphic(cellContent);
+                        // Create HBox to hold labels and dotsButton
+                        HBox hbox = new HBox(10);
+                        hbox.getChildren().addAll(blankLabel, idLabel, insuredPersonLabel, cardNumberLabel, statusLabel, dotsButton);
 
-                        // Handle click event to show more details
+                        // Create BorderPane to hold HBox
+                        BorderPane borderPane = new BorderPane();
+                        borderPane.setPadding(new Insets(5));
+                        borderPane.setCenter(hbox);
+                        borderPane.setStyle("-fx-background-color: #f0f0f0; -fx-background-radius: 10px; -fx-border-color: #cccccc; -fx-border-width: 1px; -fx-border-radius: 10px;");
+
+                        setGraphic(borderPane);
+
+                        // Handle double click event to show more details
                         setOnMouseClicked(event -> {
-                            if (!isEmpty() && event.getClickCount() == 2) {
+                            if (event.getClickCount() == 2) {
                                 showClaimDetails(item); // Implement this method to show more details
                             }
                         });
                     }
                 }
 
-                // Helper method to create an empty label for spacing
-                private Label createEmptyLabel() {
-                    Label emptyLabel = new Label();
-                    emptyLabel.setMinWidth(20); // Set width for spacing
-                    return emptyLabel;
+                // Helper method to create a label with fixed width
+                private Label createLabel(String text, double width) {
+                    Label label = new Label(text);
+                    label.setPrefWidth(width);
+                    label.setMaxWidth(Region.USE_PREF_SIZE);
+                    return label;
                 }
             };
         }
@@ -261,11 +262,6 @@ public class ClaimController {
 
         alert.showAndWait();
     }
-
-    public Callback<ListView<Claim>, ListCell<Claim>> getListViewCellFactory() {
-        return new ListViewCellFactory();
-    }
-
 
     public AnchorPane getRoot() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ClaimView.fxml"));
