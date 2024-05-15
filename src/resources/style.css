@@ -1,0 +1,10 @@
+.status-label {
+    -fx-background-color: transparent;
+    -fx-border-color: black;
+    -fx-border-radius: 15px;
+    -fx-border-width: 2px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 10px;
+    -fx-font-size: 12px;
+}

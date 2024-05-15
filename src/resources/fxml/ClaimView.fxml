@@ -41,22 +41,22 @@
                   <HBox prefHeight="18.0" prefWidth="38.0" />
                   <VBox prefHeight="16.0" prefWidth="212.0">
                      <children>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="CLAIM ID" />
+                        <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="CLAIM ID" />
                      </children>
                   </VBox>
                   <VBox prefHeight="18.0" prefWidth="208.0">
                      <children>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="INSURED PERSON" />
+                        <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="INSURED PERSON" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="18.0" prefWidth="208.0">
+                  <VBox prefHeight="16.0" prefWidth="210.0">
                      <children>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="CARD NUMBER" />
+                        <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="CARD NUMBER" />
                      </children>
                   </VBox>
                   <VBox prefHeight="18.0" prefWidth="86.0">
                      <children>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="STATUS" wrappingWidth="50.90856981277466" />
+                        <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="STATUS" wrappingWidth="50.90856981277466" />
                      </children>
                   </VBox>
                </children>
