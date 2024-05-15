@@ -208,5 +208,145 @@
     "claimAmount": 10000,
     "status": "NEW",
     "receiverBankingInfo": "Chase-Marcus-1870946934"
+  },
+  {
+    "id": "f-1234567890",
+    "claimDate": "12::May::2024 14::30::00",
+    "insuredPerson": "John Doe",
+    "cardNumber": "1234567890",
+    "examDate": "20::Aug::2026 09::00::00",
+    "documents": [
+      "f-1234567890_1234567890_document1.pdf",
+      "f-1234567890_1234567890_document2.pdf"
+    ],
+    "claimAmount": 20000,
+    "status": "NEW",
+    "receiverBankingInfo": "Bank XYZ-John-1234567890"
+  },
+  {
+    "id": "f-2345678901",
+    "claimDate": "14::May::2024 10::45::00",
+    "insuredPerson": "Jane Smith",
+    "cardNumber": "2345678901",
+    "examDate": "25::Sep::2026 11::15::00",
+    "documents": [
+      "f-2345678901_2345678901_document1.pdf",
+      "f-2345678901_2345678901_document2.pdf"
+    ],
+    "claimAmount": 18000,
+    "status": "NEW",
+    "receiverBankingInfo": "Bank ABC-Jane-2345678901"
+  },
+  {
+    "id": "f-3456789012",
+    "claimDate": "18::May::2024 09::20::00",
+    "insuredPerson": "Michael Johnson",
+    "cardNumber": "3456789012",
+    "examDate": "10::Dec::2026 14::45::00",
+    "documents": [
+      "f-3456789012_3456789012_document1.pdf",
+      "f-3456789012_3456789012_document2.pdf"
+    ],
+    "claimAmount": 25000,
+    "status": "NEW",
+    "receiverBankingInfo": "Bank PQR-Michael-3456789012"
+  },
+  {
+    "id": "f-4567890123",
+    "claimDate": "20::May::2024 13::55::00",
+    "insuredPerson": "Emily Brown",
+    "cardNumber": "4567890123",
+    "examDate": "15::Nov::2026 08::30::00",
+    "documents": [
+      "f-4567890123_4567890123_document1.pdf",
+      "f-4567890123_4567890123_document2.pdf"
+    ],
+    "claimAmount": 22000,
+    "status": "NEW",
+    "receiverBankingInfo": "Bank LMN-Emily-4567890123"
+  },
+  {
+    "id": "f-5678901234",
+    "claimDate": "22::May::2024 16::10::00",
+    "insuredPerson": "David Wilson",
+    "cardNumber": "5678901234",
+    "examDate": "30::Oct::2026 10::20::00",
+    "documents": [
+      "f-5678901234_5678901234_document1.pdf",
+      "f-5678901234_5678901234_document2.pdf"
+    ],
+    "claimAmount": 19000,
+    "status": "NEW",
+    "receiverBankingInfo": "Bank RST-David-5678901234"
+  },
+  {
+    "id": "f-6789012345",
+    "claimDate": "24::May::2024 11::40::00",
+    "insuredPerson": "Sarah Taylor",
+    "cardNumber": "6789012345",
+    "examDate": "5::Dec::2026 09::45::00",
+    "documents": [
+      "f-6789012345_6789012345_document1.pdf",
+      "f-6789012345_6789012345_document2.pdf"
+    ],
+    "claimAmount": 21000,
+    "status": "NEW",
+    "receiverBankingInfo": "Bank XYZ-Sarah-6789012345"
+  },
+  {
+    "id": "f-7890123456",
+    "claimDate": "26::May::2024 18::20::00",
+    "insuredPerson": "Daniel Martinez",
+    "cardNumber": "7890123456",
+    "examDate": "20::Nov::2026 13::00::00",
+    "documents": [
+      "f-7890123456_7890123456_document1.pdf",
+      "f-7890123456_7890123456_document2.pdf"
+    ],
+    "claimAmount": 28000,
+    "status": "NEW",
+    "receiverBankingInfo": "Bank PQR-Daniel-7890123456"
+  },
+  {
+    "id": "f-8901234567",
+    "claimDate": "28::May::2024 14::55::00",
+    "insuredPerson": "Olivia Miller",
+    "cardNumber": "8901234567",
+    "examDate": "25::Dec::2026 10::45::00",
+    "documents": [
+      "f-8901234567_8901234567_document1.pdf",
+      "f-8901234567_8901234567_document2.pdf"
+    ],
+    "claimAmount": 24000,
+    "status": "NEW",
+    "receiverBankingInfo": "Bank ABC-Olivia-8901234567"
+  },
+  {
+    "id": "f-9012345678",
+    "claimDate": "30::May::2024 09::45::00",
+    "insuredPerson": "Lucas Rodriguez",
+    "cardNumber": "9012345678",
+    "examDate": "10::Jan::2027 08::20::00",
+    "documents": [
+      "f-9012345678_9012345678_document1.pdf",
+      "f-9012345678_9012345678_document2.pdf"
+    ],
+    "claimAmount": 26000,
+    "status": "NEW",
+    "receiverBankingInfo": "Bank LMN-Lucas-9012345678"
+  },
+  {
+    "id": "f-0123456789",
+    "claimDate": "2::Jun::2024 10::30::00",
+    "insuredPerson": "Sophia Brown",
+    "cardNumber": "0123456789",
+    "examDate": "15::Feb::2027 09::15::00",
+    "documents": [
+      "f-0123456789_0123456789_document1.pdf",
+      "f-0123456789_0123456789_document2.pdf"
+    ],
+    "claimAmount": 23000,
+    "status": "NEW",
+    "receiverBankingInfo": "Bank RST-Sophia-0123456789"
   }
 ]
