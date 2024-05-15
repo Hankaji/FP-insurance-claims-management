@@ -1,14 +1,12 @@
 package com.hankaji.icm.views;
 
 import com.hankaji.icm.claim.Claim;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
 import javafx.util.Callback;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -234,12 +232,18 @@ public class ClaimController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Claim Details");
         alert.setHeaderText(null);
+
+        // Increase width of the alert dialog
+        alert.getDialogPane().setPrefWidth(450);
+
+        // Set content text with line breaks for better readability
         alert.setContentText("ID: " + claim.getId() +
                 "\nInsured Person: " + claim.getInsuredPerson() +
                 "\nCard Number: " + claim.getCardNumber() +
                 "\nStatus: " + claim.getStatus().toString() +
                 "\nClaim Amount: " + claim.getClaimAmount() +
                 "\nReceiver Banking Info: " + claim.getReceiverBankingInfo());
+
         alert.showAndWait();
     }
 
