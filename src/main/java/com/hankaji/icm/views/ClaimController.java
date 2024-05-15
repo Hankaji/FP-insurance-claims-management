@@ -1,15 +1,15 @@
 package com.hankaji.icm.views;
 
 import com.hankaji.icm.claim.Claim;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
+import javafx.util.Callback;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,56 +29,15 @@ import java.util.Locale;
 public class ClaimController {
 
     @FXML
-    private TableView<Claim> claimTableView;
-
-    @FXML
-    private TableColumn<Claim, String> idColumn;
-
-    @FXML
-    private TableColumn<Claim, LocalDateTime> claimDateColumn;
-
-    @FXML
-    private TableColumn<Claim, String> insuredPersonColumn;
-
-    @FXML
-    private TableColumn<Claim, String> cardNumberColumn;
-
-    @FXML
-    private TableColumn<Claim, LocalDateTime> examDateColumn;
-
-    @FXML
-    private TableColumn<Claim, Integer> claimAmountColumn;
-
-    @FXML
-    private TableColumn<Claim, Claim.Status> statusColumn;
-
-    @FXML
-    private TableColumn<Claim, String> receiverBankingInfoColumn;
+    private ListView<Claim> claimListView;
 
     @FXML
     private TextField searchField;
 
     @FXML
     private void initialize() {
-        // Initialize columns
-        idColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId()));
-        claimDateColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getClaimDate()));
-        insuredPersonColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getInsuredPerson()));
-        cardNumberColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCardNumber()));
-        examDateColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getExamDate()));
-        claimAmountColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getClaimAmount()).asObject());
-        statusColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getStatus()));
-        receiverBankingInfoColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getReceiverBankingInfo()));
-
-        // Set preferred widths for columns
-        idColumn.setPrefWidth(100);
-        claimDateColumn.setPrefWidth(140);
-        insuredPersonColumn.setPrefWidth(130);
-        cardNumberColumn.setPrefWidth(120); // Adjust as needed
-        examDateColumn.setPrefWidth(140);
-        claimAmountColumn.setPrefWidth(80); // Adjust as needed
-        statusColumn.setPrefWidth(100);
-        receiverBankingInfoColumn.setPrefWidth(200);
+        // Set the cell factory for the ListView
+        claimListView.setCellFactory(new ListViewCellFactory());
     }
 
     @FXML
@@ -128,8 +87,8 @@ public class ClaimController {
                 claims.add(claim);
             }
 
-            claimTableView.getItems().clear();
-            claimTableView.getItems().addAll(claims);
+            ObservableList<Claim> observableList = FXCollections.observableArrayList(claims);
+            claimListView.setItems(observableList);
 
         } catch (IOException | JSONException e) {
             e.printStackTrace();
@@ -171,8 +130,7 @@ public class ClaimController {
                 }
             }
 
-            claimTableView.getItems().clear();
-            claimTableView.setItems(items);
+            claimListView.setItems(items);
 
             if (items.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -193,7 +151,7 @@ public class ClaimController {
         dialog.setContentText("Enter Claim ID:");
 
         dialog.showAndWait().ifPresent(id -> {
-            ObservableList<Claim> items = claimTableView.getItems();
+            ObservableList<Claim> items = claimListView.getItems();
             Claim claimToRemove = null;
             for (Claim claim : items) {
                 if (claim.getId().equals(id)) {
@@ -201,7 +159,6 @@ public class ClaimController {
                     break;
                 }
             }
-
             if (claimToRemove != null) {
                 items.remove(claimToRemove);
 
@@ -231,6 +188,65 @@ public class ClaimController {
             }
         });
     }
+
+    private class ListViewCellFactory implements Callback<ListView<Claim>, ListCell<Claim>> {
+        @Override
+        public ListCell<Claim> call(ListView<Claim> param) {
+            return new ListCell<Claim>() {
+                @Override
+                protected void updateItem(Claim item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                        setGraphic(null);
+                    } else {
+                        // Create the cell content here
+                        Label idLabel = new Label(item.getId());
+                        Label insuredPersonLabel = new Label(item.getInsuredPerson());
+                        Label cardNumberLabel = new Label(item.getCardNumber());
+                        Label statusLabel = new Label(item.getStatus().toString());
+
+                        GridPane cellContent = new GridPane();
+                        cellContent.addRow(0, idLabel, insuredPersonLabel, cardNumberLabel, statusLabel);
+                        cellContent.getColumnConstraints().addAll(
+                                new ColumnConstraints(200),
+                                new ColumnConstraints(200),
+                                new ColumnConstraints(200),
+                                new ColumnConstraints(100)
+                        );
+                        cellContent.setHgap(10.0);
+                        cellContent.setVgap(5.0);
+                        setGraphic(cellContent);
+
+                        // Handle click event to show more details
+                        setOnMouseClicked(event -> {
+                            if (!isEmpty()) {
+                                showClaimDetails(item); // Implement this method to show more details
+                            }
+                        });
+                    }
+                }
+            };
+        }
+    }
+
+    private void showClaimDetails(Claim claim) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Claim Details");
+        alert.setHeaderText(null);
+        alert.setContentText("ID: " + claim.getId() +
+                "\nInsured Person: " + claim.getInsuredPerson() +
+                "\nCard Number: " + claim.getCardNumber() +
+                "\nStatus: " + claim.getStatus().toString() +
+                "\nClaim Amount: " + claim.getClaimAmount() +
+                "\nReceiver Banking Info: " + claim.getReceiverBankingInfo());
+        alert.showAndWait();
+    }
+
+    public Callback<ListView<Claim>, ListCell<Claim>> getListViewCellFactory() {
+        return new ListViewCellFactory();
+    }
+
 
     public AnchorPane getRoot() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ClaimView.fxml"));

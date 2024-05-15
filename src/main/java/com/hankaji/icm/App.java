@@ -10,11 +10,11 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         ClaimController claimController = new ClaimController();
-        Scene scene = new Scene(claimController.getRoot(), 1000, 550);
+        Scene scene = new Scene(claimController.getRoot(), 950, 550);
 
         stage.setTitle("Insurance Claim Management System");
         stage.setScene(scene);
-        stage.setMinWidth(1050);
+        stage.setMinWidth(950);
         stage.setMinHeight(550);
         stage.show();
     }

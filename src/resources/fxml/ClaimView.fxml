@@ -1,50 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.*?>
-
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.hankaji.icm.views.ClaimController">
+
+<AnchorPane prefHeight="602.0" prefWidth="970.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hankaji.icm.views.ClaimController">
     <children>
-        <VBox spacing="10.0" style="-fx-background-color: #2B4A78;" layoutX="10.0" layoutY="10.0">
+        <VBox layoutX="11.0" layoutY="14.0" prefHeight="497.0" prefWidth="923.0" spacing="10.0" style="-fx-background-color: #2B4A78;">
             <children>
-                <HBox alignment="CENTER">
+                <HBox alignment="CENTER" prefHeight="34.0" prefWidth="927.0">
                     <children>
-                        <Text text="INSURANCE CLAIM PAGE" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: white;"/>
+                        <Text style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: white;" text="INSURANCE CLAIM PAGE" />
                     </children>
                     <VBox.margin>
-                        <Insets top="10.0" bottom="10.0"/>
+                        <Insets bottom="10.0" top="10.0" />
                     </VBox.margin>
                 </HBox>
                 <HBox alignment="TOP_RIGHT" spacing="10.0" style="-fx-background-color: #2B4A78;">
                     <children>
-                        <TextField fx:id="searchField" promptText="Enter Claim ID"/>
-                        <Button text="Search" onAction="#handleSearch">
+                        <TextField fx:id="searchField" promptText="Enter Claim ID" />
+                        <Button onAction="#handleSearch" text="Search">
                             <HBox.margin>
-                                <Insets right="10.0"/>
+                                <Insets right="10.0" />
                             </HBox.margin>
                         </Button>
                     </children>
                 </HBox>
-                <HBox alignment="CENTER" spacing="10.0">
+                <HBox alignment="CENTER" prefHeight="26.0" prefWidth="954.0" spacing="10.0">
                     <children>
-                        <Button text="View All Claims" onAction="#handleViewAll"/>
-                        <Button text="Delete A Claim" onAction="#handleDelete"/>
+                        <Button onAction="#handleViewAll" text="View All Claims" />
+                        <Button onAction="#handleDelete" text="Delete A Claim" />
                     </children>
                 </HBox>
-                <TableView fx:id="claimTableView" VBox.vgrow="ALWAYS">
-                    <columns>
-                        <TableColumn fx:id="idColumn" text="ID" prefWidth="100"/>
-                        <TableColumn fx:id="claimDateColumn" text="Claim Date" prefWidth="140"/>
-                        <TableColumn fx:id="insuredPersonColumn" text="Insured Person" prefWidth="130"/>
-                        <TableColumn fx:id="cardNumberColumn" text="Card Number" prefWidth="90"/>
-                        <TableColumn fx:id="examDateColumn" text="Exam Date" prefWidth="140"/>
-                        <TableColumn fx:id="claimAmountColumn" text="Amount" prefWidth="60"/>
-                        <TableColumn fx:id="statusColumn" text="Status" prefWidth="100"/>
-                        <TableColumn fx:id="receiverBankingInfoColumn" text="Receiver Banking Info" prefWidth="200"/>
-                    </columns>
-                </TableView>
+                <!-- Reference the ListView cell factory -->
+                <ListView fx:id="claimListView" prefHeight="378.0" prefWidth="926.0" VBox.vgrow="ALWAYS" />
             </children>
         </VBox>
     </children>
