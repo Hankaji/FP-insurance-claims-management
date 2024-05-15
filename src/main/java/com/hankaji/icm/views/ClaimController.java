@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Side;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.util.Callback;
@@ -46,11 +47,6 @@ public class ClaimController {
     @FXML
     private void handleSearch() {
         searchClaim(searchField.getText());
-    }
-
-    @FXML
-    private void handleDelete() {
-        deleteClaim();
     }
 
     private void loadAllClaimsData() {
@@ -142,49 +138,35 @@ public class ClaimController {
         }
     }
 
-    private void deleteClaim() {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Delete Claim");
-        dialog.setHeaderText(null);
-        dialog.setContentText("Enter Claim ID:");
+    private void deleteClaim(Claim claim) {
+        ObservableList<Claim> items = claimListView.getItems();
+        if (items.contains(claim)) {
+            items.remove(claim);
 
-        dialog.showAndWait().ifPresent(id -> {
-            ObservableList<Claim> items = claimListView.getItems();
-            Claim claimToRemove = null;
-            for (Claim claim : items) {
-                if (claim.getId().equals(id)) {
-                    claimToRemove = claim;
-                    break;
-                }
-            }
-            if (claimToRemove != null) {
-                items.remove(claimToRemove);
+            try {
+                Path filePath = Paths.get("data/default/Claim.json");
+                String content = Files.readString(filePath);
+                JSONArray jsonArray = new JSONArray(content);
 
-                try {
-                    Path filePath = Paths.get("data/default/Claim.json");
-                    String content = Files.readString(filePath);
-                    JSONArray jsonArray = new JSONArray(content);
-
-                    JSONArray updatedArray = new JSONArray();
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        if (!jsonObject.getString("id").equals(id)) {
-                            updatedArray.put(jsonObject);
-                        }
+                JSONArray updatedArray = new JSONArray();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    if (!jsonObject.getString("id").equals(claim.getId())) {
+                        updatedArray.put(jsonObject);
                     }
-
-                    Files.write(filePath, Collections.singletonList(updatedArray.toString(2)), StandardCharsets.UTF_8);
-                } catch (IOException | JSONException e) {
-                    e.printStackTrace();
                 }
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Claim with ID " + id + " not found.");
-                alert.showAndWait();
+
+                Files.write(filePath, Collections.singletonList(updatedArray.toString(2)), StandardCharsets.UTF_8);
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
             }
-        });
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Claim not found.");
+            alert.showAndWait();
+        }
     }
 
     private class ListViewCellFactory implements Callback<ListView<Claim>, ListCell<Claim>> {
@@ -204,13 +186,38 @@ public class ClaimController {
                         Label cardNumberLabel = new Label(item.getCardNumber());
                         Label statusLabel = new Label(item.getStatus().toString());
 
+                        // Create the "three vertical dots" button
+                        Button dotsButton = new Button("\u22EE"); // Unicode character for vertical ellipsis
+                        dotsButton.setOnAction(event -> {
+                            // Create a context menu for the actions
+                            ContextMenu contextMenu = new ContextMenu();
+
+                            // Delete item
+                            MenuItem deleteItem = new MenuItem("Delete");
+                            deleteItem.setOnAction(e -> {
+                                // Handle deletion action here
+                                deleteClaim(item);
+                            });
+
+                            // Update item
+                            MenuItem updateItem = new MenuItem("Update");
+                            updateItem.setOnAction(e -> {
+                                // Handle update action here
+                                // Implement your update logic
+                            });
+
+                            contextMenu.getItems().addAll(deleteItem, updateItem);
+                            contextMenu.show(dotsButton, Side.RIGHT, 0, 0);
+                        });
+
                         GridPane cellContent = new GridPane();
-                        cellContent.addRow(0, idLabel, insuredPersonLabel, cardNumberLabel, statusLabel);
+                        cellContent.addRow(3, idLabel, insuredPersonLabel, cardNumberLabel, statusLabel, dotsButton);
                         cellContent.getColumnConstraints().addAll(
                                 new ColumnConstraints(200),
                                 new ColumnConstraints(200),
                                 new ColumnConstraints(200),
-                                new ColumnConstraints(100)
+                                new ColumnConstraints(150),
+                                new ColumnConstraints(50)
                         );
                         cellContent.setHgap(10.0);
                         cellContent.setVgap(5.0);

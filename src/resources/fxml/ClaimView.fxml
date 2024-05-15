@@ -34,7 +34,6 @@
                 <HBox alignment="CENTER" prefHeight="26.0" prefWidth="954.0" spacing="10.0">
                     <children>
                         <Button onAction="#handleViewAll" text="View All Claims" />
-                        <Button onAction="#handleDelete" text="Delete A Claim" />
                     </children>
                 </HBox>
                 <!-- Reference the ListView cell factory -->
