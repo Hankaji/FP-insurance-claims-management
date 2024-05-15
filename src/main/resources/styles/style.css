@@ -27,13 +27,13 @@
 }
 
 .custom-text-field {
-    -fx-border-radius: 8;
+    -fx-border-radius: 16px;
     -fx-text-fill: black;
     -fx-padding: 8px 16px;
 }
 
 .custom-password-field {
-    -fx-border-radius: 8;
+    -fx-border-radius: 16px;
     -fx-text-fill: black;
     -fx-padding: 8px 16px;
 }

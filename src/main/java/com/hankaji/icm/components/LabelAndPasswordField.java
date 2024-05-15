@@ -1,6 +1,7 @@
 package com.hankaji.icm.components;
 
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -37,10 +38,12 @@ public class LabelAndPasswordField extends VBox{
         ImageView eyeClosedIcon = new ImageView(eyeClosed);
         eyeClosedIcon.setFitWidth(20);
         eyeClosedIcon.setFitHeight(20);
+        eyeClosedIcon.setCursor(Cursor.HAND);
 
         ImageView eyeOpenedIcon = new ImageView(eyeOpened);
         eyeOpenedIcon.setFitWidth(20);
         eyeOpenedIcon.setFitHeight(20);
+        eyeOpenedIcon.setCursor(Cursor.HAND);
 
         HBox passwordFieldAndEyeIconContainer = new HBox();
         passwordFieldAndEyeIconContainer.setSpacing(4);

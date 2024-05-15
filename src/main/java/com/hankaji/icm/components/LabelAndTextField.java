@@ -2,7 +2,6 @@ package com.hankaji.icm.components;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 
@@ -20,6 +19,10 @@ public class LabelAndTextField extends VBox {
 
         getChildren().addAll(label, textField);
 
+    }
+
+    public TextField getTextField() {
+        return (TextField) getChildren().get(1);
     }
 
 }

@@ -5,9 +5,7 @@ import com.hankaji.icm.components.LabelAndTextField;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +15,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SignUpPage extends StackPane {
 
@@ -35,7 +35,7 @@ public class SignUpPage extends StackPane {
         rootContainer.setEffect(shadow);
 
         // Set the padding of the VBox to be responsive to the window size
-        rootContainer.paddingProperty().bind(widthProperty().multiply(0.06).map(w -> new Insets(w.doubleValue() * 0.5, w.doubleValue(), w.doubleValue() * 0.5, w.doubleValue())));
+        rootContainer.paddingProperty().bind(widthProperty().multiply(0.05).map(w -> new Insets(w.doubleValue() * 0.5, w.doubleValue(), w.doubleValue() * 0.5, w.doubleValue())));
 
         // Set the background image for the StackPane
         Image bgImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/bgImage.jpg")));
@@ -44,7 +44,7 @@ public class SignUpPage extends StackPane {
         setBackground(new Background(bg));
 
         // Set the padding of the StackPane to be responsive to the window size
-        paddingProperty().bind(widthProperty().multiply(0.25).map(w -> new Insets(w.doubleValue(), w.doubleValue(), w.doubleValue(), w.doubleValue())));
+        paddingProperty().bind(widthProperty().multiply(0.3).map(w -> new Insets(w.doubleValue(), w.doubleValue(), w.doubleValue(), w.doubleValue())));
 
         // Add the page image to the top of the VBox
         Image appImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/appImage.png")));
@@ -83,6 +83,91 @@ public class SignUpPage extends StackPane {
         MFXButton signUpButton = new MFXButton("Sign Up");
         signUpButton.getStyleClass().add("sign-up-button");
         signUpButton.prefWidthProperty().bind(rootContainer.widthProperty());
+
+        signUpButton.setOnAction(event -> {
+
+            // Get the username and password fields
+            String username = ((TextField) usernameField.getChildren().get(1)).getText();
+            String password = passwordField.getPasswordField().getText();
+            String reEnteredPassword = reEnterPasswordField.getPasswordField().getText();
+
+            // Check if the password and re-entered password match
+            if (password.equals(reEnteredPassword)) {
+                System.out.println("Username: " + username);
+                System.out.println("Password: " + password);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Passwords do not match. Please re-enter your password.");
+                alert.showAndWait();
+                passwordField.getPasswordField().clear();
+                passwordField.getPasswordField().setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+                reEnterPasswordField.getPasswordField().clear();
+                reEnterPasswordField.getPasswordField().setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            }
+
+            if (username.isEmpty() & password.isEmpty() & reEnteredPassword.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Please enter the missing fields");
+                alert.showAndWait();
+
+                usernameField.getTextField().setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+                passwordField.getPasswordField().setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+                reEnterPasswordField.getPasswordField().setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+
+            }
+
+            if (username.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Please enter a username");
+                alert.showAndWait();
+
+                usernameField.getTextField().setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            }
+
+            if (password.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Please enter a password");
+                alert.showAndWait();
+
+                passwordField.getPasswordField().setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            }
+
+            if (reEnteredPassword.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Please re-enter your password");
+                alert.showAndWait();
+
+                reEnterPasswordField.getPasswordField().setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            }
+
+            // Define the regex pattern for the password
+            String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}$";
+            Pattern pattern = Pattern.compile(passwordPattern);
+            Matcher matcher = pattern.matcher(password);
+
+            if (!matcher.matches()) {
+                passwordField.getPasswordField().clear();
+                reEnterPasswordField.getPasswordField().clear();
+                passwordField.getPasswordField().setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+                reEnterPasswordField.getPasswordField().setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.");
+                alert.showAndWait();
+            }
+
+        });
 
         // Add all the elements to the root VBox
         rootContainer.getChildren().addAll(pageImageAndPageLabelContainer, fieldsContainer, signUpButton);
