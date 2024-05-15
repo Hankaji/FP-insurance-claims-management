@@ -213,7 +213,7 @@ public class ClaimController {
                         GridPane cellContent = new GridPane();
                         cellContent.addRow(0, createEmptyLabel(), idLabel, insuredPersonLabel, cardNumberLabel, statusLabel, dotsButton);
                         cellContent.getColumnConstraints().addAll(
-                                new ColumnConstraints(30), // Spacing column
+                                new ColumnConstraints(20), // Spacing column
                                 new ColumnConstraints(200),
                                 new ColumnConstraints(200),
                                 new ColumnConstraints(200),
