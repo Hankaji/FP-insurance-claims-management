@@ -28,23 +28,6 @@ public class fakeMain {
             List<User> users = session.createQuery("select  u from User u", User.class).list();
             users.forEach(System.out::println);
 
-            // DO STH
-//            session.persist(customer);
-            // session.load(role, UUID.fromString("8eb4a332-aa57-4879-9a76-d159bbcab9f1"));
-            // //DELETE INSTANCE WITH SPECIFIED ID
-            // session.remove(role);
-            // session.flush();
-            // session.clear();
-            // session.persist(user);
-    //      List<Object[]> users = session.createQuery("SELECT u, r FROM Role r JOIN User u ON u.role_id = r.id").list();
-    //      users.forEach(objects -> {
-    //        User user1 = (User) objects[0];
-    //        Role role1 = (Role) objects[1];
-    //        System.out.println("User: " + user1.toString() + ", Role: " + role1.toString());
-    //      });
-
-
-
             tx.commit();
         }
 

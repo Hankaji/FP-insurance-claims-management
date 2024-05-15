@@ -17,6 +17,8 @@ public class User {
     private String email;
     @Column(name = "encrypted_password")
     private String password;
+    @Column(name = "role")
+    private String role;
     public User() {
     }
     public User(String fullname, String email, String password) {
