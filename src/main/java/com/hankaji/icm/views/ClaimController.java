@@ -211,12 +211,13 @@ public class ClaimController {
                         });
 
                         GridPane cellContent = new GridPane();
-                        cellContent.addRow(3, idLabel, insuredPersonLabel, cardNumberLabel, statusLabel, dotsButton);
+                        cellContent.addRow(0, createEmptyLabel(), idLabel, insuredPersonLabel, cardNumberLabel, statusLabel, dotsButton);
                         cellContent.getColumnConstraints().addAll(
+                                new ColumnConstraints(30), // Spacing column
                                 new ColumnConstraints(200),
                                 new ColumnConstraints(200),
                                 new ColumnConstraints(200),
-                                new ColumnConstraints(150),
+                                new ColumnConstraints(170),
                                 new ColumnConstraints(50)
                         );
                         cellContent.setHgap(10.0);
@@ -225,11 +226,18 @@ public class ClaimController {
 
                         // Handle click event to show more details
                         setOnMouseClicked(event -> {
-                            if (!isEmpty()) {
+                            if (!isEmpty() && event.getClickCount() == 2) {
                                 showClaimDetails(item); // Implement this method to show more details
                             }
                         });
                     }
+                }
+
+                // Helper method to create an empty label for spacing
+                private Label createEmptyLabel() {
+                    Label emptyLabel = new Label();
+                    emptyLabel.setMinWidth(20); // Set width for spacing
+                    return emptyLabel;
                 }
             };
         }
