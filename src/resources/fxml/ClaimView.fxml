@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<?import javafx.scene.text.Text?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.hankaji.icm.views.ClaimController">
+    <children>
+        <VBox spacing="10.0" style="-fx-background-color: #2B4A78;" layoutX="10.0" layoutY="10.0">
+            <children>
+                <HBox alignment="CENTER">
+                    <children>
+                        <Text text="INSURANCE CLAIM PAGE" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: white;"/>
+                    </children>
+                    <VBox.margin>
+                        <Insets top="10.0" bottom="10.0"/>
+                    </VBox.margin>
+                </HBox>
+                <HBox alignment="TOP_RIGHT" spacing="10.0" style="-fx-background-color: #2B4A78;">
+                    <children>
+                        <TextField fx:id="searchField" promptText="Enter Claim ID"/>
+                        <Button text="Search" onAction="#handleSearch">
+                            <HBox.margin>
+                                <Insets right="10.0"/>
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" spacing="10.0">
+                    <children>
+                        <Button text="View All Claims" onAction="#handleViewAll"/>
+                        <Button text="Delete A Claim" onAction="#handleDelete"/>
+                    </children>
+                </HBox>
+                <TableView fx:id="claimTableView" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="idColumn" text="ID" prefWidth="100"/>
+                        <TableColumn fx:id="claimDateColumn" text="Claim Date" prefWidth="140"/>
+                        <TableColumn fx:id="insuredPersonColumn" text="Insured Person" prefWidth="130"/>
+                        <TableColumn fx:id="cardNumberColumn" text="Card Number" prefWidth="90"/>
+                        <TableColumn fx:id="examDateColumn" text="Exam Date" prefWidth="140"/>
+                        <TableColumn fx:id="claimAmountColumn" text="Amount" prefWidth="60"/>
+                        <TableColumn fx:id="statusColumn" text="Status" prefWidth="100"/>
+                        <TableColumn fx:id="receiverBankingInfoColumn" text="Receiver Banking Info" prefWidth="200"/>
+                    </columns>
+                </TableView>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
