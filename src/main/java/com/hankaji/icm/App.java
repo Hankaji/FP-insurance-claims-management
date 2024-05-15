@@ -1,6 +1,6 @@
 package com.hankaji.icm;
 
-import com.hankaji.icm.database.Session;
+import com.hankaji.icm.database.SessionManager;
 
 /** 
 * @author <Hoang Thai Phuc - s3978081> 
@@ -52,7 +52,7 @@ public class App extends Application {
     private void _closeSession(Stage stage) {
         // Close the session factory when the application is closed
         stage.setOnCloseRequest(e -> {
-            Session.getInstance().tearDown();
+            SessionManager.getInstance().tearDown();
         });
     }
 
@@ -70,6 +70,6 @@ public class App extends Application {
      */
     public void _setUp() {
         // Initialize the session factory (Hibernate)
-        Session.getInstance();
+        SessionManager.getInstance();
     }
 }

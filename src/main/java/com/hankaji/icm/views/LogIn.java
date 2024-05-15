@@ -3,20 +3,17 @@ package com.hankaji.icm.views;
 import java.util.Objects;
 
 import com.hankaji.icm.components.FormTextField;
+import com.hankaji.icm.controllers.LogInController;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
 public class LogIn extends StackPane {
 
@@ -39,6 +36,7 @@ public class LogIn extends StackPane {
         centerLayout.getChildren().add(loginForm);
 
         getChildren().add(centerLayout);
+        new LogInController((Button) loginForm.lookup(".login-button"));
     }
 
     private final VBox _loginForm() {

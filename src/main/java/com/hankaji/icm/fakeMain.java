@@ -6,8 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import java.util.List;
-
 public class fakeMain {
     public static void main(String[] args) {
         SessionFactory sessionFactory = CreateSession.innit();
