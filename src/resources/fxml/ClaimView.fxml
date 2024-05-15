@@ -13,7 +13,7 @@
     <children>
         <VBox layoutX="11.0" layoutY="14.0" prefHeight="497.0" prefWidth="923.0" spacing="10.0" style="-fx-background-color: #2B4A78;">
             <children>
-                <HBox alignment="CENTER" prefHeight="34.0" prefWidth="927.0">
+                <HBox alignment="CENTER" prefHeight="31.0" prefWidth="923.0">
                     <children>
                         <Text style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: white;" text="INSURANCE CLAIM PAGE" />
                     </children>
@@ -31,11 +31,36 @@
                         </Button>
                     </children>
                 </HBox>
-                <HBox alignment="CENTER" prefHeight="26.0" prefWidth="954.0" spacing="10.0">
+                <HBox alignment="CENTER" prefHeight="127.0" prefWidth="923.0" spacing="10.0">
                     <children>
-                        <Button onAction="#handleViewAll" text="View All Claims" />
+                        <Button onAction="#handleViewAll" prefHeight="14.0" prefWidth="97.0" text="View All Claims" />
                     </children>
                 </HBox>
+            <HBox prefHeight="8.0" prefWidth="923.0">
+               <children>
+                  <HBox prefHeight="18.0" prefWidth="38.0" />
+                  <VBox prefHeight="16.0" prefWidth="212.0">
+                     <children>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="CLAIM ID" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="18.0" prefWidth="208.0">
+                     <children>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="INSURED PERSON" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="18.0" prefWidth="208.0">
+                     <children>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="CARD NUMBER" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="18.0" prefWidth="86.0">
+                     <children>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="STATUS" wrappingWidth="50.90856981277466" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
                 <!-- Reference the ListView cell factory -->
                 <ListView fx:id="claimListView" prefHeight="378.0" prefWidth="926.0" VBox.vgrow="ALWAYS" />
             </children>
