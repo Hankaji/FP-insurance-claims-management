@@ -13,7 +13,8 @@ And remember to TEAR IT DOWN at the end
 public class CreateSession {
     private static SessionFactory sessionFactory;
 
-    public static void connect() {
+    public static SessionFactory innit() {
+        SessionFactory sessionFactory = null;
         // A SessionFactory is set up once for an application!
         final StandardServiceRegistry registry =
                 new StandardServiceRegistryBuilder().configure()
@@ -29,6 +30,7 @@ public class CreateSession {
             // had trouble building the SessionFactory so destroy it manually.
             StandardServiceRegistryBuilder.destroy(registry);
         }
+        return sessionFactory;
     }
 
     public static void tearDown(){

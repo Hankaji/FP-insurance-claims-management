@@ -1,7 +1,7 @@
 package com.hankaji.icm;
 
+import com.hankaji.icm.database.CreateSession;
 import com.hankaji.icm.models.customer.Customer;
-import com.hankaji.icm.models.customer.MappedCustomer;
 import com.hankaji.icm.models.customer.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,29 +17,19 @@ import java.util.UUID;
 
 public class fakeMain {
     public static void main(String[] args) {
-        SessionFactory sessionFactory = null;
+        SessionFactory sessionFactory = CreateSession.innit();
 
-        // A SessionFactory is set up once for an application!
-        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure()
-                .build();
-        try {
-            sessionFactory = new MetadataSources(registry)
-                    .buildMetadata()
-                    .buildSessionFactory();
-        } catch (Exception e) {
-            // The registry would be destroyed by the SessionFactory, but we
-            // had trouble building the SessionFactory so destroy it manually.
-            StandardServiceRegistryBuilder.destroy(registry);
-        }
 
-        MappedCustomer customer = new MappedCustomer(UUID.randomUUID(),"Pham Tran Dang Khoa", "timzek7@gmail.com", "I hate niggers", "123123") ;
         // OPEN SESSION
         try (Session session = sessionFactory.openSession()) {
             // start transaction
             Transaction tx = session.beginTransaction();
 
+            List<User> users = session.createQuery("select  u from User u", User.class).list();
+            users.forEach(System.out::println);
+
             // DO STH
-            session.persist(customer);
+//            session.persist(customer);
             // session.load(role, UUID.fromString("8eb4a332-aa57-4879-9a76-d159bbcab9f1"));
             // //DELETE INSTANCE WITH SPECIFIED ID
             // session.remove(role);

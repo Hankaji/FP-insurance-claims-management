@@ -17,7 +17,7 @@
         <property name="show_sql">true</property>
 
         <!-- Specify your entity package -->
-        <mapping class="com.hankaji.icm.models.customer.MappedCustomer"/>
+<!--        <mapping class="com.hankaji.icm.models.customer.MappedCustomer"/>-->
         <mapping class="com.hankaji.icm.models.customer.User"/>
     </session-factory>
 </hibernate-configuration>
