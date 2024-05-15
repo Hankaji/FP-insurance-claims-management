@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id="$MODULE_DIR$/pom.xml" external.system.module.type="SINGLE_MODULE" external.system.module.version="223-2" org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" version="4">
+  <component name="AdditionalModuleElements">
+    <content url="file://$MODULE_DIR$" dumb="true">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
+    </content>
+  </component>
+  <component name="FacetManager">
+    <facet type="hibernate" name="Hibernate">
+      <configuration>
+        <datasource-map>
+          <unit-entry name="hibernate.cfg.xml" />
+          <unit-entry name="src:main:sources:hibernate.cfg.xml.xml" value="2f327b76-a9de-43e2-aeba-56b187c5e69e" />
+        </datasource-map>
+        <naming-strategy-map />
+        <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/main/resources/hibernate.cfg.xml" />
+        <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/resources/configs/hibernate.cfg.xml" />
+      </configuration>
+    </facet>
+  </component>
+</module>

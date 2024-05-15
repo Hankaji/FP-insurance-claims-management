@@ -18,6 +18,6 @@
 
         <!-- Specify your entity package -->
 <!--        <mapping class="com.hankaji.icm.models.customer.MappedCustomer"/>-->
-        <mapping class="com.hankaji.icm.models.customer.User"/>
+        <mapping class="com.hankaji.icm.models.User"/>
     </session-factory>
 </hibernate-configuration>

@@ -28,6 +28,14 @@ public class User {
     public User() {
     }
 
+    public User(UUID id, String fullname, String email, String password, Roles role) {
+        this.id = id;
+        this.fullname = fullname;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
     public User(String fullname, String email, String password) {
         this.id = UUID.randomUUID();
         this.fullname = fullname;
@@ -37,6 +45,13 @@ public class User {
 
     public UUID getId() {
         return id;
+    }
+
+    public User(String fullname, String email, String password, Roles role) {
+        this.fullname = fullname;
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
     public String getFullname() {

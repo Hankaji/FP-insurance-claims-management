@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 import com.hankaji.icm.models.Claim;
 import com.hankaji.icm.models.InsuranceCard;
-import com.hankaji.icm.models.User;
 import com.hankaji.icm.lib.GsonSerializable;
 
 public abstract class Customer implements GsonSerializable {
@@ -37,6 +36,9 @@ public abstract class Customer implements GsonSerializable {
         this.name = name;
         this.insuranceCard = insuranceCard;
         this.claims = new ArrayList<Claim>();
+    }
+
+    public Customer() {
     }
 
     /**
