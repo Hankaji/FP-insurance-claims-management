@@ -14,7 +14,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -92,7 +94,7 @@ public class SignUpPage extends StackPane {
             String reEnteredPassword = reEnterPasswordField.getPasswordField().getText();
 
             // Check if the password and re-entered password match
-            if (password.equals(reEnteredPassword)) {
+            if (!username.isEmpty() & password.equals(reEnteredPassword)) {
                 System.out.println("Username: " + username);
                 System.out.println("Password: " + password);
             } else {
@@ -120,24 +122,14 @@ public class SignUpPage extends StackPane {
 
             }
 
-            if (username.isEmpty()) {
+             if (username.length() < 8) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText(null);
-                alert.setContentText("Please enter a username");
+                alert.setContentText("Username must be at least 8 characters long");
                 alert.showAndWait();
-
+                usernameField.getTextField().clear();
                 usernameField.getTextField().setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-            }
-
-            if (password.isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Please enter a password");
-                alert.showAndWait();
-
-                passwordField.getPasswordField().setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
             }
 
             if (reEnteredPassword.isEmpty()) {
