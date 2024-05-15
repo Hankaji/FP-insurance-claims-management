@@ -20,10 +20,9 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table (name = "customers")
-public abstract class Customer extends User implements GsonSerializable {
+public abstract class Customer implements GsonSerializable {
     @Id
     private String id;
-    @JoinColumn(table = "users")
     private String name;
     private InsuranceCard insuranceCard;
     private ArrayList<Claim> claims;
@@ -43,6 +42,9 @@ public abstract class Customer extends User implements GsonSerializable {
         this.name = name;
         this.insuranceCard = insuranceCard;
         this.claims = new ArrayList<Claim>();
+    }
+
+    public Customer() {
     }
 
     /**
