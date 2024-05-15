@@ -12,6 +12,7 @@ import com.hankaji.icm.database.SessionManager;
 import com.hankaji.icm.views.DependentsHomePage;
 import com.hankaji.icm.views.LogIn;
 
+import com.hankaji.icm.views.SignUpPage;
 import com.hankaji.icm.views.components.ClaimForm;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Objects;
 
 /**
  * The head Application program of the project
