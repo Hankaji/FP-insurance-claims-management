@@ -57,7 +57,7 @@ public class LogIn extends StackPane {
         Label title = new Label("Welcome back, Login");
         title.getStyleClass().add("login-title");
 
-        FormTextField username = new FormTextField("Username", "Enter your username");
+        FormTextField username = new FormTextField("Email", "Enter your email");
         FormTextField password = new FormTextField("Password", "Enter your password");
 
         VBox loginButtonContainer = new VBox();

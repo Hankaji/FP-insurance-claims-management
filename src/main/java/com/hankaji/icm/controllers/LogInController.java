@@ -1,5 +1,5 @@
 package com.hankaji.icm.controllers;
 
-public class LoginController {
+public class LogInController {
     
 }

@@ -1,5 +1,7 @@
 package com.hankaji.icm;
 
+import com.hankaji.icm.database.Session;
+
 /** 
 * @author <Hoang Thai Phuc - s3978081> 
 * @version 1.0
@@ -17,7 +19,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.Objects;
 
 /**
  * The head Application program of the project
@@ -27,6 +28,9 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+
+        _setUp();
+        _closeSession(stage);
 
         // System.out.println(getClass().getResource("/fxml/RootView.fxml"));
 
@@ -45,11 +49,27 @@ public class App extends Application {
         stage.show();
     }
 
+    private void _closeSession(Stage stage) {
+        // Close the session factory when the application is closed
+        stage.setOnCloseRequest(e -> {
+            Session.getInstance().tearDown();
+        });
+    }
+
     public static void main(String[] args) {
         try {
             launch();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Set up the session factory.
+     * When create new instance of the application, the session is already initialized in the constructor
+     */
+    public void _setUp() {
+        // Initialize the session factory (Hibernate)
+        Session.getInstance();
     }
 }

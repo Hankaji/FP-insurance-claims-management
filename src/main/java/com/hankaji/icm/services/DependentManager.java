@@ -56,7 +56,7 @@ public class DependentManager extends DataManager<Dependent> implements CRUD<Dep
 
     @Override
     public Optional<Dependent> getById(String id) {
-        return data.stream().filter(dependent -> dependent.getId().equals(id)).findFirst();
+        return data.stream().filter(dependent -> dependent.getcId().equals(id)).findFirst();
     }
 
     @Override

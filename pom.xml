@@ -64,6 +64,18 @@
         <artifactId>javafx-fxml</artifactId>
         <version>22.0.1</version>
     </dependency>
+    <!-- Hibernate-->
+      <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-core</artifactId>
+          <version>6.5.0.Final</version>
+      </dependency>
+    <!-- Postgresql-->
+      <dependency>
+          <groupId>org.postgresql</groupId>
+          <artifactId>postgresql</artifactId>
+          <version>42.7.3</version>
+      </dependency>
 
   </dependencies>
 

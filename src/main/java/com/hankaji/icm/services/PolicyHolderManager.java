@@ -56,7 +56,7 @@ public class PolicyHolderManager extends DataManager<PolicyHolder> implements CR
 
     @Override
     public Optional<PolicyHolder> getById(String id) {
-        return data.stream().filter(policyHolder -> policyHolder.getId().equals(id)).findFirst();
+        return data.stream().filter(policyHolder -> policyHolder.getcId().equals(id)).findFirst();
     }
 
     @Override
