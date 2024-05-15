@@ -18,6 +18,7 @@
     -fx-background-color: blue;
     -fx-padding: 8px 24px;
     -fx-font-size: 16;
+    -fx-border-radius: 16px;
 }
 
 .sign-up-button:hover {
@@ -25,10 +26,22 @@
     -fx-cursor: hand;
 }
 
-.text-field {
-    -fx-background-color: transparent;
+.custom-text-field {
     -fx-border-radius: 8;
     -fx-text-fill: black;
+    -fx-padding: 8px 16px;
+}
+
+.custom-password-field {
+    -fx-border-radius: 8;
+    -fx-text-fill: black;
+    -fx-padding: 8px 16px;
+}
+
+.field-label {
+    -fx-text-fill: black;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -25,6 +26,13 @@ public class SignUpPage extends StackPane {
         rootContainer.setAlignment(Pos.CENTER);
         rootContainer.setSpacing(20);
         rootContainer.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(16), Insets.EMPTY)));
+
+        // Add some shadow effects to the VBox
+        DropShadow shadow = new DropShadow();
+        shadow.setOffsetX(0);
+        shadow.setOffsetY(0);
+        shadow.setColor(Color.rgb(0, 0, 0, 0.5));
+        rootContainer.setEffect(shadow);
 
         // Set the padding of the VBox to be responsive to the window size
         rootContainer.paddingProperty().bind(widthProperty().multiply(0.06).map(w -> new Insets(w.doubleValue() * 0.5, w.doubleValue(), w.doubleValue() * 0.5, w.doubleValue())));
@@ -59,13 +67,15 @@ public class SignUpPage extends StackPane {
 
         // Create a LabelAndPasswordField object for password
         LabelAndPasswordField passwordField = new LabelAndPasswordField(new Label("Password"), new PasswordField());
+        passwordField.getPasswordField().setPromptText("Enter Your Password");
 
         // Create a LabelAndPasswordField object for re-entering the password
         LabelAndPasswordField reEnterPasswordField = new LabelAndPasswordField(new Label("Re-enter Password"), new PasswordField());
+        reEnterPasswordField.getPasswordField().setPromptText("Re-enter Your Password");
 
         // Create a VBox to contain all the LabelAndTextFields
         VBox fieldsContainer = new VBox();
-        fieldsContainer.setSpacing(20);
+        fieldsContainer.setSpacing(10);
         fieldsContainer.prefWidthProperty().bind(rootContainer.widthProperty());
         fieldsContainer.getChildren().addAll(usernameField, passwordField, reEnterPasswordField);
 
@@ -74,11 +84,14 @@ public class SignUpPage extends StackPane {
         signUpButton.getStyleClass().add("sign-up-button");
         signUpButton.prefWidthProperty().bind(rootContainer.widthProperty());
 
+        // Add all the elements to the root VBox
         rootContainer.getChildren().addAll(pageImageAndPageLabelContainer, fieldsContainer, signUpButton);
 
+        // Add the root VBox to a StackPane
         StackPane signUpPageStackPane = new StackPane();
         signUpPageStackPane.getChildren().add(rootContainer);
 
+        // Add the StackPane to the main StackPane
         getChildren().add(signUpPageStackPane);
 
     }
