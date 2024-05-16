@@ -22,5 +22,6 @@
         <mapping class="com.hankaji.icm.models.InsuranceCard"/>
         <mapping class="com.hankaji.icm.models.customer.PolicyOwner"/>
         <mapping class="com.hankaji.icm.models.customer.Customer"/>
+        <mapping class="com.hankaji.icm.models.Claim"/>
     </session-factory>
 </hibernate-configuration>
