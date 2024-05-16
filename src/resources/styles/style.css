@@ -36,6 +36,17 @@
   -fx-background-position: center;
 }
 
+.signup-button {
+  -fx-background-color: #3050B0 !important;
+  -fx-text-fill: #000;
+  -fx-font-weight: normal;
+  -fx-alignment: center !important;
+  -fx-font-size: 16px;
+  -fx-background-radius: 8px;
+  -fx-padding: 8px 32px;
+  -fx-cursor: hand;
+}
+
 .pane {
   -fx-background-color: white;
 }
@@ -43,8 +54,7 @@
 .sidebar {
   -fx-background-color: #232c3c;
 }
-
-.button {
+.sidebar-button {
   -fx-background-color: transparent;
   -fx-border-radius: 8;
   -fx-font-weight: bold;
@@ -52,8 +62,70 @@
   -fx-text-fill: #ffffff;
   -fx-alignment: center-left;
 }
-.button:hover {
+.sidebar-button:hover {
   -fx-background-color: rgba(193, 193, 193, 0.1254901961);
+}
+
+.button {
+  -fx-background-color: #3050B0 !important;
+  -fx-text-fill: #fff;
+  -fx-font-weight: normal;
+  -fx-alignment: center !important;
+  -fx-font-size: 16px;
+  -fx-background-radius: 8px;
+  -fx-padding: 8px 32px;
+  -fx-cursor: hand;
+}
+
+.fp-combo-box {
+  -fx-background-radius: 8px;
+  -fx-font-size: 16px;
+  -fx-padding: 8px 0px;
+  -fx-background-color: transparent;
+  -fx-border-color: #c1c1c1;
+  -fx-alignment: center !important;
+  -fx-border-radius: 8px;
+  -fx-cursor: hand;
+}
+.fp-combo-box-popup .list-view {
+  -fx-background-color: white, white;
+  -fx-background-insets: 0, 1;
+  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 8, 0, 0, 0);
+}
+.fp-combo-box-popup .list-view .list-cell {
+  -fx-padding: 4 0 4 5;
+  /* No alternate highlighting */
+  -fx-background-color: white;
+}
+.fp-combo-box-popup .list-view .list-cell:filled:selected, .fp-combo-box-popup .list-view .list-cell:filled:selected:hover {
+  -fx-background: -fx-accent;
+  -fx-background-color: -fx-selection-bar;
+  -fx-text-fill: -fx-selection-bar-text;
+}
+.fp-combo-box-popup .list-view .list-cell:filled:hover {
+  -fx-background-color: white;
+  -fx-text-fill: -fx-text-inner-color;
+}
+.fp-combo-box-base {
+  -fx-skin: "com.sun.javafx.scene.control.skin.ComboBoxBaseSkin";
+  -fx-background-color: white, white, white, white;
+  -fx-background-radius: 5, 5, 4, 3;
+  -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+  -fx-padding: 0;
+}
+.fp-combo-box-base:hover {
+  -fx-color: -fx-hover-base;
+}
+.fp-combo-box-base:showing {
+  -fx-color: -fx-pressed-base;
+}
+.fp-combo-box-base:focused {
+  -fx-background-color: -fx-focus-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+  -fx-background-radius: 6.4, 4, 5, 3;
+  -fx-background-insets: -1.4, 0, 1, 2;
+}
+.fp-combo-box-base:disabled {
+  -fx-opacity: 0.4;
 }
 
 .submit-button {
@@ -161,7 +233,8 @@
 
 .text-area .content {
   -fx-border-width: 0;
-  -fx-background-insets: 0; /* Optional: removes any background insets */
+  -fx-background-insets: 0;
+  /* Optional: removes any background insets */
   -fx-background-color: white;
 }
 

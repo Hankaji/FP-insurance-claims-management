@@ -38,14 +38,13 @@ public class App extends Application {
 
         // Parent page = FXMLLoader.load(getClass().getResource("/fxml/RootView.fxml"));
 
-        Scene scene = new Scene(new LogIn(), 1024, 580);
+        Scene scene = new Scene(new SignUpPage());
 
         stage.setTitle("Insurance Claim Management System");
         stage.setScene(scene);
-        // dependentsScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
         // stage.setScene(dependentsScene);
-        stage.setMinWidth(1024);
-        stage.setMinHeight(580);
+        stage.setMinWidth(1600);
+        stage.setMinHeight(900);
         // System.out.println(dependentsScene.getStylesheets());
         // stage.setFullScreen(true);
         stage.show();
@@ -58,14 +57,6 @@ public class App extends Application {
         });
     }
 
-    public static void main(String[] args) {
-        try {
-            launch();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Set up the session factory.
      * When create new instance of the application, the session is already initialized in the constructor
@@ -74,4 +65,13 @@ public class App extends Application {
         // Initialize the session factory (Hibernate)
         SessionManager.getInstance();
     }
+
+    public static void main(String[] args) {
+        try {
+            launch();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

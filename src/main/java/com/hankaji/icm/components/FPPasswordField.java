@@ -2,7 +2,6 @@ package com.hankaji.icm.components;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 
 public class FPPasswordField extends FloatingTextField {
     Label formLabel;
@@ -21,7 +20,7 @@ public class FPPasswordField extends FloatingTextField {
         return formLabel;
     }
 
-    public TextField getFormField() {
+    public PasswordField getFormField() {
         return formField;
     }
 }
