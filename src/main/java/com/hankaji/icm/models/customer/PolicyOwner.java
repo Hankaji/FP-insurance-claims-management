@@ -28,4 +28,5 @@ public class PolicyOwner {
         this.name = name;
         this.annualRate = annualRate;
     }
+
 }

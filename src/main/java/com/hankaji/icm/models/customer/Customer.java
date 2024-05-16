@@ -9,44 +9,44 @@ package com.hankaji.icm.models.customer;
  * Libraries used: Lanterna, Gson, Apache Commons IO
  */
 import java.util.ArrayList;
+import java.util.UUID;
 
+import com.hankaji.icm.lib.ID;
 import com.hankaji.icm.models.Claim;
 import com.hankaji.icm.models.InsuranceCard;
 import com.hankaji.icm.lib.GsonSerializable;
+import jakarta.persistence.*;
 
-public abstract class Customer implements GsonSerializable {
+@Entity
+@Table(name = "customers")
+public class Customer implements GsonSerializable {
+    @Id
+    @Column(name="id")
+    protected String cId;
+    @Column(name = "insurance_card_number")
+    protected Long insuranceCardNumber;
+    @Column(name = "user_id")
+    protected UUID userId;
+    @Column(name = "dependent_list_id")
+    private UUID dependentListId;
 
-    private String cId;
-    private String name;
-    private InsuranceCard insuranceCard;
-    private ArrayList<Claim> claims;
+    public Customer(Long insuranceCardNumber, UUID userId, UUID dependentListId) {
+        this.cId = ID.generateID(7).prefix("c-");
+        this.insuranceCardNumber = insuranceCardNumber;
+        this.userId = userId;
+        this.dependentListId = dependentListId;
+    }
 
-    /**
-     * Constructs a customer with the specified id, name, insurance card, and claims.
-     * 
-     * @param id the id of the customer in the format of c-numbers
-     * @param name the name of the customer
-     * @param insuranceCard the insurance card of the customer
-     * @param claims the list of claims associated with the customer
-     * @throws IllegalArgumentException if the id is invalid
-     */
-    protected Customer(String id, String name, InsuranceCard insuranceCard, ArrayList<Claim> claims) throws IllegalArgumentException {
-        validateId(id);
-        this.cId = id;
-        this.name = name;
-        this.insuranceCard = insuranceCard;
-        this.claims = new ArrayList<Claim>();
+    public Customer(Long insuranceCardNumber, UUID userId) {
+        this.cId = ID.generateID(7).prefix("c-");
+        this.insuranceCardNumber = insuranceCardNumber;
+        this.userId = userId;
     }
 
     public Customer() {
     }
 
-    /**
-     * Validate the id, throw error if id is in wrong format, other wise return true
-     * 
-     * @param id the id of the customer in the format of c-numbers
-     * @return boolean, true if the id is valid, otherwise false
-     */
+
     private boolean validateId(String id) {
         // If the id is not in the format of c-numbers (c + 7 numbers), then it is invalid
         if (!id.matches("c-\\d{7}")) {
@@ -54,59 +54,4 @@ public abstract class Customer implements GsonSerializable {
         }
         return true;
     }
-
-    /**
-     * Returns the id of the customer.
-     * 
-     * @return the id of the customer
-     */
-    public String getcId() {
-        return cId;
-    }
-
-    /**
-     * Returns the name of the customer.
-     * 
-     * @return the name of the customer
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Returns the insurance card of the customer.
-     * 
-     * @return the insurance card of the customer
-     */
-    public InsuranceCard getInsuranceCard() {
-        return insuranceCard;
-    }
-
-    /**
-     * Sets the insurance card of the customer.
-     * 
-     * @param insuranceCard the insurance card to be set
-     */
-    public void setInsuranceCard(InsuranceCard insuranceCard) {
-        this.insuranceCard = insuranceCard;
-    }
-
-    /**
-     * Returns the list of claims associated with the customer.
-     * 
-     * @return the list of claims associated with the customer
-     */
-    public ArrayList<Claim> getClaims() {
-        return claims;
-    }
-
-    /**
-     * Sets the list of claims associated with the customer.
-     * 
-     * @param claims the list of claims to be set
-     */
-    public void setClaims(ArrayList<Claim> claims) {
-        this.claims = claims;
-    }
-
 }

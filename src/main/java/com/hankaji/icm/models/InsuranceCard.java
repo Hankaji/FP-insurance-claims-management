@@ -8,6 +8,8 @@ package com.hankaji.icm.models;
 */
 
 import java.time.LocalDateTime;
+import java.util.UUID;
+
 import com.hankaji.icm.lib.GsonSerializable;
 
 import jakarta.persistence.Column;
@@ -27,9 +29,14 @@ public class InsuranceCard implements GsonSerializable {
     @Column(name = "card_holder_id")
     private String cardHolderId;
     @Column(name = "policy_owner_id")
-    private String policyOwnerId;
+    private UUID policyOwnerId;
     @Column(name = "expiration_date")
     private LocalDateTime expirationDate;
+
+    public InsuranceCard(Long cardNumber) {
+        this.cardNumber = cardNumber;
+        this.expirationDate = LocalDateTime.now().plusYears(5);
+    }
 
     /**
      * Constructs an InsuranceCard object with the specified card number, card
@@ -40,7 +47,7 @@ public class InsuranceCard implements GsonSerializable {
      * @param policyHolder   the policy holder
      * @param expirationDate the expiration date
      */
-    public InsuranceCard(Long cardNumber, String cardHolder, String policyHolder, LocalDateTime expirationDate) {
+    public InsuranceCard(Long cardNumber, String cardHolder, UUID policyHolder, LocalDateTime expirationDate) {
         if (!validateCardNumber(cardNumber.toString()));
         this.cardNumber = cardNumber;
         this.cardHolderId = cardHolder;
@@ -95,7 +102,7 @@ public class InsuranceCard implements GsonSerializable {
      *
      * @return the policy holder
      */
-    public String getPolicyOwnerId() {
+    public UUID getPolicyOwnerId() {
         return policyOwnerId;
     }
 
@@ -104,7 +111,7 @@ public class InsuranceCard implements GsonSerializable {
      *
      * @param policyHolder the policy holder to set
      */
-    public void setPolicyHolder(String policyHolder) {
+    public void setPolicyHolder(UUID policyHolder) {
         this.policyOwnerId = policyHolder;
     }
 
@@ -136,7 +143,7 @@ public class InsuranceCard implements GsonSerializable {
     public static class Builder {
         private Long cardNumber;
         private String cardHolder;
-        private String policyOwner;
+        private UUID policyOwner;
         private LocalDateTime expirationDate;
 
         public Builder setCardNumber(Long cardNumber) {
@@ -149,7 +156,7 @@ public class InsuranceCard implements GsonSerializable {
             return this;
         }
 
-        public Builder setPolicyOwner(String policyOwner) {
+        public Builder setPolicyOwner(UUID policyOwner) {
             this.policyOwner = policyOwner;
             return this;
         }
