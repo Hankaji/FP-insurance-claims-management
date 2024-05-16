@@ -14,6 +14,7 @@ import java.util.UUID;
 import com.hankaji.icm.lib.ID;
 import com.hankaji.icm.lib.GsonSerializable;
 import com.hankaji.icm.models.InsuranceCard;
+import com.hankaji.icm.models.User;
 import jakarta.persistence.*;
 
 @Entity
@@ -25,19 +26,15 @@ public class Customer implements GsonSerializable {
     @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "insurance_card_number")
     private InsuranceCard insuranceCard;
-    @Column(name = "user_id")
-    private UUID userId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
     @ManyToOne(cascade={CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn (name = "holder_id")
     private Customer holder;
 
     @OneToMany(mappedBy = "holder")
     private List<Customer> dependents;
-
-    public Customer(UUID userId) {
-        this.cId = ID.generateID(7).prefix("c-");
-        this.userId = userId;
-    }
 
     public void setHolder(Customer holder) {
         this.holder = holder;
@@ -48,8 +45,20 @@ public class Customer implements GsonSerializable {
     }
 
     public Customer() {
+        this.cId = ID.generateID(7).prefix("c-");
     }
 
+    public Customer(String cId) {
+        this.cId = ID.generateID(7).prefix("c-");
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public InsuranceCard getInsuranceCard() {
         return insuranceCard;

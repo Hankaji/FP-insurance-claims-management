@@ -9,10 +9,9 @@ package com.hankaji.icm.models;
 import java.time.LocalDateTime;
 
 import com.hankaji.icm.lib.GsonSerializable;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.hankaji.icm.lib.ID;
+import com.hankaji.icm.models.customer.Customer;
+import jakarta.persistence.*;
 
 
 /**
@@ -25,10 +24,10 @@ public class Claim implements GsonSerializable {
     private String id;
     @Column(name = "claim_date")
     private LocalDateTime claimDate;
-    @Column(name = "insured_person_id")
-    private String insuredPersonId;
-    @Column(name = "card_number")
-    private Long cardNumber;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "insured_person_id")
+    private Customer customer;
     @Column(name = "exam_date")
     private LocalDateTime examDate;
     @Column(name = "document")
@@ -40,54 +39,27 @@ public class Claim implements GsonSerializable {
     @Column(name = "receiver_banking_info")
     private String receiverBankingInfo; // Bank – Name – Number
 
-    public Claim(String id, String insuredPersonId, Long cardNumber) {
-        this.id = id;
-        this.insuredPersonId = insuredPersonId;
-        this.cardNumber = cardNumber;
+    public Claim() {
     }
 
-    public Claim(String insuredPersonId, Long cardNumber) {
-        this.insuredPersonId = insuredPersonId;
-        this.cardNumber = cardNumber;
-    }
-
-    /**
-     * Constructs a Claim object with the specified parameters.
-     *
-     * @param id                  the ID of the claim
-     * @param claimDate           the date of the claim
-     * @param insuredPerson       the name of the insured person
-     * @param cardNumber          the card number associated with the claim
-     * @param examDate            the date of the claim examination
-     * @param documents           the list of documents related to the claim
-     * @param claimAmount         the amount of the claim
-     * @param status              the status of the claim
-     * @param receiverBankingInfo the banking information of the claim receiver
-     */
-    public Claim(String id, LocalDateTime claimDate, String insuredPerson, Long cardNumber, LocalDateTime examDate,
-                 String documents, Double claimAmount, Status status, String receiverBankingInfo) {
-        validateId(id);
+    public Claim(String id, String documents, Double claimAmount, Status status, String receiverBankingInfo) {
         this.id = id;
-        this.claimDate = claimDate;
-        this.insuredPersonId = insuredPerson;
-        this.cardNumber = cardNumber;
-        this.examDate = examDate;
         this.documents = documents;
         this.claimAmount = claimAmount;
         this.status = status;
         this.receiverBankingInfo = receiverBankingInfo;
     }
 
-    public Claim(String id, String insuredPersonId, Long cardNumber, String documents, Double claimAmount, Status status) {
-        this.id = id;
-        this.insuredPersonId = insuredPersonId;
-        this.cardNumber = cardNumber;
+    public Claim(String documents, Double claimAmount, Status status, String receiverBankingInfo) {
+        this.id = ID.generateID(10).prefix("f-");
         this.documents = documents;
         this.claimAmount = claimAmount;
         this.status = status;
+        this.receiverBankingInfo = receiverBankingInfo;
     }
 
-    public Claim() {
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     /**
@@ -123,24 +95,6 @@ public class Claim implements GsonSerializable {
      */
     public LocalDateTime getClaimDate() {
         return claimDate;
-    }
-
-    /**
-     * Returns the name of the insured person.
-     *
-     * @return the name of the insured person
-     */
-    public String getInsuredPersonId() {
-        return insuredPersonId;
-    }
-
-    /**
-     * Returns the card number associated with the claim.
-     *
-     * @return the card number associated with the claim
-     */
-    public Long getCardNumber() {
-        return cardNumber;
     }
 
     /**
@@ -231,139 +185,6 @@ public class Claim implements GsonSerializable {
      */
     public void setReceiverBankingInfo(String receiverBankingInfo) {
         this.receiverBankingInfo = receiverBankingInfo;
-    }
-
-    /**
-     * Returns a new Builder instance to build a Claim object.
-     *
-     * @return a new Builder instance
-     */
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    /**
-     * Represents a builder for constructing a Claim object.
-     */
-    public static class Builder {
-        private String id;
-        private LocalDateTime claimDate;
-        private String insuredPerson;
-        private Long cardNumber;
-        private LocalDateTime examDate;
-        private String documents;
-        private Double claimAmount;
-        private Status status;
-        private String receiverBankingInfo;
-
-        /**
-         * Sets the ID of the claim.
-         *
-         * @param id the ID of the claim
-         * @return the Builder instance
-         */
-        public Builder setId(String id) {
-            this.id = id;
-            return this;
-        }
-
-        /**
-         * Sets the date of the claim.
-         *
-         * @param claimDate the date of the claim
-         * @return the Builder instance
-         */
-        public Builder setClaimDate(LocalDateTime claimDate) {
-            this.claimDate = claimDate;
-            return this;
-        }
-
-        /**
-         * Sets the name of the insured person.
-         *
-         * @param insuredPerson the name of the insured person
-         * @return the Builder instance
-         */
-        public Builder setInsuredPerson(String insuredPerson) {
-            this.insuredPerson = insuredPerson;
-            return this;
-        }
-
-        /**
-         * Sets the card number associated with the claim.
-         *
-         * @param cardNumber the card number associated with the claim
-         * @return the Builder instance
-         */
-        public Builder setCardNumber(Long cardNumber) {
-            this.cardNumber = cardNumber;
-            return this;
-        }
-
-        /**
-         * Sets the date of the claim examination.
-         *
-         * @param examDate the date of the claim examination
-         * @return the Builder instance
-         */
-        public Builder setExamDate(LocalDateTime examDate) {
-            this.examDate = examDate;
-            return this;
-        }
-
-        /**
-         * Sets the list of documents related to the claim.
-         *
-         * @param documents the list of documents related to the claim
-         * @return the Builder instance
-         */
-        public Builder setDocuments(String documents) {
-            this.documents = documents;
-            return this;
-        }
-
-        /**
-         * Sets the amount of the claim.
-         *
-         * @param claimAmount the amount of the claim
-         * @return the Builder instance
-         */
-        public Builder setClaimAmount(Double claimAmount) {
-            this.claimAmount = claimAmount;
-            return this;
-        }
-
-        /**
-         * Sets the status of the claim.
-         *
-         * @param status the status of the claim
-         * @return the Builder instance
-         */
-        public Builder setStatus(Status status) {
-            this.status = status;
-            return this;
-        }
-
-        /**
-         * Sets the banking information of the claim receiver.
-         *
-         * @param receiverBankingInfo the banking information of the claim receiver
-         * @return the Builder instance
-         */
-        public Builder setReceiverBankingInfo(String receiverBankingInfo) {
-            this.receiverBankingInfo = receiverBankingInfo;
-            return this;
-        }
-
-        /**
-         * Builds and returns a new Claim object.
-         *
-         * @return a new Claim object
-         */
-        public Claim build() {
-            return new Claim(id, claimDate, insuredPerson, cardNumber, examDate, documents, claimAmount, status,
-                    receiverBankingInfo);
-        }
     }
 
     /**

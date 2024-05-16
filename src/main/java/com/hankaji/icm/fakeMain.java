@@ -3,7 +3,9 @@ package com.hankaji.icm;
 import com.hankaji.icm.database.CreateSession;
 import com.hankaji.icm.models.Claim;
 import com.hankaji.icm.models.InsuranceCard;
+import com.hankaji.icm.models.User;
 import com.hankaji.icm.models.customer.Customer;
+import com.hankaji.icm.models.customer.PolicyOwner;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -22,12 +24,12 @@ public class fakeMain {
             Transaction tx = session.beginTransaction();
 
             //do sth
-            InsuranceCard card = new InsuranceCard(3456787654L);
-            Customer customer = new Customer(UUID.fromString("e3d05d8f-d2f3-4362-9b52-f59a853d0e77"));
-            customer.setInsuranceCard(card);
 
-            session.persist(customer);
+            Claim claim = new Claim("Niggas", 1234.1, Claim.Status.NEW, "SOn_sf_asdf");
+            claim.setCustomer(session.find(Customer.class,"c-7203922"));
+            claim.setInsuranceCard(session.find(Customer.class,"c-7203922").getInsuranceCard());
 
+            session.persist(claim);
             tx.commit();
             session.close();
         } catch (Exception e){

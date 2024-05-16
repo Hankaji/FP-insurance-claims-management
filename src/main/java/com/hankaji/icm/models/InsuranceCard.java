@@ -13,6 +13,7 @@ import java.util.UUID;
 import com.hankaji.icm.lib.GsonSerializable;
 
 import com.hankaji.icm.models.customer.Customer;
+import com.hankaji.icm.models.customer.PolicyOwner;
 import jakarta.persistence.*;
 
 /**
@@ -24,11 +25,9 @@ public class InsuranceCard implements GsonSerializable {
     @Id
     @Column(name = "card_number")
     private Long cardNumber;
-    @OneToOne
-    @PrimaryKeyJoinColumn
-    private Customer cardHolder;
-    @Column(name = "policy_owner_id")
-    private UUID policyOwnerId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn (name = "policy_owner_id")
+    private PolicyOwner policyOwner;
     @Column(name = "expiration_date")
     private LocalDateTime expirationDate;
 
@@ -66,30 +65,20 @@ public class InsuranceCard implements GsonSerializable {
     }
 
     /**
-     * Returns the policy holder.
-     *
-     * @return the policy holder
-     */
-    public UUID getPolicyOwnerId() {
-        return policyOwnerId;
-    }
-
-    /**
-     * Sets the policy holder.
-     *
-     * @param policyHolder the policy holder to set
-     */
-    public void setPolicyHolder(UUID policyHolder) {
-        this.policyOwnerId = policyHolder;
-    }
-
-    /**
      * Returns the expiration date.
      *
      * @return the expiration date
      */
     public LocalDateTime getExpirationDate() {
         return expirationDate;
+    }
+
+    public PolicyOwner getPolicyOwner() {
+        return policyOwner;
+    }
+
+    public void setPolicyOwner(PolicyOwner policyOwner) {
+        this.policyOwner = policyOwner;
     }
 
     /**

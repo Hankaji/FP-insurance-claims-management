@@ -1,15 +1,14 @@
 package com.hankaji.icm.models;
 
+import com.hankaji.icm.models.customer.Customer;
 import jakarta.persistence.*;
 
 import java.util.UUID;
 
 @Entity
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "fullname")
@@ -85,6 +84,7 @@ public class User {
         ADMIN,
         CUSTOMER,
         POLICY_OWNER,
-        PROVIDER
+        PROVIDER,
+        DEPENDENT
     }
 }
