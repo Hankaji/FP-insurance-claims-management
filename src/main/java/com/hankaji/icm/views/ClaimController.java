@@ -215,7 +215,6 @@ public class ClaimController {
                         downArrowButton.setFont(Font.font(12)); // Set font size for the arrow
                         downArrowButton.setOnAction(event -> toggleDetails(downArrowButton));
 
-                        Label blankLabel = createLabel("", 15);
                         Label idLabel = createLabel(item.getId(), 200); // Adjust width for ID
                         Label insuredPersonLabel = createLabel(item.getInsuredPerson(), 200);
                         Label cardNumberLabel = createLabel(item.getCardNumber(), 200);
