@@ -3,6 +3,8 @@ package com.hankaji.icm.views;
 import com.hankaji.icm.components.FPComboBox;
 import com.hankaji.icm.components.FPPasswordField;
 import com.hankaji.icm.components.FPTextField;
+import com.hankaji.icm.models.User;
+
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,6 +20,7 @@ import javafx.scene.text.FontWeight;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 public class SignUpPage extends StackPane {
 
@@ -39,7 +42,7 @@ public class SignUpPage extends StackPane {
         // Create a VBox to hold all the elements
         VBox rootContainer = new VBox();
         rootContainer.setAlignment(Pos.CENTER);
-        rootContainer.setSpacing(20);
+        rootContainer.setSpacing(16);
         rootContainer.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(16), Insets.EMPTY)));
 
         // Add some shadow effects to the VBox
@@ -93,21 +96,18 @@ public class SignUpPage extends StackPane {
         FPPasswordField fpReEnterPasswordField = new FPPasswordField("Re-enter Password", "Re-enter Your Password");
         PasswordField reEnterPasswordField = fpReEnterPasswordField.getFormField();
 
-        FPComboBox<String> cardProvider = new FPComboBox<String>("Card provider");
-        cardProvider.getComboBox().setMaxWidth(Double.MAX_VALUE);
-        cardProvider.getComboBox().getItems().addAll("AIA", "Prudential", "Manulife", "SunLife");
-        cardProvider.getComboBox().setValue("Choose card provider");
+        HBox cardProviderAndAccountType = getCardProviderAndAccountType();
 
         // Create a VBox to contain all the LabelAndTextFields
         VBox fieldsContainer = new VBox();
-        fieldsContainer.setSpacing(10);
+        fieldsContainer.setSpacing(12);
         fieldsContainer.prefWidthProperty().bind(rootContainer.widthProperty());
         fieldsContainer.getChildren().addAll(
                 fullNameTextField,
                 emailTextField,
                 fpPasswordField,
                 fpReEnterPasswordField,
-                cardProvider);
+                cardProviderAndAccountType);
 
         // Create the Create button
         MFXButton signUpButton = new MFXButton("Sign Up");
@@ -211,6 +211,29 @@ public class SignUpPage extends StackPane {
                 fieldsContainer,
                 signUpButton);
         return rootContainer;
+    }
+
+    private HBox getCardProviderAndAccountType() {
+        FPComboBox<String> cardProvider = new FPComboBox<String>("Card provider");
+        cardProvider.getComboBox().setMaxWidth(Double.MAX_VALUE);
+        cardProvider.getComboBox().getItems().addAll("AIA", "Prudential", "Manulife", "SunLife");
+        cardProvider.getComboBox().setValue("Choose card provider");
+
+        FPComboBox<String> accountType = new FPComboBox<String>("Account type");
+        accountType.getComboBox().setMaxWidth(Double.MAX_VALUE);
+        User.Roles[] roles = User.Roles.values();
+        for (User.Roles role : roles) {
+            String roleName = Stream.of(role.toString().split("_"))
+                    .map(s -> s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase())
+                    .reduce((s1, s2) -> s1.concat(" ").concat(s2)).get();
+            accountType.getComboBox().getItems().add(roleName);
+        }
+        accountType.getComboBox().setValue("Choose your account type");
+
+        HBox cardProviderAndAccountType = new HBox();
+        cardProviderAndAccountType.setSpacing(12);
+        cardProviderAndAccountType.getChildren().addAll(cardProvider, accountType);
+        return cardProviderAndAccountType;
     }
 
 }

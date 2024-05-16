@@ -10,13 +10,25 @@ package com.hankaji.icm.models;
 import java.time.LocalDateTime;
 import com.hankaji.icm.lib.GsonSerializable;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 /**
  * Represents an insurance card.
  */
+@Entity
+@Table(name = "insurance_cards")
 public class InsuranceCard implements GsonSerializable {
-    private String cardNumber;
-    private String cardHolder;
-    private String policyOwner;
+    @Id
+    @Column(name = "card_number")
+    private Long cardNumber;
+    @Column(name = "card_holder_id")
+    private String cardHolderId;
+    @Column(name = "policy_owner_id")
+    private String policyOwnerId;
+    @Column(name = "expiration_date")
     private LocalDateTime expirationDate;
 
     /**
@@ -28,12 +40,11 @@ public class InsuranceCard implements GsonSerializable {
      * @param policyHolder   the policy holder
      * @param expirationDate the expiration date
      */
-    public InsuranceCard(String cardNumber, String cardHolder, String policyHolder, LocalDateTime expirationDate) {
-        if (!validateCardNumber(cardNumber))
-            ;
+    public InsuranceCard(Long cardNumber, String cardHolder, String policyHolder, LocalDateTime expirationDate) {
+        if (!validateCardNumber(cardNumber.toString()));
         this.cardNumber = cardNumber;
-        this.cardHolder = cardHolder;
-        this.policyOwner = policyHolder;
+        this.cardHolderId = cardHolder;
+        this.policyOwnerId = policyHolder;
         this.expirationDate = expirationDate;
     }
 
@@ -57,7 +68,7 @@ public class InsuranceCard implements GsonSerializable {
      *
      * @return the card number
      */
-    public String getCardNumber() {
+    public Long getCardNumber() {
         return cardNumber;
     }
 
@@ -66,8 +77,8 @@ public class InsuranceCard implements GsonSerializable {
      *
      * @return the card holder
      */
-    public String getCardHolder() {
-        return cardHolder;
+    public String getCardHolderId() {
+        return cardHolderId;
     }
 
     /**
@@ -75,8 +86,8 @@ public class InsuranceCard implements GsonSerializable {
      *
      * @param cardHolder the card holder to set
      */
-    public void setCardHolder(String cardHolder) {
-        this.cardHolder = cardHolder;
+    public void setCardHolderId(String cardHolder) {
+        this.cardHolderId = cardHolder;
     }
 
     /**
@@ -84,8 +95,8 @@ public class InsuranceCard implements GsonSerializable {
      *
      * @return the policy holder
      */
-    public String getPolicyOwner() {
-        return policyOwner;
+    public String getPolicyOwnerId() {
+        return policyOwnerId;
     }
 
     /**
@@ -94,7 +105,7 @@ public class InsuranceCard implements GsonSerializable {
      * @param policyHolder the policy holder to set
      */
     public void setPolicyHolder(String policyHolder) {
-        this.policyOwner = policyHolder;
+        this.policyOwnerId = policyHolder;
     }
 
     /**
@@ -123,12 +134,12 @@ public class InsuranceCard implements GsonSerializable {
     }
 
     public static class Builder {
-        private String cardNumber;
+        private Long cardNumber;
         private String cardHolder;
         private String policyOwner;
         private LocalDateTime expirationDate;
 
-        public Builder setCardNumber(String cardNumber) {
+        public Builder setCardNumber(Long cardNumber) {
             this.cardNumber = cardNumber;
             return this;
         }
