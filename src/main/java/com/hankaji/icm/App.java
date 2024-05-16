@@ -9,15 +9,18 @@ import com.hankaji.icm.database.SessionManager;
 * Libraries used: JavaFX, MaterialFX
 */
 
-import com.hankaji.icm.views.DependentsHomePage;
+import com.hankaji.icm.views.AddClaimPage;
+import com.hankaji.icm.views.CustomerDashboard;
 import com.hankaji.icm.views.LogIn;
 
 import com.hankaji.icm.views.SignUpPage;
+import com.hankaji.icm.views.components.CardDetails;
 import com.hankaji.icm.views.components.ClaimForm;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -36,9 +39,9 @@ public class App extends Application {
 
         // System.out.println(getClass().getResource("/fxml/RootView.fxml"));
 
-        // Parent page = FXMLLoader.load(getClass().getResource("/fxml/RootView.fxml"));
+        Parent page = FXMLLoader.load(getClass().getResource("/fxml/RootView.fxml"));
 
-        Scene scene = new Scene(new LogIn());
+        Scene scene = new Scene(page);
 
         stage.setTitle("Insurance Claim Management System");
         stage.setScene(scene);

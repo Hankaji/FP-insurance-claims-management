@@ -21,7 +21,7 @@ public class ImageUploadForm extends VBox {
     private final VBox uploadImagePane = new VBox();
     private static final List<File> selectedFiles = new ArrayList<>();
     private final VBox upperContent = new VBox();
-    private final ImageView uploadImageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/file-upload.png"))));
+    private final ImageView uploadImageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/file-upload.png"))));
     private final Text uploadImageText = new Text("Drop Your Image Here");
 
     private final double initialUploadImageViewFitWidth;
@@ -35,7 +35,7 @@ public class ImageUploadForm extends VBox {
         uploadImagePane.getStyleClass().add("upload-images-pane");
         getChildren().add(uploadImagePane);
 
-        Image uploadImageFiles = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/file-upload.png")));
+        Image uploadImageFiles = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/file-upload.png")));
         ImageView uploadImageView = new ImageView(uploadImageFiles);
         uploadImageView.setFitWidth(50);
         uploadImageView.setFitHeight(50);

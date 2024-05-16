@@ -1,16 +1,12 @@
 package com.hankaji.icm.views.components;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXTextField;
-import io.github.palexdev.materialfx.enums.FloatMode;
 import javafx.beans.binding.Bindings;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -26,8 +22,6 @@ import java.util.Random;
 import com.hankaji.icm.components.FPTextArea;
 import com.hankaji.icm.components.FPTextField;
 
-import static javafx.scene.layout.GridPane.setHalignment;
-import static javafx.scene.layout.GridPane.setValignment;
 
 public class ClaimForm extends VBox {
 
@@ -40,6 +34,7 @@ public class ClaimForm extends VBox {
     public ClaimForm() {
         // Create a GridPane
         GridPane gridPane = new GridPane();
+        gridPane.setMaxWidth(Double.MAX_VALUE);
 
         // Set the gridPane properties
         gridPane.setHgap(8);
@@ -141,6 +136,7 @@ public class ClaimForm extends VBox {
         buttonBox.setMaxWidth(Double.MAX_VALUE);
         buttonBox.setAlignment(Pos.CENTER_RIGHT);
         buttonBox.setSpacing(12);
+        buttonBox.setPadding(new Insets(16));
         buttonBox.getChildren().addAll(clearButton, submitButton);
         
         // Add the GridPane to the VBox

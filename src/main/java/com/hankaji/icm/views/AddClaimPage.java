@@ -2,7 +2,6 @@ package com.hankaji.icm.views;
 
 import com.hankaji.icm.views.components.ClaimForm;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
@@ -15,35 +14,25 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import java.io.InputStream;
+import java.util.Objects;
 
-public class DependentsHomePage extends HBox {
+public class AddClaimPage extends HBox {
     private Label selectedLabel;
 
-    public DependentsHomePage() {
-
-        // Create right part
-        VBox mainContainer = new VBox();
-
-        // Styling the right part
-        mainContainer.setPadding(new Insets(16));
-
-        // Create the third row
-        HBox formContent = new HBox();
+    public AddClaimPage() {
+        getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/style.css")).toExternalForm());
+        this.setMaxWidth(Double.MAX_VALUE);
+        this.setStyle("-fx-background-color: #fff;");
+        
 
         // Create a ClaimForm object
         ClaimForm claimForm = new ClaimForm();
 
-        formContent.setAlignment(Pos.CENTER);
 
-        formContent.getChildren().add(claimForm);
-
-        // Add rows to the right part
-        mainContainer.getChildren().addAll(formContent);
-
-        setStyle("-fx-background-color: #fff;");
+        setHgrow(claimForm, Priority.ALWAYS);
 
         // Add rightPart to the DependentsHomePage
-        this.getChildren().add(mainContainer);
+        this.getChildren().add(claimForm);
 
     }
 

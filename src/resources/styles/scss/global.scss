@@ -1,5 +1,6 @@
 @import "login.scss";
 @import "signup.scss";
+@import "card-details.scss";
 
 $border-color: #c1c1c1;
 
@@ -14,19 +15,20 @@ $border-color: #c1c1c1;
         -fx-background-color: transparent;
         -fx-border-radius: 8;
         -fx-font-weight: bold;
-        -fx-font-size: 14;
+        -fx-font-size: 16;
 
         -fx-text-fill: #ffffff;
-        -fx-alignment: center-left;
+        -fx-alignment: left !important;
 
         &:hover {
             -fx-background-color: #c1c1c120;
+            -fx-cursor: hand;
         }
 
     }
 }
 
-.button {
+.fp-button {
     -fx-background-color: #3050B0 !important;
     -fx-text-fill: #fff;
     -fx-font-weight: normal;

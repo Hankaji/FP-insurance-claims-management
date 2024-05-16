@@ -1,0 +1,37 @@
+.card-details {
+    -fx-background-color: #f5f5f5;
+    -fx-padding: 16px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #c1c1c1;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 8, 0.0, 0, 0);
+}
+
+.card-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.card-number {
+    -fx-font-size: 14px;
+}
+
+.card-status {
+    -fx-fill: #9BD106;
+
+    &-text {
+        -fx-background-color: #9BD10640;
+        -fx-text-fill: #9BD106;
+        -fx-font-size: 10px;
+        -fx-padding: 0px 8px;
+        -fx-border-radius: 4px;
+        -fx-background-radius: 8px;
+        -fx-font-weight: bold;
+    }
+}
+
+.total-coverage {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}

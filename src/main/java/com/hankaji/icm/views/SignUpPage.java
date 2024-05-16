@@ -9,8 +9,12 @@ import com.hankaji.icm.lib.EnumStringConverter;
 import com.hankaji.icm.models.User;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -19,6 +23,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -124,7 +129,7 @@ public class SignUpPage extends StackPane {
         signUpButton.prefWidthProperty().bind(rootContainer.widthProperty());
 
         signUpButton.setOnAction(event -> {
-            signUpAction(fullNameTextField, emailTextField, passwordField, reEnterPasswordField);
+            signUpAction(fullNameTextField, emailTextField, passwordField, reEnterPasswordField, event);
         });
 
         // Add all the elements to the root VBox
@@ -136,7 +141,7 @@ public class SignUpPage extends StackPane {
     }
 
     private void signUpAction(FPTextField fullNameTextField, FPTextField emailTextField, PasswordField passwordField,
-            PasswordField reEnterPasswordField) {
+            PasswordField reEnterPasswordField, ActionEvent event) {
         // Get the fullName and password fields
         String fullName = fullNameTextField.getFormField().getText();
         String email = emailTextField.getFormField().getText();
@@ -244,10 +249,10 @@ public class SignUpPage extends StackPane {
         @SuppressWarnings("unchecked")
         User.Roles accountType = ((ComboBox<User.Roles>) this.lookup("#account-type")).getValue();
 
-        signUp(fullName, email, password, owner, accountType);
+        signUp(fullName, email, password, owner, accountType, event);
     }
 
-    private void signUp(String fullName, String email, String password, String owner, User.Roles accountType) {
+    private void signUp(String fullName, String email, String password, String owner, User.Roles accountType, ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
@@ -259,6 +264,10 @@ public class SignUpPage extends StackPane {
                     password,
                     owner,
                     accountType);
+            
+            Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(new LogIn());
+            stage.setScene(scene);
         } catch (UserExistsException e) {
             alert.setContentText("User already exists");
             alert.showAndWait();

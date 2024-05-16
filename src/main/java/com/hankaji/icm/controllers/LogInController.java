@@ -1,5 +1,7 @@
 package com.hankaji.icm.controllers;
 
+import java.util.Objects;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -11,9 +13,14 @@ import com.hankaji.icm.models.User;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class LogInController {
 
@@ -61,8 +68,15 @@ public class LogInController {
                 BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), encryptedPassword);
                 if (result.verified) {
                     System.out.println("Password verified");
+                    Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/RootView.fxml")));
+                    Stage stage = (Stage) loginButton.getScene().getWindow();
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
                 } else {
-                    System.out.println("Password not verified");
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText("Invalid credentials");
+                    alert.setContentText("The email or password is incorrect");
+                    alert.showAndWait();
                 }
             } else {
                 System.out.println("User not found");
