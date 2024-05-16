@@ -260,6 +260,19 @@ public class ClaimController {
                         borderPane.setBottom(detailsHBox);
                         borderPane.setStyle("-fx-background-color: #f0f0f0; -fx-background-radius: 10px; -fx-border-color: #cccccc; -fx-border-width: 1px; -fx-border-radius: 10px;");
 
+                        // Update text color based on selection
+                        if (isSelected()) {
+                            idLabel.setStyle("-fx-text-fill: blue;");
+                            insuredPersonLabel.setStyle("-fx-text-fill: blue;");
+                            cardNumberLabel.setStyle("-fx-text-fill: blue;");
+                            statusLabel.setStyle("-fx-text-fill: blue;");
+                        } else {
+                            idLabel.setStyle("-fx-text-fill: black;");
+                            insuredPersonLabel.setStyle("-fx-text-fill: black;");
+                            cardNumberLabel.setStyle("-fx-text-fill: black;");
+                            statusLabel.setStyle("-fx-text-fill: black;");
+                        }
+
                         setGraphic(borderPane);
                     }
                 }
@@ -285,6 +298,13 @@ public class ClaimController {
                             detailsHBox.getChildren().addAll(claimDateLabel, examDateLabel, amountLabel, bankingInfoLabel);
                             detailsHBox.setSpacing(80); // Add spacing between details
                             detailsHBox.setStyle("-fx-background-color: #d0d0d0; -fx-background-radius: 10px; -fx-padding: 10;"); // Style for details section
+
+                            // Ensure text color remains black for details
+                            claimDateLabel.setStyle("-fx-text-fill: black;");
+                            examDateLabel.setStyle("-fx-text-fill: black;");
+                            amountLabel.setStyle("-fx-text-fill: black;");
+                            bankingInfoLabel.setStyle("-fx-text-fill: black;");
+
                             downArrowButton.setText("\u25B4"); // Change the button text to up arrow
                         }
                     } else {
