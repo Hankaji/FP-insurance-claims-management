@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hankaji.icm.components.FPTextArea;
-import com.hankaji.icm.components.FormTextField;
+import com.hankaji.icm.components.FPTextField;
 
 import static javafx.scene.layout.GridPane.setHalignment;
 import static javafx.scene.layout.GridPane.setValignment;
@@ -69,7 +69,7 @@ public class ClaimForm extends VBox {
         Text leftTitle = new Text("Details");
         leftTitle.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 20));
 
-        FormTextField claimTitleField = new FormTextField("Claim Title", "Ex: Car Accident Claim");
+        FPTextField claimTitleField = new FPTextField("Claim Title", "Ex: Car Accident Claim");
         TextField claimTitleTF = claimTitleField.getFormField();
 
         // Validate the claim title to only letters and spaces and ignore
@@ -84,7 +84,7 @@ public class ClaimForm extends VBox {
         TextArea claimDescriptionTF = ((FPTextArea) claimDescriptionField.getChildren().get(0)).getFormTextArea();
 
         // Label of the claim amount
-        FormTextField claimAmountField= new FormTextField("Claim Amount (in $)", "Ex: 1000");
+        FPTextField claimAmountField= new FPTextField("Claim Amount (in $)", "Ex: 1000");
         TextField claimAmount = claimAmountField.getFormField();
 
         // Validate the claim amount and ignore non-numeric input
@@ -100,7 +100,7 @@ public class ClaimForm extends VBox {
         // // Create TextField for the received banking info
         // TextField receivedBankingInfo = new TextField();
         // receivedBankingInfo.setPromptText("Ex: ACB-John Doe-1234567890");
-        FormTextField receivedBankingInfoField = new FormTextField("Received Banking Info", "Ex: ACB-John Doe-1234567890");
+        FPTextField receivedBankingInfoField = new FPTextField("Received Banking Info", "Ex: ACB-John Doe-1234567890");
         TextField receivedBankingInfo = receivedBankingInfoField.getFormField();
 
         // Add the components to the left column and styling

@@ -2,21 +2,21 @@ package com.hankaji.icm.views;
 
 import java.util.Objects;
 
-import com.hankaji.icm.components.FormTextField;
+import com.hankaji.icm.components.FPPasswordField;
+import com.hankaji.icm.components.FPTextField;
+import com.hankaji.icm.controllers.LogInController;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
 public class LogIn extends StackPane {
 
@@ -39,6 +39,9 @@ public class LogIn extends StackPane {
         centerLayout.getChildren().add(loginForm);
 
         getChildren().add(centerLayout);
+        new LogInController((Button) loginForm.lookup(".login-button"),
+                (TextField) loginForm.lookup("#email-field"),
+                (PasswordField) loginForm.lookup("#password-field"));
     }
 
     private final VBox _loginForm() {
@@ -57,8 +60,11 @@ public class LogIn extends StackPane {
         Label title = new Label("Welcome back, Login");
         title.getStyleClass().add("login-title");
 
-        FormTextField username = new FormTextField("Email", "Enter your email");
-        FormTextField password = new FormTextField("Password", "Enter your password");
+        FPTextField email = new FPTextField("Email", "Enter your email");
+        email.getFormField().setId("email-field");
+
+        FPPasswordField password = new FPPasswordField("Password", "Enter your password");
+        password.getFormField().setId("password-field");
 
         VBox loginButtonContainer = new VBox();
         loginButtonContainer.setSpacing(8);
@@ -74,7 +80,7 @@ public class LogIn extends StackPane {
         loginForm.getChildren().addAll(
                 logo,
                 title,
-                username,
+                email,
                 password,
                 loginButtonContainer);
 

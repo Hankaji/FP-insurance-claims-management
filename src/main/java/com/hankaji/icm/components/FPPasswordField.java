@@ -1,16 +1,15 @@
 package com.hankaji.icm.components;
 
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.PasswordField;
 
-public class FormTextField extends FloatingTextField {
-
+public class FPPasswordField extends FloatingTextField {
     Label formLabel;
-    TextField formField;
+    PasswordField formField;
 
-    public FormTextField(String floatingText, String promptText) {
-        super(floatingText, new TextField());
-        formField = (TextField) getSecondNode();
+    public FPPasswordField(String floatingText, String promptText) {
+        super(floatingText, new PasswordField());
+        formField = (PasswordField) getSecondNode();
 
         // Create TextField for the claim title
         formField.setPromptText(promptText);
@@ -21,8 +20,7 @@ public class FormTextField extends FloatingTextField {
         return formLabel;
     }
 
-    public TextField getFormField() {
+    public PasswordField getFormField() {
         return formField;
     }
-
 }

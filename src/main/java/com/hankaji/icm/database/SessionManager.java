@@ -9,19 +9,25 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 Remember to set this up ONLY ONCE at the start of the application
 And remember to TEAR IT DOWN at the end
  */
-public class Session {
+public class SessionManager {
 
-    private static Session _instance;
+    private static SessionManager _instance;
 
     private SessionFactory sessionFactory;
 
-    private Session() {
+    private SessionManager() {
         sessionFactory = init();
     }
 
-    public static synchronized Session getInstance() {
+    /**
+     * Get the instance of the session.
+     * Session is automatically initialized when the instance is first called.
+     * 
+     * @return the instance of the session
+     */
+    public static synchronized SessionManager getInstance() {
         if (_instance == null) {
-            _instance = new Session();
+            _instance = new SessionManager();
         }
         return _instance;
     }

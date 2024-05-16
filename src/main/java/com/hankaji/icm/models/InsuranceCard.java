@@ -62,15 +62,6 @@ public class InsuranceCard implements GsonSerializable {
     }
 
     /**
-     * Sets the card number.
-     *
-     * @param cardNumber the card number to set
-     */
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
-    }
-
-    /**
      * Returns the card holder.
      *
      * @return the card holder
