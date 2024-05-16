@@ -20,5 +20,6 @@
 <!--        <mapping class="com.hankaji.icm.models.customer.MappedCustomer"/>-->
         <mapping class="com.hankaji.icm.models.User"/>
         <mapping class="com.hankaji.icm.models.MappedCard"/>
+        <mapping class="com.hankaji.icm.models.customer.PolicyOwner"/>
     </session-factory>
 </hibernate-configuration>
