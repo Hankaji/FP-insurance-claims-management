@@ -205,7 +205,7 @@ public class ClaimController {
         @Override
         public ListCell<Claim> call(ListView<Claim> param) {
             return new ListCell<Claim>() {
-                private final VBox detailsVBox = new VBox(); // Define detailsVBox here
+                private final HBox detailsHBox = new HBox(); // Use HBox for horizontal layout
 
                 @Override
                 protected void updateItem(Claim item, boolean empty) {
@@ -253,11 +253,15 @@ public class ClaimController {
                         HBox hbox = new HBox(10);
                         hbox.getChildren().addAll(downArrowButton, idLabel, insuredPersonLabel, cardNumberLabel, statusLabel, dotsButton);
 
-                        // Create BorderPane to hold HBox and VBox
+                        // Style the HBox for main information
+                        hbox.setStyle("-fx-background-color: #e0e0e0; -fx-background-radius: 10px; -fx-border-color: #cccccc; -fx-border-width: 1px; -fx-border-radius: 10px;");
+                        hbox.setPadding(new Insets(10));
+
+                        // Create BorderPane to hold HBox and HBox for details
                         BorderPane borderPane = new BorderPane();
                         borderPane.setPadding(new Insets(5));
                         borderPane.setCenter(hbox);
-                        borderPane.setBottom(detailsVBox);
+                        borderPane.setBottom(detailsHBox);
                         borderPane.setStyle("-fx-background-color: #f0f0f0; -fx-background-radius: 10px; -fx-border-color: #cccccc; -fx-border-width: 1px; -fx-border-radius: 10px;");
 
                         setGraphic(borderPane);
@@ -274,7 +278,7 @@ public class ClaimController {
 
                 // Method to show/hide additional claim details upon clicking the down-arrow button
                 private void toggleDetails(Button downArrowButton) {
-                    if (detailsVBox.getChildren().isEmpty()) {
+                    if (detailsHBox.getChildren().isEmpty()) {
                         Claim claim = getItem();
                         if (claim != null) {
                             Label claimDateLabel = new Label("Claim Date: " + claim.getClaimDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy")));
@@ -282,11 +286,13 @@ public class ClaimController {
                             Label amountLabel = new Label("Claim Amount: $" + claim.getClaimAmount());
                             Label bankingInfoLabel = new Label("Receiver Banking Info: " + claim.getReceiverBankingInfo());
 
-                            detailsVBox.getChildren().addAll(claimDateLabel, examDateLabel, amountLabel, bankingInfoLabel);
+                            detailsHBox.getChildren().addAll(claimDateLabel, examDateLabel, amountLabel, bankingInfoLabel);
+                            detailsHBox.setSpacing(80); // Add spacing between details
+                            detailsHBox.setStyle("-fx-background-color: #d0d0d0; -fx-background-radius: 10px; -fx-padding: 10;"); // Style for details section
                             downArrowButton.setText("\u25B4"); // Change the button text to up arrow
                         }
                     } else {
-                        detailsVBox.getChildren().clear();
+                        detailsHBox.getChildren().clear();
                         downArrowButton.setText("\u25BE"); // Change the button text back to down arrow
                     }
                 }
