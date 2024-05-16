@@ -16,6 +16,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -209,8 +210,16 @@ public class ClaimController {
                     if (detailsHBox.getChildren().isEmpty()) {
                         Claim Claim = getItem();
                         if (Claim != null) {
-                            Label claimDateLabel = new Label("Claim Date: " + Claim.getClaim_date());
-                            Label examDateLabel = new Label("Exam Date: " + Claim.getExam_date());
+                            // Define a date formatter
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-YYYY");
+
+                            // Format the dates
+                            String formattedClaimDate = Claim.getClaim_date().toLocalDateTime().format(formatter);
+                            String formattedExamDate = Claim.getExam_date().toLocalDateTime().format(formatter);
+
+                            // Create labels with formatted dates
+                            Label claimDateLabel = new Label("Claim Date: " + formattedClaimDate);
+                            Label examDateLabel = new Label("Exam Date: " + formattedExamDate);
                             Label amountLabel = new Label("Claim Amount: $" + Claim.getClaim_amount());
                             Label bankingInfoLabel = new Label("Receiver Banking Info: " + Claim.getReceiver_banking_info());
 
