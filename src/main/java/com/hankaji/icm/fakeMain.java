@@ -1,12 +1,14 @@
 package com.hankaji.icm;
 
 import com.hankaji.icm.database.CreateSession;
+import com.hankaji.icm.models.MappedCard;
 import com.hankaji.icm.models.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.util.List;
+import java.util.UUID;
 
 public class fakeMain {
     public static void main(String[] args) {
@@ -18,9 +20,8 @@ public class fakeMain {
             Session session = sessionFactory.openSession();
             // start transaction
             Transaction tx = session.beginTransaction();
-            User user = new User("Hankaji", "hankaji135@gmail.com","1245678", User.Roles.CUSTOMER);
-            session.persist(user);
-
+            MappedCard card = session.find(MappedCard.class, "5404153414");
+            System.out.println(card.toString());
             tx.commit();
         } catch (Exception e){
             e.printStackTrace();
