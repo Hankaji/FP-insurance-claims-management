@@ -1,5 +1,5 @@
 # Insurance Claims Management System 
-An insurance claims management console application project built with java for Further Programming course
+An insurance Claim management console application project built with java for Further Programming course
 
 ## Features
 - Easy to uses
@@ -27,13 +27,13 @@ An insurance claims management console application project built with java for F
 
 First clone this git repository:
 ```bash
-$ git clone https://github.com/Hankaji/FP-insurance-claims-management.git
+$ git clone https://github.com/Hankaji/FP-insurance-Claim-management.git
 ```
 
 Then `cd` into the project folder
 
 ```bash
-$ cd ./FP-insurance-claims-management/
+$ cd ./FP-insurance-Claim-management/
 ```
 
 Install dependencies
@@ -62,7 +62,7 @@ Run executable jar
 
 ```bash
 $ cd ./target
-$ java -jar ./insurance-claims-management-1.0-jar-with-dependencies.jar
+$ java -jar ./insurance-Claim-management-1.0-jar-with-dependencies.jar
 ```
 
 ## Usage

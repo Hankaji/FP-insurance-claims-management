@@ -23,10 +23,10 @@ public class Dependent extends Customer {
      * @param id             the id of the dependent
      * @param name           the name of the dependent
      * @param insuranceCard  the insurance card of the dependent
-     * @param claims         the list of claims associated with the dependent
+     * @param Claim         the list of claims associated with the dependent
      */
-    public Dependent(String id, String name, InsuranceCard insuranceCard, ArrayList<Claim> claims) {
-        super(id, name, insuranceCard, claims);
+    public Dependent(String id, String name, InsuranceCard insuranceCard, ArrayList<Claim> Claim) {
+        super(id, name, insuranceCard, Claim);
     }
 
     /**
@@ -45,7 +45,7 @@ public class Dependent extends Customer {
         private String id;
         private String name;
         private InsuranceCard insuranceCard;
-        private ArrayList<Claim> claims;
+        private ArrayList<Claim> Claim;
 
         /**
          * Sets the id of the dependent.
@@ -83,11 +83,11 @@ public class Dependent extends Customer {
         /**
          * Sets the list of claims associated with the dependent.
          *
-         * @param claims the list of claims associated with the dependent
+         * @param Claim the list of claims associated with the dependent
          * @return the Builder object
          */
-        public Builder setClaims(ArrayList<Claim> claims) {
-            this.claims = claims;
+        public Builder setClaims(ArrayList<Claim> Claim) {
+            this.Claim = Claim;
             return this;
         }
 
@@ -97,7 +97,7 @@ public class Dependent extends Customer {
          * @return a new Dependent object
          */
         public Dependent build() {
-            return new Dependent(id, name, insuranceCard, claims);
+            return new Dependent(id, name, insuranceCard, Claim);
         }
 
     }

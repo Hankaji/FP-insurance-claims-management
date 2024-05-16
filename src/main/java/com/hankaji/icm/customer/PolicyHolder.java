@@ -25,11 +25,11 @@ public class PolicyHolder extends Customer {
      * @param id            the ID of the policy holder
      * @param name          the name of the policy holder
      * @param insuranceCard the insurance card of the policy holder
-     * @param claims        the list of insurance claims of the policy holder
+     * @param Claim        the list of insurance claims of the policy holder
      * @param dependents    the list of dependents of the policy holder
      */
-    public PolicyHolder(String id, String name, InsuranceCard insuranceCard, ArrayList<Claim> claims, ArrayList<String> dependents) {
-        super(id, name, insuranceCard, claims);
+    public PolicyHolder(String id, String name, InsuranceCard insuranceCard, ArrayList<Claim> Claim, ArrayList<String> dependents) {
+        super(id, name, insuranceCard, Claim);
         this.dependents = dependents;
     }
 
@@ -67,7 +67,7 @@ public class PolicyHolder extends Customer {
         private String id;
         private String name;
         private InsuranceCard insuranceCard;
-        private ArrayList<Claim> claims;
+        private ArrayList<Claim> Claim;
         private ArrayList<String> dependents;
 
         /**
@@ -106,11 +106,11 @@ public class PolicyHolder extends Customer {
         /**
          * Sets the list of insurance claims of the policy holder.
          *
-         * @param claims the list of insurance claims to set
+         * @param Claim the list of insurance claims to set
          * @return the Builder object
          */
-        public Builder setClaims(ArrayList<Claim> claims) {
-            this.claims = claims;
+        public Builder setClaims(ArrayList<Claim> Claim) {
+            this.Claim = Claim;
             return this;
         }
 
@@ -131,7 +131,7 @@ public class PolicyHolder extends Customer {
          * @return a new PolicyHolder object
          */
         public PolicyHolder build() {
-            return new PolicyHolder(id, name, insuranceCard, claims, dependents);
+            return new PolicyHolder(id, name, insuranceCard, Claim, dependents);
         }
 
     }

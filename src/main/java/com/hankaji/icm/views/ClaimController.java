@@ -11,23 +11,22 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.util.Callback;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
+
 
 public class ClaimController {
+    private SessionFactory sessionFactory;
+
+    public ClaimController() {
+        sessionFactory = HibernateUtil.getSessionFactory();
+    }
 
     @FXML
     private ListView<Claim> claimListView;
@@ -76,82 +75,23 @@ public class ClaimController {
         searchClaim(searchField.getText());
     }
 
-
     private void loadAllClaimsData() {
-        try {
-            String content = Files.readString(Paths.get("data/default/Claim.json"));
-            JSONArray jsonArray = new JSONArray(content);
-
-            List<Claim> claims = new ArrayList<>();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss", Locale.ENGLISH);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                LocalDateTime claimDate = LocalDateTime.parse(jsonObject.getString("claimDate"), formatter);
-                LocalDateTime examDate = LocalDateTime.parse(jsonObject.getString("examDate"), formatter);
-
-                JSONArray documentsArray = jsonObject.getJSONArray("documents");
-                List<String> documents = new ArrayList<>();
-                for (int j = 0; j < documentsArray.length(); j++) {
-                    documents.add(documentsArray.getString(j));
-                }
-
-                Claim claim = new Claim(
-                        jsonObject.getString("id"),
-                        claimDate,
-                        jsonObject.getString("insuredPerson"),
-                        jsonObject.getString("cardNumber"),
-                        examDate,
-                        (ArrayList<String>) documents,
-                        jsonObject.getInt("claimAmount"),
-                        Claim.Status.valueOf(jsonObject.getString("status")),
-                        jsonObject.getString("receiverBankingInfo")
-                );
-                claims.add(claim);
-            }
-
-            ObservableList<Claim> observableList = FXCollections.observableArrayList(claims);
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            List<Claim> Claim = session.createQuery("from Claim", Claim.class).list();
+            ObservableList<Claim> observableList = FXCollections.observableArrayList(Claim);
             claimListView.setItems(observableList);
-
-        } catch (IOException | JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void searchClaim(String id) {
-        try {
-            String content = Files.readString(Paths.get("data/default/Claim.json"));
-            JSONArray jsonArray = new JSONArray(content);
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss", Locale.ENGLISH);
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Claim Claim = session.get(Claim.class, id);
             ObservableList<Claim> items = FXCollections.observableArrayList();
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                if (jsonObject.getString("id").equals(id)) {
-                    LocalDateTime claimDate = LocalDateTime.parse(jsonObject.getString("claimDate"), formatter);
-                    LocalDateTime examDate = LocalDateTime.parse(jsonObject.getString("examDate"), formatter);
-
-                    JSONArray documentsArray = jsonObject.getJSONArray("documents");
-                    List<String> documents = new ArrayList<>();
-                    for (int j = 0; j < documentsArray.length(); j++) {
-                        documents.add(documentsArray.getString(j));
-                    }
-
-                    Claim claim = new Claim(
-                            jsonObject.getString("id"),
-                            claimDate,
-                            jsonObject.getString("insuredPerson"),
-                            jsonObject.getString("cardNumber"),
-                            examDate,
-                            (ArrayList<String>) documents,
-                            jsonObject.getInt("claimAmount"),
-                            Claim.Status.valueOf(jsonObject.getString("status")),
-                            jsonObject.getString("receiverBankingInfo")
-                    );
-                    items.add(claim);
-                    break;
-                }
+            if (Claim != null) {
+                items.add(Claim);
             }
-
             claimListView.setItems(items);
 
             if (items.isEmpty()) {
@@ -161,39 +101,19 @@ public class ClaimController {
                 alert.setContentText("No claim found with ID: " + id);
                 alert.showAndWait();
             }
-        } catch (IOException | JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void deleteClaim(Claim claim) {
-        ObservableList<Claim> items = claimListView.getItems();
-        if (items.contains(claim)) {
-            items.remove(claim);
-
-            try {
-                Path filePath = Paths.get("data/default/Claim.json");
-                String content = Files.readString(filePath);
-                JSONArray jsonArray = new JSONArray(content);
-
-                JSONArray updatedArray = new JSONArray();
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    if (!jsonObject.getString("id").equals(claim.getId())) {
-                        updatedArray.put(jsonObject);
-                    }
-                }
-
-                Files.write(filePath, Collections.singletonList(updatedArray.toString(2)), StandardCharsets.UTF_8);
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Claim not found.");
-            alert.showAndWait();
+    private void deleteClaim(Claim Claim) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.delete(Claim);
+            transaction.commit();
+            claimListView.getItems().remove(Claim);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -216,9 +136,9 @@ public class ClaimController {
                         downArrowButton.setOnAction(event -> toggleDetails(downArrowButton));
 
                         Label idLabel = createLabel(item.getId(), 200); // Adjust width for ID
-                        Label insuredPersonLabel = createLabel(item.getInsuredPerson(), 200);
-                        Label cardNumberLabel = createLabel(item.getCardNumber(), 200);
-                        Label statusLabel = createLabel(item.getStatus().toString(), 150);
+                        Label insuredPersonLabel = createLabel(item.getInsured_person_id(), 200);
+                        Label cardNumberLabel = createLabel(item.getCard_number().toString(), 200);
+                        Label statusLabel = createLabel(item.getStatus(), 150);
 
                         // Create the "three vertical dots" button
                         Button dotsButton = new Button("\u22EE"); // Unicode character for vertical ellipsis
@@ -287,12 +207,12 @@ public class ClaimController {
                 // Method to show/hide additional claim details upon clicking the down-arrow button
                 private void toggleDetails(Button downArrowButton) {
                     if (detailsHBox.getChildren().isEmpty()) {
-                        Claim claim = getItem();
-                        if (claim != null) {
-                            Label claimDateLabel = new Label("Claim Date: " + claim.getClaimDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy")));
-                            Label examDateLabel = new Label("Exam Date: " + claim.getExamDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy")));
-                            Label amountLabel = new Label("Claim Amount: $" + claim.getClaimAmount());
-                            Label bankingInfoLabel = new Label("Receiver Banking Info: " + claim.getReceiverBankingInfo());
+                        Claim Claim = getItem();
+                        if (Claim != null) {
+                            Label claimDateLabel = new Label("Claim Date: " + Claim.getClaim_date());
+                            Label examDateLabel = new Label("Exam Date: " + Claim.getExam_date());
+                            Label amountLabel = new Label("Claim Amount: $" + Claim.getClaim_amount());
+                            Label bankingInfoLabel = new Label("Receiver Banking Info: " + Claim.getReceiver_banking_info());
 
                             detailsHBox.getChildren().addAll(claimDateLabel, examDateLabel, amountLabel, bankingInfoLabel);
                             detailsHBox.setSpacing(80); // Add spacing between details

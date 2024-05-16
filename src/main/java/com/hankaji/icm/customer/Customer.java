@@ -19,7 +19,7 @@ public abstract class Customer implements GsonSerializable {
     private String id;
     private String name;
     private InsuranceCard insuranceCard;
-    private ArrayList<Claim> claims;
+    private ArrayList<Claim> Claim;
 
     /**
      * Constructs a customer with the specified id, name, insurance card, and claims.
@@ -27,15 +27,15 @@ public abstract class Customer implements GsonSerializable {
      * @param id the id of the customer in the format of c-numbers
      * @param name the name of the customer
      * @param insuranceCard the insurance card of the customer
-     * @param claims the list of claims associated with the customer
+     * @param Claim the list of claims associated with the customer
      * @throws IllegalArgumentException if the id is invalid
      */
-    protected Customer(String id, String name, InsuranceCard insuranceCard, ArrayList<Claim> claims) throws IllegalArgumentException {
+    protected Customer(String id, String name, InsuranceCard insuranceCard, ArrayList<Claim> Claim) throws IllegalArgumentException {
         validateId(id);
         this.id = id;
         this.name = name;
         this.insuranceCard = insuranceCard;
-        this.claims = new ArrayList<Claim>();
+        this.Claim = new ArrayList<Claim>();
     }
 
     /**
@@ -94,16 +94,16 @@ public abstract class Customer implements GsonSerializable {
      * @return the list of claims associated with the customer
      */
     public ArrayList<Claim> getClaims() {
-        return claims;
+        return Claim;
     }
 
     /**
      * Sets the list of claims associated with the customer.
      * 
-     * @param claims the list of claims to be set
+     * @param Claim the list of claims to be set
      */
-    public void setClaims(ArrayList<Claim> claims) {
-        this.claims = claims;
+    public void setClaims(ArrayList<Claim> Claim) {
+        this.Claim = Claim;
     }
 
     @Override
@@ -113,7 +113,7 @@ public abstract class Customer implements GsonSerializable {
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((insuranceCard == null) ? 0 : insuranceCard.hashCode());
-        result = prime * result + ((claims == null) ? 0 : claims.hashCode());
+        result = prime * result + ((Claim == null) ? 0 : Claim.hashCode());
         return result;
     }
 
@@ -141,10 +141,10 @@ public abstract class Customer implements GsonSerializable {
                 return false;
         } else if (!insuranceCard.equals(other.insuranceCard))
             return false;
-        if (claims == null) {
-            if (other.claims != null)
+        if (Claim == null) {
+            if (other.Claim != null)
                 return false;
-        } else if (!claims.equals(other.claims))
+        } else if (!Claim.equals(other.Claim))
             return false;
         return true;
     }

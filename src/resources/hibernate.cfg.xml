@@ -1,0 +1,21 @@
+<hibernate-configuration>
+    <session-factory>
+        <!-- JDBC Database connection settings -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres</property>
+        <property name="hibernate.connection.username">postgres.sixxaurzsrdqcukvvvmg</property>
+        <property name="hibernate.connection.password">Thienson@2610</property>
+
+        <!-- SQL Dialect -->
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+        <!-- Echo all SQL to stdout -->
+        <property name="hibernate.show_sql">true</property>
+
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Specify your entity package -->
+        <mapping class="com.hankaji.icm.claim.Claim"/>
+    </session-factory>
+</hibernate-configuration>
