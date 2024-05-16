@@ -51,8 +51,8 @@ public class SignUpPage extends StackPane {
         // Add the page image to the top of the VBox
         Image appImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/appImage.png")));
         ImageView signUpImageView = new ImageView(appImage);
-        signUpImageView.setFitWidth(200);
-        signUpImageView.setFitHeight(200);
+        signUpImageView.setFitWidth(80);
+        signUpImageView.setFitHeight(80);
 
         // Create a Text below the page image
         Label signUpPageLabel = new Label("Sign Up");
