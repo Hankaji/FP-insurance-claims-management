@@ -19,5 +19,6 @@
         <!-- Specify your entity package -->
 <!--        <mapping class="com.hankaji.icm.models.customer.MappedCustomer"/>-->
         <mapping class="com.hankaji.icm.models.User"/>
+        <mapping class="com.hankaji.icm.models.MappedCard"/>
     </session-factory>
 </hibernate-configuration>
