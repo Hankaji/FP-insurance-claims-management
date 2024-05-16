@@ -9,7 +9,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Side;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Font;
 import javafx.util.Callback;
 import org.json.JSONArray;
@@ -35,9 +34,6 @@ public class ClaimController {
 
     @FXML
     private TextField searchField;
-
-    @FXML
-    private Button filterButton; // Filter button added
 
     @FXML
     private ChoiceBox<String> sortChoiceBox; // ChoiceBox for sorting options

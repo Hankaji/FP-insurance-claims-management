@@ -61,8 +61,8 @@
                 </HBox>
                 <HBox prefHeight="8.0" prefWidth="923.0">
                     <children>
-                        <HBox prefHeight="18.0" prefWidth="38.0" />
-                        <VBox prefHeight="16.0" prefWidth="212.0">
+                        <HBox prefHeight="16.0" prefWidth="55.0" />
+                        <VBox prefHeight="16.0" prefWidth="210.0">
                             <children>
                                 <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="CLAIM ID" />
                             </children>
@@ -72,7 +72,7 @@
                                 <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="INSURED PERSON" />
                             </children>
                         </VBox>
-                        <VBox prefHeight="16.0" prefWidth="210.0">
+                        <VBox prefHeight="16.0" prefWidth="216.0">
                             <children>
                                 <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="CARD NUMBER" />
                             </children>
