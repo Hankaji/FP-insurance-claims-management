@@ -3,6 +3,7 @@ package com.hankaji.icm.views;
 import com.hankaji.icm.components.FPComboBox;
 import com.hankaji.icm.components.FPPasswordField;
 import com.hankaji.icm.components.FPTextField;
+import com.hankaji.icm.controllers.SignUpController;
 import com.hankaji.icm.models.User;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -23,6 +24,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class SignUpPage extends StackPane {
+
+    SignUpController controller = new SignUpController();
 
     public SignUpPage() {
         getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/style.css")).toExternalForm());
@@ -115,94 +118,7 @@ public class SignUpPage extends StackPane {
         signUpButton.prefWidthProperty().bind(rootContainer.widthProperty());
 
         signUpButton.setOnAction(event -> {
-
-            // Get the fullName and password fields
-            String fullName = fullNameTextField.getFormField().getText();
-            String email = emailTextField.getFormField().getText();
-            String password = passwordField.getText();
-            String reEnteredPassword = reEnterPasswordField.getText();
-
-            // Check if the password and re-entered password match
-            if (password.equals(reEnteredPassword)) {
-                System.out.println("fullName: " + fullName);
-                System.out.println("Password: " + password);
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Passwords do not match. Please re-enter your password.");
-                alert.showAndWait();
-                passwordField.clear();
-                passwordField.setBorder(new Border(
-                        new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-                reEnterPasswordField.clear();
-                reEnterPasswordField.setBorder(new Border(
-                        new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-                return;
-            }
-
-            // Check if the fullName, password, and re-entered password fields are empty
-            if (fullName.isEmpty() || email.isEmpty() || password.isEmpty() || reEnteredPassword.isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Please enter the missing fields");
-                alert.showAndWait();
-
-                fullNameTextField.getFormField().setBorder(new Border(
-                        new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-                passwordField.setBorder(new Border(
-                        new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-                reEnterPasswordField.setBorder(new Border(
-                        new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-                return;
-            }
-
-            if (fullName.length() < 8) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("fullName must be at least 8 characters long");
-                alert.showAndWait();
-                fullNameTextField.getFormField().clear();
-                fullNameTextField.getFormField().setBorder(new Border(
-                        new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-                return;
-            }
-
-            if (reEnteredPassword.isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Please re-enter your password");
-                alert.showAndWait();
-
-                reEnterPasswordField.setBorder(new Border(
-                        new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-                return;
-            }
-
-            // Define the regex pattern for the password
-            String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}$";
-            Pattern pattern = Pattern.compile(passwordPattern);
-            Matcher matcher = pattern.matcher(password);
-
-            if (!matcher.matches()) {
-                passwordField.clear();
-                reEnterPasswordField.clear();
-                passwordField.setBorder(new Border(
-                        new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-                reEnterPasswordField.setBorder(new Border(
-                        new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText(
-                        "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.");
-                alert.showAndWait();
-                return;
-            }
-
+            signUpAction(fullNameTextField, emailTextField, passwordField, reEnterPasswordField);
         });
 
         // Add all the elements to the root VBox
@@ -213,10 +129,100 @@ public class SignUpPage extends StackPane {
         return rootContainer;
     }
 
+    private void signUpAction(FPTextField fullNameTextField, FPTextField emailTextField, PasswordField passwordField,
+            PasswordField reEnterPasswordField) {
+        // Get the fullName and password fields
+        String fullName = fullNameTextField.getFormField().getText();
+        String email = emailTextField.getFormField().getText();
+        String password = passwordField.getText();
+        String reEnteredPassword = reEnterPasswordField.getText();
+
+        // Check if the password and re-entered password match
+        if (password.equals(reEnteredPassword)) {
+            System.out.println("fullName: " + fullName);
+            System.out.println("Password: " + password);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Passwords do not match. Please re-enter your password.");
+            alert.showAndWait();
+            passwordField.clear();
+            passwordField.setBorder(new Border(
+                    new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            reEnterPasswordField.clear();
+            reEnterPasswordField.setBorder(new Border(
+                    new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            return;
+        }
+
+        // Check if the fullName, password, and re-entered password fields are empty
+        if (fullName.isEmpty() || email.isEmpty() || password.isEmpty() || reEnteredPassword.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please enter the missing fields");
+            alert.showAndWait();
+
+            fullNameTextField.getFormField().setBorder(new Border(
+                    new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            passwordField.setBorder(new Border(
+                    new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            reEnterPasswordField.setBorder(new Border(
+                    new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            return;
+        }
+
+        if (fullName.length() < 8) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("fullName must be at least 8 characters long");
+            alert.showAndWait();
+            fullNameTextField.getFormField().clear();
+            fullNameTextField.getFormField().setBorder(new Border(
+                    new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            return;
+        }
+
+        if (reEnteredPassword.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please re-enter your password");
+            alert.showAndWait();
+
+            reEnterPasswordField.setBorder(new Border(
+                    new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            return;
+        }
+
+        // Define the regex pattern for the password
+        String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}$";
+        Pattern pattern = Pattern.compile(passwordPattern);
+        Matcher matcher = pattern.matcher(password);
+
+        if (!matcher.matches()) {
+            passwordField.clear();
+            reEnterPasswordField.clear();
+            passwordField.setBorder(new Border(
+                    new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            reEnterPasswordField.setBorder(new Border(
+                    new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText(
+                    "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.");
+            alert.showAndWait();
+            return;
+        }
+    }
+
     private HBox getCardProviderAndAccountType() {
-        FPComboBox<String> cardProvider = new FPComboBox<String>("Card provider");
+        FPComboBox<String> cardProvider = new FPComboBox<String>("Card owner");
         cardProvider.getComboBox().setMaxWidth(Double.MAX_VALUE);
-        cardProvider.getComboBox().getItems().addAll("AIA", "Prudential", "Manulife", "SunLife");
+        cardProvider.getComboBox().getItems().addAll();
         cardProvider.getComboBox().setValue("Choose card provider");
 
         FPComboBox<String> accountType = new FPComboBox<String>("Account type");

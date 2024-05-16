@@ -83,7 +83,8 @@ public class User {
 
     public enum Roles {
         ADMIN,
-        CUSTOMER,
+        DEPENDENT,
+        POLICY_HOLDER,
         POLICY_OWNER,
         PROVIDER
     }
