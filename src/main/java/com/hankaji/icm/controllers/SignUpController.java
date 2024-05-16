@@ -75,14 +75,14 @@ public class SignUpController {
             // Create a new Customer
             switch (accountType) {
                 case User.Roles.DEPENDENT:
-                    Customer customer = Customer.builder().userId(user.getId()).build();
-                    InsuranceCard insuranceCard = new InsuranceCard(fullName, policyOwner.getId());
+                    Customer customer = new Customer(user.getId());
+                    InsuranceCard insuranceCard = new InsuranceCard(customer.getcId(), policyOwner.getId());
 
                     customer.setInsuranceCardNumber(insuranceCard.getCardNumber());
 
                     session.persist(user);
-                    session.persist(customer);
                     session.persist(insuranceCard);
+                    session.persist(customer);
                     break;
                 default:
                     break;

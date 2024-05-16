@@ -19,14 +19,14 @@ import jakarta.persistence.*;
 @Table(name = "customers")
 public class Customer implements GsonSerializable {
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     private String cId;
     @Column(name = "insurance_card_number")
     private Long insuranceCardNumber;
     @Column(name = "user_id")
     private UUID userId;
-    @ManyToOne(cascade={CascadeType.ALL}, fetch = FetchType.LAZY)
-    @JoinColumn (name = "holder_id")
+    @ManyToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+    @JoinColumn(name = "holder_id")
     private Customer holder;
 
     @OneToMany(mappedBy = "holder")
@@ -35,6 +35,11 @@ public class Customer implements GsonSerializable {
     public Customer(Long insuranceCardNumber, UUID userId) {
         this.cId = ID.generateID(7).prefix("c-");
         this.insuranceCardNumber = insuranceCardNumber;
+        this.userId = userId;
+    }
+
+    public Customer(UUID userId) {
+        this.cId = ID.generateID(7).prefix("c-");
         this.userId = userId;
     }
 
@@ -49,11 +54,12 @@ public class Customer implements GsonSerializable {
     public Customer() {
     }
 
-
     private boolean validateId(String id) {
-        // If the id is not in the format of c-numbers (c + 7 numbers), then it is invalid
+        // If the id is not in the format of c-numbers (c + 7 numbers), then it is
+        // invalid
         if (!id.matches("c-\\d{7}")) {
-            throw new IllegalArgumentException("Invalid ID, ID must be a c-<numbers> string, where numbers contain 7 digits");
+            throw new IllegalArgumentException(
+                    "Invalid ID, ID must be a c-<numbers> string, where numbers contain 7 digits");
         }
         return true;
     }
@@ -61,7 +67,6 @@ public class Customer implements GsonSerializable {
     public String getcId() {
         return cId;
     }
-
 
     public Long getInsuranceCardNumber() {
         return insuranceCardNumber;
@@ -75,40 +80,4 @@ public class Customer implements GsonSerializable {
         return userId;
     }
 
-    public UUID getDependentListId() {
-        return dependentListId;
-    }
-
-    public void setDependentListId(UUID dependentListId) {
-        this.dependentListId = dependentListId;
-    }
-
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    public static class Builder {
-        private Long insuranceCardNumber;
-        private UUID userId;
-        private UUID dependentListId;
-
-        public Builder insuranceCardNumber(Long insuranceCardNumber) {
-            this.insuranceCardNumber = insuranceCardNumber;
-            return this;
-        }
-
-        public Builder userId(UUID userId) {
-            this.userId = userId;
-            return this;
-        }
-
-        public Builder dependentListId(UUID dependentListId) {
-            this.dependentListId = dependentListId;
-            return this;
-        }
-
-        public Customer build() {
-            return new Customer(insuranceCardNumber, userId, dependentListId);
-        }
-    }
 }

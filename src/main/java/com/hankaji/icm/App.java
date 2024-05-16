@@ -38,7 +38,7 @@ public class App extends Application {
 
         // Parent page = FXMLLoader.load(getClass().getResource("/fxml/RootView.fxml"));
 
-        Scene scene = new Scene(new SignUpPage());
+        Scene scene = new Scene(new LogIn());
 
         stage.setTitle("Insurance Claim Management System");
         stage.setScene(scene);
