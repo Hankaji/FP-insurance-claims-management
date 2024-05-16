@@ -8,6 +8,7 @@ package com.hankaji.icm.models.customer;
  *
  * Libraries used: Lanterna, Gson, Apache Commons IO
  */
+import java.util.List;
 import java.util.UUID;
 
 import com.hankaji.icm.lib.ID;
@@ -19,25 +20,30 @@ import jakarta.persistence.*;
 public class Customer implements GsonSerializable {
     @Id
     @Column(name="id")
-    protected String cId;
+    private String cId;
     @Column(name = "insurance_card_number")
-    protected Long insuranceCardNumber;
+    private Long insuranceCardNumber;
     @Column(name = "user_id")
-    protected UUID userId;
-    @Column(name = "holder_id")
-    private UUID dependentListId;
+    private UUID userId;
+    @ManyToOne(cascade={CascadeType.ALL}, fetch = FetchType.LAZY)
+    @JoinColumn (name = "holder_id")
+    private Customer holder;
 
-    public Customer(Long insuranceCardNumber, UUID userId, UUID dependentListId) {
-        this.cId = ID.generateID(7).prefix("c-");
-        this.insuranceCardNumber = insuranceCardNumber;
-        this.userId = userId;
-        this.dependentListId = dependentListId;
-    }
+    @OneToMany(mappedBy = "holder")
+    private List<Customer> dependents;
 
     public Customer(Long insuranceCardNumber, UUID userId) {
         this.cId = ID.generateID(7).prefix("c-");
         this.insuranceCardNumber = insuranceCardNumber;
         this.userId = userId;
+    }
+
+    public void setHolder(Customer holder) {
+        this.holder = holder;
+    }
+
+    public void setDependents(List<Customer> dependents) {
+        this.dependents = dependents;
     }
 
     public Customer() {

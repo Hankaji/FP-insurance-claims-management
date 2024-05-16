@@ -7,24 +7,49 @@ package com.hankaji.icm.models;
 */
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 import com.hankaji.icm.lib.GsonSerializable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 
 /**
  * Represents an insurance claim.
  */
+@Entity
+@Table(name = "claims")
 public class Claim implements GsonSerializable {
-    private final String id;
-    private final LocalDateTime claimDate;
-    private final String insuredPerson;
-    private final String cardNumber;
+    @Id
+    private String id;
+    @Column(name = "claim_date")
+    private LocalDateTime claimDate;
+    @Column(name = "insured_person_id")
+    private String insuredPersonId;
+    @Column(name = "card_number")
+    private Long cardNumber;
+    @Column(name = "exam_date")
     private LocalDateTime examDate;
-    private ArrayList<String> documents; // ClaimId_CardNumber_DocumentName.pdf
-    private int claimAmount;
+    @Column(name = "document")
+    private String documents; // ClaimId_CardNumber_DocumentName.pdf
+    @Column(name = "claim_amount")
+    private Double claimAmount;
+    @Column(name = "status")
     private Status status;
+    @Column(name = "receiver_banking_info")
     private String receiverBankingInfo; // Bank – Name – Number
+
+    public Claim(String id, String insuredPersonId, Long cardNumber) {
+        this.id = id;
+        this.insuredPersonId = insuredPersonId;
+        this.cardNumber = cardNumber;
+    }
+
+    public Claim(String insuredPersonId, Long cardNumber) {
+        this.insuredPersonId = insuredPersonId;
+        this.cardNumber = cardNumber;
+    }
 
     /**
      * Constructs a Claim object with the specified parameters.
@@ -39,18 +64,30 @@ public class Claim implements GsonSerializable {
      * @param status              the status of the claim
      * @param receiverBankingInfo the banking information of the claim receiver
      */
-    public Claim(String id, LocalDateTime claimDate, String insuredPerson, String cardNumber, LocalDateTime examDate,
-                 ArrayList<String> documents, int claimAmount, Status status, String receiverBankingInfo) {
+    public Claim(String id, LocalDateTime claimDate, String insuredPerson, Long cardNumber, LocalDateTime examDate,
+                 String documents, Double claimAmount, Status status, String receiverBankingInfo) {
         validateId(id);
         this.id = id;
         this.claimDate = claimDate;
-        this.insuredPerson = insuredPerson;
+        this.insuredPersonId = insuredPerson;
         this.cardNumber = cardNumber;
         this.examDate = examDate;
         this.documents = documents;
         this.claimAmount = claimAmount;
         this.status = status;
         this.receiverBankingInfo = receiverBankingInfo;
+    }
+
+    public Claim(String id, String insuredPersonId, Long cardNumber, String documents, Double claimAmount, Status status) {
+        this.id = id;
+        this.insuredPersonId = insuredPersonId;
+        this.cardNumber = cardNumber;
+        this.documents = documents;
+        this.claimAmount = claimAmount;
+        this.status = status;
+    }
+
+    public Claim() {
     }
 
     /**
@@ -93,8 +130,8 @@ public class Claim implements GsonSerializable {
      *
      * @return the name of the insured person
      */
-    public String getInsuredPerson() {
-        return insuredPerson;
+    public String getInsuredPersonId() {
+        return insuredPersonId;
     }
 
     /**
@@ -102,7 +139,7 @@ public class Claim implements GsonSerializable {
      *
      * @return the card number associated with the claim
      */
-    public String getCardNumber() {
+    public Long getCardNumber() {
         return cardNumber;
     }
 
@@ -129,7 +166,7 @@ public class Claim implements GsonSerializable {
      *
      * @return the list of documents related to the claim
      */
-    public ArrayList<String> getDocuments() {
+    public String getDocuments() {
         return documents;
     }
 
@@ -138,7 +175,7 @@ public class Claim implements GsonSerializable {
      *
      * @param documents the list of documents related to the claim
      */
-    public void setDocuments(ArrayList<String> documents) {
+    public void setDocuments(String documents) {
         this.documents = documents;
     }
 
@@ -147,7 +184,7 @@ public class Claim implements GsonSerializable {
      *
      * @return the amount of the claim
      */
-    public int getClaimAmount() {
+    public Double getClaimAmount() {
         return claimAmount;
     }
 
@@ -156,7 +193,7 @@ public class Claim implements GsonSerializable {
      *
      * @param claimAmount the amount of the claim
      */
-    public void setClaimAmount(int claimAmount) {
+    public void setClaimAmount(Double claimAmount) {
         this.claimAmount = claimAmount;
     }
 
@@ -212,10 +249,10 @@ public class Claim implements GsonSerializable {
         private String id;
         private LocalDateTime claimDate;
         private String insuredPerson;
-        private String cardNumber;
+        private Long cardNumber;
         private LocalDateTime examDate;
-        private ArrayList<String> documents;
-        private int claimAmount;
+        private String documents;
+        private Double claimAmount;
         private Status status;
         private String receiverBankingInfo;
 
@@ -258,7 +295,7 @@ public class Claim implements GsonSerializable {
          * @param cardNumber the card number associated with the claim
          * @return the Builder instance
          */
-        public Builder setCardNumber(String cardNumber) {
+        public Builder setCardNumber(Long cardNumber) {
             this.cardNumber = cardNumber;
             return this;
         }
@@ -280,7 +317,7 @@ public class Claim implements GsonSerializable {
          * @param documents the list of documents related to the claim
          * @return the Builder instance
          */
-        public Builder setDocuments(ArrayList<String> documents) {
+        public Builder setDocuments(String documents) {
             this.documents = documents;
             return this;
         }
@@ -291,7 +328,7 @@ public class Claim implements GsonSerializable {
          * @param claimAmount the amount of the claim
          * @return the Builder instance
          */
-        public Builder setClaimAmount(int claimAmount) {
+        public Builder setClaimAmount(Double claimAmount) {
             this.claimAmount = claimAmount;
             return this;
         }
