@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.hankaji.icm.lib.GsonSerializable;
+import com.hankaji.icm.lib.ID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,21 +39,12 @@ public class InsuranceCard implements GsonSerializable {
         this.expirationDate = LocalDateTime.now().plusYears(5);
     }
 
-    /**
-     * Constructs an InsuranceCard object with the specified card number, card
-     * holder, policy holder, and expiration date.
-     *
-     * @param cardNumber     the card number
-     * @param cardHolder     the card holder
-     * @param policyHolder   the policy holder
-     * @param expirationDate the expiration date
-     */
-    public InsuranceCard(Long cardNumber, String cardHolder, UUID policyHolder, LocalDateTime expirationDate) {
-        if (!validateCardNumber(cardNumber.toString()));
-        this.cardNumber = cardNumber;
+    public InsuranceCard(String cardHolder, UUID policyOwnerId) {
+        // if (!validateCardNumber(cardNumber.toString()));
+        this.cardNumber = Long.parseLong(ID.generateID(10).getId());
         this.cardHolderId = cardHolder;
-        this.policyOwnerId = policyHolder;
-        this.expirationDate = expirationDate;
+        this.policyOwnerId = policyOwnerId;
+        this.expirationDate = LocalDateTime.now().plusYears(5);
     }
 
     /**
@@ -64,7 +56,7 @@ public class InsuranceCard implements GsonSerializable {
      */
     private boolean validateCardNumber(String cardNumber) {
         // If the card number is not in the format of 10 digits, then it is invalid
-        if (!cardNumber.matches("\\d{10}")) {
+        if (!cardNumber.matches("\\d-{10}")) {
             throw new IllegalArgumentException("Invalid card number, number must be a 10-digit string");
         }
         return true;
@@ -167,7 +159,7 @@ public class InsuranceCard implements GsonSerializable {
         }
 
         public InsuranceCard build() {
-            return new InsuranceCard(cardNumber, cardHolder, policyOwner, expirationDate);
+            return new InsuranceCard(cardHolder, policyOwner);
         }
     }
 

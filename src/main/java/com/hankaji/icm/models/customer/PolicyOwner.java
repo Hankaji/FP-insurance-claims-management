@@ -1,10 +1,7 @@
 package com.hankaji.icm.models.customer;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
-import com.hankaji.icm.models.Claim;
-import com.hankaji.icm.models.InsuranceCard;
 import jakarta.persistence.*;
 
 @Entity
@@ -26,6 +23,22 @@ public class PolicyOwner {
     public PolicyOwner(UUID id, String name, Double annualRate) {
         this.id = id;
         this.name = name;
+        this.annualRate = annualRate;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Double getAnnualRate() {
+        return annualRate;
+    }
+
+    public void setAnnualRate(Double annualRate) {
         this.annualRate = annualRate;
     }
 

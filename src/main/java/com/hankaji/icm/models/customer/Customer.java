@@ -8,12 +8,9 @@ package com.hankaji.icm.models.customer;
  *
  * Libraries used: Lanterna, Gson, Apache Commons IO
  */
-import java.util.ArrayList;
 import java.util.UUID;
 
 import com.hankaji.icm.lib.ID;
-import com.hankaji.icm.models.Claim;
-import com.hankaji.icm.models.InsuranceCard;
 import com.hankaji.icm.lib.GsonSerializable;
 import jakarta.persistence.*;
 
@@ -27,7 +24,7 @@ public class Customer implements GsonSerializable {
     protected Long insuranceCardNumber;
     @Column(name = "user_id")
     protected UUID userId;
-    @Column(name = "dependent_list_id")
+    @Column(name = "holder_id")
     private UUID dependentListId;
 
     public Customer(Long insuranceCardNumber, UUID userId, UUID dependentListId) {
@@ -53,5 +50,59 @@ public class Customer implements GsonSerializable {
             throw new IllegalArgumentException("Invalid ID, ID must be a c-<numbers> string, where numbers contain 7 digits");
         }
         return true;
+    }
+
+    public String getcId() {
+        return cId;
+    }
+
+
+    public Long getInsuranceCardNumber() {
+        return insuranceCardNumber;
+    }
+
+    public void setInsuranceCardNumber(Long insuranceCardNumber) {
+        this.insuranceCardNumber = insuranceCardNumber;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public UUID getDependentListId() {
+        return dependentListId;
+    }
+
+    public void setDependentListId(UUID dependentListId) {
+        this.dependentListId = dependentListId;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Long insuranceCardNumber;
+        private UUID userId;
+        private UUID dependentListId;
+
+        public Builder insuranceCardNumber(Long insuranceCardNumber) {
+            this.insuranceCardNumber = insuranceCardNumber;
+            return this;
+        }
+
+        public Builder userId(UUID userId) {
+            this.userId = userId;
+            return this;
+        }
+
+        public Builder dependentListId(UUID dependentListId) {
+            this.dependentListId = dependentListId;
+            return this;
+        }
+
+        public Customer build() {
+            return new Customer(insuranceCardNumber, userId, dependentListId);
+        }
     }
 }

@@ -4,6 +4,8 @@ import com.hankaji.icm.components.FPComboBox;
 import com.hankaji.icm.components.FPPasswordField;
 import com.hankaji.icm.components.FPTextField;
 import com.hankaji.icm.controllers.SignUpController;
+import com.hankaji.icm.errors.UserExistsException;
+import com.hankaji.icm.lib.EnumStringConverter;
 import com.hankaji.icm.models.User;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -18,10 +20,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.hibernate.persister.entity.EntityNameUse.UseKind;
 
 public class SignUpPage extends StackPane {
 
@@ -185,6 +191,19 @@ public class SignUpPage extends StackPane {
             return;
         }
 
+        // Check if the email is valid
+        if (!email.contains("@") || !email.contains(".")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please enter a valid email address");
+            alert.showAndWait();
+            emailTextField.getFormField().clear();
+            emailTextField.getFormField().setBorder(new Border(
+                    new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            return;
+        }
+
         if (reEnteredPassword.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -198,7 +217,7 @@ public class SignUpPage extends StackPane {
         }
 
         // Define the regex pattern for the password
-        String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}$";
+        String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
         Pattern pattern = Pattern.compile(passwordPattern);
         Matcher matcher = pattern.matcher(password);
 
@@ -213,30 +232,60 @@ public class SignUpPage extends StackPane {
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText(
-                    "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.");
+                    "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter and a number");
             alert.showAndWait();
             return;
+        }
+
+        // Get the card provider and account type
+        @SuppressWarnings("unchecked")
+        String owner = ((ComboBox<String>) this.lookup("#card-owner")).getValue();
+
+        @SuppressWarnings("unchecked")
+        User.Roles accountType = ((ComboBox<User.Roles>) this.lookup("#account-type")).getValue();
+
+        signUp(fullName, email, password, owner, accountType);
+    }
+
+    private void signUp(String fullName, String email, String password, String owner, User.Roles accountType) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+
+        try {
+            controller.SignUp(
+                    fullName,
+                    email,
+                    password,
+                    owner,
+                    accountType);
+        } catch (UserExistsException e) {
+            alert.setContentText("User already exists");
+            alert.showAndWait();
         }
     }
 
     private HBox getCardProviderAndAccountType() {
         FPComboBox<String> cardProvider = new FPComboBox<String>("Card owner");
-        cardProvider.getComboBox().setMaxWidth(Double.MAX_VALUE);
-        cardProvider.getComboBox().getItems().addAll();
-        cardProvider.getComboBox().setValue("Choose card provider");
+        // cardProvider.setMaxWidth(Double.MAX_VALUE);
+        // cardProvider.getComboBox().setMaxWidth(Double.MAX_VALUE);
+        cardProvider.getComboBox().setId("card-owner");
+        cardProvider.getComboBox().getItems().addAll(controller.getAllOwnder());
+        cardProvider.getComboBox().setValue("Choose owner");
 
-        FPComboBox<String> accountType = new FPComboBox<String>("Account type");
-        accountType.getComboBox().setMaxWidth(Double.MAX_VALUE);
-        User.Roles[] roles = User.Roles.values();
-        for (User.Roles role : roles) {
-            String roleName = Stream.of(role.toString().split("_"))
-                    .map(s -> s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase())
-                    .reduce((s1, s2) -> s1.concat(" ").concat(s2)).get();
-            accountType.getComboBox().getItems().add(roleName);
-        }
-        accountType.getComboBox().setValue("Choose your account type");
+        FPComboBox<User.Roles> accountType = new FPComboBox<User.Roles>("Account type");
+        // accountType.setMaxWidth(Double.MAX_VALUE);
+        // accountType.getComboBox().setMaxWidth(Double.MAX_VALUE);
+        accountType.getComboBox().setId("account-type");
+        accountType.getComboBox().getItems().addAll(
+                Arrays.stream(User.Roles.values())
+                        .filter(day -> day != User.Roles.ADMIN)
+                        .collect(Collectors.toList()));
+        accountType.getComboBox().setConverter(new EnumStringConverter<>(User.Roles.class));
+        accountType.getComboBox().setValue(User.Roles.DEPENDENT);
 
         HBox cardProviderAndAccountType = new HBox();
+        cardProviderAndAccountType.setMaxWidth(Double.MAX_VALUE);
         cardProviderAndAccountType.setSpacing(12);
         cardProviderAndAccountType.getChildren().addAll(cardProvider, accountType);
         return cardProviderAndAccountType;
