@@ -16,3 +16,5 @@ buildNumber.properties
 
 data/*.json
 UML
+
+.java-version
