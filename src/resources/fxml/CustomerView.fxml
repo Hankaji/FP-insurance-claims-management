@@ -39,7 +39,7 @@
                         <!-- Add the ChoiceBox for sorting -->
                         <VBox prefHeight="58.0" prefWidth="97.0" spacing="10.0">
                             <Text fill="WHITE" text="Filter:" />
-                            <ChoiceBox fx:id="sortChoiceBox" prefHeight="26.0" prefWidth="110.0">
+                            <ChoiceBox fx:id="sortChoiceBox" prefHeight="26.0" prefWidth="110.0" onAction="#handleSort">
                                 <items>
                                     <FXCollections fx:factory="observableArrayList">
                                         <String fx:value="Ascending" />

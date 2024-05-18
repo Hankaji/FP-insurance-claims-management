@@ -1,6 +1,7 @@
 package com.hankaji.icm.controllers;
 
 import com.hankaji.icm.database.SessionManager;
+import com.hankaji.icm.lib.CustomerIdComparator;
 import com.hankaji.icm.models.customer.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +14,8 @@ import javafx.util.Callback;
 import org.hibernate.Session;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CustomerController {
@@ -43,6 +46,26 @@ public class CustomerController {
     @FXML
     private void handleViewAll() {
         loadAllCustomersData();
+    }
+
+    @FXML
+    private ChoiceBox<String> sortChoiceBox;
+
+    @FXML
+    private void handleSort() {
+        String selectedOption = sortChoiceBox.getValue();
+        if (selectedOption != null) {
+            ObservableList<Customer> items = customerListView.getItems();
+            List<Customer> itemList = new ArrayList<>(items);
+
+            if (selectedOption.equals("Ascending")) {
+                itemList.sort(new CustomerIdComparator());
+            } else if (selectedOption.equals("Descending")) {
+                itemList.sort(Collections.reverseOrder(new CustomerIdComparator()));
+            }
+
+            customerListView.setItems(FXCollections.observableList(itemList));
+        }
     }
 
     private void loadAllCustomersData() {
