@@ -39,7 +39,7 @@
                         <!-- Add the ChoiceBox for sorting -->
                         <VBox prefHeight="58.0" prefWidth="97.0" spacing="10.0">
                             <Text fill="WHITE" text="Filter:" />
-                            <ChoiceBox fx:id="sortChoiceBox" prefHeight="26.0" prefWidth="110.0" onAction="#handleSort">
+                            <ChoiceBox fx:id="sortChoiceBox" prefHeight="26.0" prefWidth="110.0">
                                 <items>
                                     <FXCollections fx:factory="observableArrayList">
                                         <String fx:value="Ascending" />
@@ -53,7 +53,7 @@
                         </VBox>
                         <HBox alignment="CENTER" prefHeight="58.0" prefWidth="799.0" spacing="10.0">
                             <children>
-                                <Button onAction="#handleViewAll" prefHeight="24.0" prefWidth="133.0" text="View All Customers" />
+                                <Button onAction="#handleViewAll" prefHeight="14.0" prefWidth="100.0" text="View All Customers" />
                                 <VBox prefHeight="58.0" prefWidth="100.0" />
                             </children>
                         </HBox>
@@ -61,20 +61,25 @@
                 </HBox>
                 <HBox prefHeight="8.0" prefWidth="923.0">
                     <children>
-                        <HBox prefHeight="16.0" prefWidth="10.0" />
-                        <VBox prefHeight="16.0" prefWidth="212.0">
+                        <HBox prefHeight="16.0" prefWidth="55.0" />
+                        <VBox prefHeight="16.0" prefWidth="210.0">
                             <children>
                                 <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="CUSTOMER ID" />
                             </children>
                         </VBox>
-                        <VBox prefHeight="16.0" prefWidth="366.0">
+                        <VBox prefHeight="18.0" prefWidth="208.0">
                             <children>
-                                <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="INSURANCE CARD NUMBER" />
+                                <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="CUSTOMER NAME" />
                             </children>
                         </VBox>
                         <VBox prefHeight="16.0" prefWidth="216.0">
                             <children>
-                                <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="HOLDER ID" />
+                                <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="PHONE NUMBER" />
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="18.0" prefWidth="86.0">
+                            <children>
+                                <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="EMAIL" wrappingWidth="50.90856981277466" />
                             </children>
                         </VBox>
                     </children>

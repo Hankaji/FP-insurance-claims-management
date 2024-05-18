@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Side;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.util.Callback;
@@ -101,6 +102,24 @@ public class CustomerController {
         }
     }
 
+    @FXML
+    private void deleteCustomer(Customer customer) {
+        // Implement the logic to delete the customer
+        try (Session session = sessionManager.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            session.delete(customer);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        loadAllCustomersData();
+    }
+
+    @FXML
+    private void viewCustomerDetails(Customer customer) {
+    }
+
+
     public class ListViewCellFactory implements Callback<ListView<Customer>, ListCell<Customer>> {
         @Override
         public ListCell<Customer> call(ListView<Customer> param) {
@@ -117,6 +136,30 @@ public class CustomerController {
                         Label insuranceCardNumberLabel = createLabel(String.valueOf(item.getInsuranceCardNumber()), 300); // Set width for Insurance Card Number label
                         Label holderIdLabel = createLabel(String.valueOf(item.getHolderId()), 200); // Set width for Holder ID label
 
+                        // Create the "three vertical dots" button
+                        Button dotsButton = new Button("\u22EE"); // Unicode character for vertical ellipsis
+                        dotsButton.setOnAction(event -> {
+                            // Create a context menu for the actions
+                            ContextMenu contextMenu = new ContextMenu();
+
+                            // Delete item
+                            MenuItem deleteItem = new MenuItem("Delete");
+                            deleteItem.setOnAction(e -> {
+                                // Handle deletion action here
+                                deleteCustomer(item);
+                            });
+
+                            // View details item
+                            MenuItem viewDetailsItem = new MenuItem("View Details");
+                            viewDetailsItem.setOnAction(e -> {
+                                // Handle view details action here
+                                viewCustomerDetails(item);
+                            });
+
+                            contextMenu.getItems().addAll(deleteItem, viewDetailsItem);
+                            contextMenu.show(dotsButton, Side.RIGHT, 0, 0);
+                        });
+
                         // Create HBoxes for each label with different spacing
                         HBox idHBox = new HBox();
                         idHBox.getChildren().add(idLabel);
@@ -129,9 +172,9 @@ public class CustomerController {
                         holderIdHBox.getChildren().add(holderIdLabel);
                         holderIdHBox.setPadding(new Insets(0, 50, 0, 0)); // Add right padding for gap between Insurance Card Number and Holder ID
 
-                        // Create a parent HBox to hold the label HBoxes
+                        // Create a parent HBox to hold the label HBoxes and the dotsButton
                         HBox hbox = new HBox(20); // Adjust overall spacing between HBoxes
-                        hbox.getChildren().addAll(idHBox, insuranceCardNumberHBox, holderIdHBox);
+                        hbox.getChildren().addAll(idHBox, insuranceCardNumberHBox, holderIdHBox, dotsButton);
                         hbox.setPadding(new Insets(5));
                         hbox.setStyle("-fx-background-color: #f0f0f0; -fx-background-radius: 10px; -fx-border-color: #cccccc; -fx-border-width: 1px; -fx-border-radius: 10px;");
 
