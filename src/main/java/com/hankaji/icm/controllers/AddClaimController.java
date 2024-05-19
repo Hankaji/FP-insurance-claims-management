@@ -86,7 +86,7 @@ public class AddClaimController {
             // Create a new claim
             Claim claim = new Claim(
                     insuredPersonId,
-                    new java.math.BigDecimal(claimAmount.getText()),
+                    new java.math.BigDecimal(customer.getInsuranceCardNumber()),
                     null,
                     new java.math.BigDecimal(claimAmount.getText()),
                     status,
