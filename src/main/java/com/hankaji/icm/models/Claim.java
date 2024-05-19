@@ -25,7 +25,7 @@ public class Claim implements GsonSerializable {
     @Column(name = "claim_date")
     private LocalDateTime claimDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "insured_person_id")
     private Customer customer;
     @Column(name = "exam_date")

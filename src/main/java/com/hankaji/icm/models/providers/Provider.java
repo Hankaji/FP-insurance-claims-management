@@ -1,8 +1,10 @@
 package com.hankaji.icm.models.providers;
 
 import com.hankaji.icm.models.User;
+import com.hankaji.icm.models.customer.PolicyOwner;
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -18,6 +20,9 @@ public class Provider {
     private String companyName;
     @Column(name = "is_manager")
     private Boolean isManager;
+
+    @OneToMany(mappedBy = "provider")
+    List<PolicyOwner> policyOwners;
 
     public Provider(User user, String companyName, Boolean isManager) {
         this.user = user;

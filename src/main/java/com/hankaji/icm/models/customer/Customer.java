@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import com.hankaji.icm.lib.ID;
 import com.hankaji.icm.lib.GsonSerializable;
+import com.hankaji.icm.models.Claim;
 import com.hankaji.icm.models.InsuranceCard;
 import com.hankaji.icm.models.User;
 import jakarta.persistence.*;
@@ -35,6 +36,9 @@ public class Customer implements GsonSerializable {
 
     @OneToMany(mappedBy = "holder")
     private List<Customer> dependents;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Claim> claims;
 
     public void setHolder(Customer holder) {
         this.holder = holder;

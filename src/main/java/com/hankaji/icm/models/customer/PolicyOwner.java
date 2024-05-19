@@ -8,6 +8,7 @@ import java.util.UUID;
 import com.hankaji.icm.models.Claim;
 import com.hankaji.icm.models.InsuranceCard;
 import com.hankaji.icm.models.User;
+import com.hankaji.icm.models.providers.Provider;
 import jakarta.persistence.*;
 
 @Entity
@@ -27,8 +28,9 @@ public class PolicyOwner {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "card_provider_id")
-    private Long cardProvider;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn (name = "card_provider_id")
+    private Provider provider;
 
     public PolicyOwner(UUID id, String name) {
         this.id = id;

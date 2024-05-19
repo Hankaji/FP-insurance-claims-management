@@ -24,12 +24,6 @@ public class fakeMain {
             Transaction tx = session.beginTransaction();
 
             //do sth
-
-            Claim claim = new Claim("Niggas", 1234.1, Claim.Status.NEW, "SOn_sf_asdf");
-            claim.setCustomer(session.find(Customer.class,"c-7203922"));
-            claim.setInsuranceCard(session.find(Customer.class,"c-7203922").getInsuranceCard());
-
-            session.persist(claim);
             tx.commit();
             session.close();
         } catch (Exception e){
