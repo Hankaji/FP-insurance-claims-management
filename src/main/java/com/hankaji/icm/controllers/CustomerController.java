@@ -33,9 +33,14 @@ public class CustomerController {
     private TextField searchField;
 
     @FXML
+    private ChoiceBox<String> sortChoiceBox;
+
+    @FXML
     private void initialize() {
         // Set the cell factory for the ListView
         customerListView.setCellFactory(new ListViewCellFactory());
+        // Load all customers data when the page is initialized
+        loadAllCustomersData();
     }
 
     @FXML
@@ -43,14 +48,6 @@ public class CustomerController {
         String id = searchField.getText();
         searchCustomer(id);
     }
-
-    @FXML
-    private void handleViewAll() {
-        loadAllCustomersData();
-    }
-
-    @FXML
-    private ChoiceBox<String> sortChoiceBox;
 
     @FXML
     private void handleSort() {
@@ -79,7 +76,6 @@ public class CustomerController {
             e.printStackTrace();
         }
     }
-
 
     private void searchCustomer(String id) {
         try (Session session = sessionManager.getSessionFactory().openSession()) {
@@ -118,7 +114,6 @@ public class CustomerController {
     @FXML
     private void viewCustomerDetails(Customer customer) {
     }
-
 
     public class ListViewCellFactory implements Callback<ListView<Customer>, ListCell<Customer>> {
         @Override
