@@ -1,6 +1,8 @@
 package com.hankaji.icm;
 
 
+import com.hankaji.icm.views.LogIn;
+
 /** 
 * @author <Hoang Thai Phuc - s3978081> 
 * @version 1.0
@@ -22,7 +24,7 @@ public class App extends Application {
 
         Parent page = FXMLLoader.load(getClass().getResource("/fxml/RootView.fxml"));
 
-        Scene scene = new Scene(page);
+        Scene scene = new Scene(new LogIn());
 
         // Set up the stage
         stage.setTitle("Insurance Customer Management System");

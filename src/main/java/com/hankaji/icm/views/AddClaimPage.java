@@ -1,5 +1,6 @@
 package com.hankaji.icm.views;
 
+import com.hankaji.icm.controllers.AddClaimController;
 import com.hankaji.icm.views.components.ClaimForm;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -19,15 +20,15 @@ import java.util.Objects;
 public class AddClaimPage extends HBox {
     private Label selectedLabel;
 
+    private AddClaimController addClaimController = new AddClaimController();
+
     public AddClaimPage() {
         getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/style.css")).toExternalForm());
         this.setMaxWidth(Double.MAX_VALUE);
         this.setStyle("-fx-background-color: #fff;");
         
-
         // Create a ClaimForm object
         ClaimForm claimForm = new ClaimForm();
-
 
         setHgrow(claimForm, Priority.ALWAYS);
 

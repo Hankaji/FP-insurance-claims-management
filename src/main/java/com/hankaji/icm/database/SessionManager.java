@@ -41,7 +41,7 @@ public class SessionManager {
         }
     }
 
-    public static SessionFactory getSessionFactory() {
+    public SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             sessionFactory = getInstance().init();
         }

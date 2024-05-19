@@ -6,7 +6,6 @@ import com.hankaji.icm.lib.Utils;
 import com.hankaji.icm.models.Claim;
 import com.hankaji.icm.views.AddClaimPage;
 
-import io.github.palexdev.virtualizedfx.controls.behavior.actions.EventAction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -38,8 +37,7 @@ public class ClaimController implements Initializable {
     private SessionFactory sessionFactory;
 
     public ClaimController() {
-        SessionManager.getInstance();
-        sessionFactory = SessionManager.getSessionFactory();
+        sessionFactory = SessionManager.getInstance().getSessionFactory();
     }
 
     @FXML

@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.hankaji.icm.database.SessionManager;
+import com.hankaji.icm.lib.UserSession;
 import com.hankaji.icm.models.User;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
@@ -67,10 +68,14 @@ public class LogInController {
 
                 BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), encryptedPassword);
                 if (result.verified) {
-                    System.out.println("Password verified");
+                    // System.out.println("Password verified");
+                    // Set scene
                     Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/RootView.fxml")));
                     Stage stage = (Stage) loginButton.getScene().getWindow();
                     Scene scene = new Scene(root);
+
+                    // Store the user id in the session
+                    UserSession.createSession(user.getId());
                     stage.setScene(scene);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);

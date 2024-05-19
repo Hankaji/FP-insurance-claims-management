@@ -1,6 +1,8 @@
 package com.hankaji.icm.models;
 
 import com.hankaji.icm.lib.GsonSerializable;
+import com.hankaji.icm.lib.ID;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -42,6 +44,22 @@ public class Claim implements GsonSerializable {
 
     @Column(name = "document")
     private String document;
+
+    public Claim() {}
+
+    public Claim(String insured_person_id, BigDecimal card_number, Timestamp exam_date,
+            BigDecimal claim_amount, Status status, String receiver_banking_info, Timestamp claim_date,
+            String document) {
+        this.id = ID.generateID(12).getId();
+        this.insured_person_id = insured_person_id;
+        this.card_number = card_number;
+        this.exam_date = exam_date;
+        this.claim_amount = claim_amount;
+        this.status = status;
+        this.receiver_banking_info = receiver_banking_info;
+        this.claim_date = claim_date;
+        this.document = document;
+    }
 
     // Getters and setters
     public String getId() {
