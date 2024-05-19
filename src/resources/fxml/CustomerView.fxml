@@ -53,7 +53,7 @@
                         </VBox>
                         <HBox alignment="CENTER" prefHeight="58.0" prefWidth="799.0" spacing="10.0">
                             <children>
-                                <Button onAction="#handleViewAll" prefHeight="14.0" prefWidth="100.0" text="View All Customers" />
+                                <!-- Removed the View All Customers button -->
                                 <VBox prefHeight="58.0" prefWidth="100.0" />
                             </children>
                         </HBox>
@@ -61,27 +61,23 @@
                 </HBox>
                 <HBox prefHeight="8.0" prefWidth="923.0">
                     <children>
-                        <HBox prefHeight="16.0" prefWidth="55.0" />
+                        <HBox prefHeight="18.0" prefWidth="8.0" />
                         <VBox prefHeight="16.0" prefWidth="210.0">
                             <children>
                                 <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="CUSTOMER ID" />
                             </children>
                         </VBox>
-                        <VBox prefHeight="18.0" prefWidth="208.0">
+                        <VBox prefHeight="18.0" prefWidth="377.0">
                             <children>
-                                <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="CUSTOMER NAME" />
+                                <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="INSURANCE CARD NUMBER" />
                             </children>
                         </VBox>
                         <VBox prefHeight="16.0" prefWidth="216.0">
                             <children>
-                                <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="PHONE NUMBER" />
+                                <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="HOLDER ID" />
                             </children>
                         </VBox>
-                        <VBox prefHeight="18.0" prefWidth="86.0">
-                            <children>
-                                <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="EMAIL" wrappingWidth="50.90856981277466" />
-                            </children>
-                        </VBox>
+                        <VBox prefHeight="18.0" prefWidth="86.0" />
                     </children>
                 </HBox>
                 <!-- Reference the ListView cell factory -->
