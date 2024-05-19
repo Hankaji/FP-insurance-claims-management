@@ -50,6 +50,9 @@ public class ClaimController {
 
         // Add action listener to the choice box for sorting
         sortChoiceBox.setOnAction(event -> handleSort());
+
+        // Load all claims data initially
+        loadAllClaimsData();
     }
 
     private void handleSort() {
@@ -69,19 +72,14 @@ public class ClaimController {
     }
 
     @FXML
-    private void handleViewAll() {
-        loadAllClaimsData();
-    }
-
-    @FXML
     private void handleSearch() {
         searchClaim(searchField.getText());
     }
 
     private void loadAllClaimsData() {
         try (Session session = SessionManager.getSessionFactory().openSession()) {
-            List<Claim> Claim = session.createQuery("from Claim", Claim.class).list();
-            ObservableList<Claim> observableList = FXCollections.observableArrayList(Claim);
+            List<Claim> claims = session.createQuery("from Claim", Claim.class).list();
+            ObservableList<Claim> observableList = FXCollections.observableArrayList(claims);
             claimListView.setItems(observableList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,10 +88,10 @@ public class ClaimController {
 
     private void searchClaim(String id) {
         try (Session session = SessionManager.getSessionFactory().openSession()) {
-            Claim Claim = session.get(Claim.class, id);
+            Claim claim = session.get(Claim.class, id);
             ObservableList<Claim> items = FXCollections.observableArrayList();
-            if (Claim != null) {
-                items.add(Claim);
+            if (claim != null) {
+                items.add(claim);
             }
             claimListView.setItems(items);
 
@@ -109,12 +107,12 @@ public class ClaimController {
         }
     }
 
-    private void deleteClaim(Claim Claim) {
+    private void deleteClaim(Claim claim) {
         try (Session session = SessionManager.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.delete(Claim);
+            session.delete(claim);
             transaction.commit();
-            claimListView.getItems().remove(Claim);
+            claimListView.getItems().remove(claim);
         } catch (Exception e) {
             e.printStackTrace();
         }

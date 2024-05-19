@@ -11,10 +11,10 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         // Instantiate the CustomerController
-        CustomerController customerController = new CustomerController();
+        ClaimController claimController = new ClaimController();
 
         // Create a scene using the root node of the CustomerController
-        Scene scene = new Scene(customerController.getRoot(), 945, 550);
+        Scene scene = new Scene(claimController.getRoot(), 945, 550);
 
         // Set up the stage
         stage.setTitle("Insurance Customer Management System");
