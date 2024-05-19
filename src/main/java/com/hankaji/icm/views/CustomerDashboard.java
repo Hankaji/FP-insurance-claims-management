@@ -3,7 +3,6 @@ package com.hankaji.icm.views;
 import com.hankaji.icm.views.components.CardDetails;
 
 import javafx.geometry.Insets;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 
 public class CustomerDashboard extends TilePane {
