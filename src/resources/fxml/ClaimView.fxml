@@ -68,6 +68,11 @@
                                 </padding>
                             </ChoiceBox>
                         </VBox>
+                  <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Button fx:id="addClaim" mnemonicParsing="false" styleClass="fp-button" stylesheets="@../styles/style.css" text="Add claim" />
+                     </children>
+                  </HBox>
                     </children>
                 </HBox>
                 <!-- Reference the ListView cell factory -->

@@ -4,9 +4,12 @@ import com.hankaji.icm.database.SessionManager;
 import com.hankaji.icm.lib.ClaimIdComparator;
 import com.hankaji.icm.lib.Utils;
 import com.hankaji.icm.models.Claim;
+import com.hankaji.icm.views.AddClaimPage;
 
+import io.github.palexdev.virtualizedfx.controls.behavior.actions.EventAction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -48,6 +51,9 @@ public class ClaimController implements Initializable {
     @FXML
     private ChoiceBox<String> sortChoiceBox; // ChoiceBox for sorting options
 
+    @FXML
+    private Button addClaim;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Set the cell factory for the ListView
@@ -59,8 +65,15 @@ public class ClaimController implements Initializable {
         // Add action listener to the choice box for sorting
         sortChoiceBox.setOnAction(event -> handleSort());
 
+        addClaim.setOnAction(e -> addClaim(e));
+
         // Load all claims data
         loadAllClaimsData();
+    }
+
+    private void addClaim(ActionEvent e) {
+        BorderPane rootPane = (BorderPane) addClaim.getScene().lookup("#RootView");
+        rootPane.setCenter(new AddClaimPage());
     }
 
     private void handleSort() {
@@ -123,7 +136,7 @@ public class ClaimController implements Initializable {
     private void deleteClaim(Claim Claim) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.delete(Claim);
+            session.remove(Claim);
             transaction.commit();
             claimListView.getItems().remove(Claim);
         } catch (Exception e) {
