@@ -5,29 +5,35 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="602.0" prefWidth="970.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hankaji.icm.controllers.ClaimController">
-    <children>
-        <VBox layoutX="11.0" layoutY="14.0" prefHeight="497.0" prefWidth="923.0" spacing="10.0" style="-fx-background-color: #2B4A78;">
+
+<StackPane xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hankaji.icm.controllers.ClaimController">
+   <children>
+        <VBox prefHeight="497.0" prefWidth="923.0" spacing="10.0">
             <children>
-                <HBox alignment="CENTER" prefHeight="31.0" prefWidth="923.0">
+                <HBox alignment="CENTER_LEFT">
                     <children>
-                        <Text style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: white;" text="INSURANCE CLAIM PAGE" />
+                  <Label text="Claims">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
                     </children>
                     <VBox.margin>
                         <Insets bottom="10.0" top="10.0" />
                     </VBox.margin>
                 </HBox>
-                <HBox alignment="TOP_RIGHT" spacing="10.0" style="-fx-background-color: #2B4A78;">
+                <HBox alignment="CENTER_RIGHT" spacing="10.0">
                     <children>
-                        <TextField fx:id="searchField" promptText="Enter Claim ID" />
-                        <Button onAction="#handleSearch" text="Search">
+                        <TextField fx:id="searchField" promptText="Enter Claim ID" styleClass="form-field" stylesheets="@../styles/style.css" />
+                        <Button onAction="#handleSearch" styleClass="fp-button" stylesheets="@../styles/style.css" text="Search">
                             <HBox.margin>
                                 <Insets right="10.0" />
                             </HBox.margin>
@@ -38,7 +44,11 @@
                     <children>
                         <!-- Add the ChoiceBox for sorting -->
                         <VBox prefHeight="58.0" prefWidth="97.0" spacing="10.0">
-                            <Text fill="WHITE" text="Filter:" />
+                     <Label text="Filter">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font>
+                     </Label>
                             <ChoiceBox fx:id="sortChoiceBox" prefHeight="26.0" prefWidth="110.0">
                                 <items>
                                     <FXCollections fx:factory="observableArrayList">
@@ -53,40 +63,18 @@
                         </VBox>
                         <HBox alignment="CENTER" prefHeight="58.0" prefWidth="799.0" spacing="10.0">
                             <children>
-                                <Button onAction="#handleViewAll" prefHeight="14.0" prefWidth="100.0" text="View All Claims" />
+                                <Button onAction="#handleViewAll" styleClass="fp-button" stylesheets="@../styles/style.css" text="View All Claims" />
                                 <VBox prefHeight="58.0" prefWidth="100.0" />
                             </children>
                         </HBox>
-                    </children>
-                </HBox>
-                <HBox prefHeight="8.0" prefWidth="923.0">
-                    <children>
-                        <HBox prefHeight="16.0" prefWidth="55.0" />
-                        <VBox prefHeight="16.0" prefWidth="210.0">
-                            <children>
-                                <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="CLAIM ID" />
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="18.0" prefWidth="208.0">
-                            <children>
-                                <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="INSURED PERSON" />
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="16.0" prefWidth="216.0">
-                            <children>
-                                <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="CARD NUMBER" />
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="18.0" prefWidth="86.0">
-                            <children>
-                                <Text fill="WHITE" stroke="WHITE" strokeType="INSIDE" strokeWidth="10.0" text="STATUS" wrappingWidth="50.90856981277466" />
-                            </children>
-                        </VBox>
                     </children>
                 </HBox>
                 <!-- Reference the ListView cell factory -->
                 <ListView fx:id="claimListView" prefHeight="378.0" prefWidth="926.0" VBox.vgrow="ALWAYS" />
             </children>
         </VBox>
-    </children>
-</AnchorPane>
+   </children>
+   <padding>
+      <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+   </padding>
+</StackPane>
