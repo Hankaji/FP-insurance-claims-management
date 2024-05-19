@@ -16,65 +16,33 @@ import com.hankaji.icm.views.LogIn;
 import com.hankaji.icm.views.SignUpPage;
 import com.hankaji.icm.views.components.CardDetails;
 import com.hankaji.icm.views.components.ClaimForm;
+import com.hankaji.icm.controllers.ClaimController;
+import com.hankaji.icm.controllers.CustomerController;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.util.Objects;
-
-/**
- * The head Application program of the project
- *
- */
 public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
-        _setUp();
-        _closeSession(stage);
-
-        // System.out.println(getClass().getResource("/fxml/RootView.fxml"));
+        // Instantiate the CustomerController
+        CustomerController customerController = new CustomerController();
 
         Parent page = FXMLLoader.load(getClass().getResource("/fxml/RootView.fxml"));
 
         Scene scene = new Scene(page);
 
-        stage.setTitle("Insurance Claim Management System");
+        // Set up the stage
+        stage.setTitle("Insurance Customer Management System");
         stage.setScene(scene);
-        // stage.setScene(dependentsScene);
-        stage.setMinWidth(1600);
-        stage.setMinHeight(900);
-        // System.out.println(dependentsScene.getStylesheets());
-        // stage.setFullScreen(true);
+        stage.setMinWidth(945);
+        stage.setMinHeight(550);
         stage.show();
     }
 
-    private void _closeSession(Stage stage) {
-        // Close the session factory when the application is closed
-        stage.setOnCloseRequest(e -> {
-            SessionManager.getInstance().tearDown();
-        });
-    }
-
-    /**
-     * Set up the session factory.
-     * When create new instance of the application, the session is already initialized in the constructor
-     */
-    public void _setUp() {
-        // Initialize the session factory (Hibernate)
-        SessionManager.getInstance();
-    }
-
     public static void main(String[] args) {
-        try {
-            launch();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        launch(args);
     }
-
 }

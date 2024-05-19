@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
         <!-- JDBC Database connection settings -->
@@ -11,13 +11,15 @@
         <property name="hibernate.connection.password">Thienson@2610</property>
 
         <!-- SQL Dialect -->
-        <property name="dialect"> org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 
-        <!-- Echo all SQL Statement -->
-        <property name="show_sql">true</property>
+        <!-- Echo all SQL to stdout -->
+        <property name="hibernate.show_sql">true</property>
+
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
 
         <!-- Specify your entity package -->
-<!--        <mapping class="com.hankaji.icm.models.customer.MappedCustomer"/>-->
         <mapping class="com.hankaji.icm.models.User"/>
         <mapping class="com.hankaji.icm.models.InsuranceCard"/>
         <mapping class="com.hankaji.icm.models.customer.PolicyOwner"/>

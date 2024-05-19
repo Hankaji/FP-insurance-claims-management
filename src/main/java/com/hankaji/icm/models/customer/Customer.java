@@ -1,19 +1,11 @@
 package com.hankaji.icm.models.customer;
 
-/** 
- * The abstract class representing a customer in the insurance claims management system.
- * 
- * @author <Hoang Thai Phuc - s3978081> 
- * @version 1.0
- *
- * Libraries used: Lanterna, Gson, Apache Commons IO
- */
-import java.util.List;
-import java.util.UUID;
-
 import com.hankaji.icm.lib.ID;
 import com.hankaji.icm.lib.GsonSerializable;
 import jakarta.persistence.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "customers")
@@ -21,16 +13,42 @@ public class Customer implements GsonSerializable {
     @Id
     @Column(name = "id")
     private String cId;
+
     @Column(name = "insurance_card_number")
     private Long insuranceCardNumber;
+
     @Column(name = "user_id")
     private UUID userId;
+
     @ManyToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
     @JoinColumn(name = "holder_id")
     private Customer holder;
 
     @OneToMany(mappedBy = "holder")
     private List<Customer> dependents;
+
+    // Adding holderId field
+    @Column(name = "holder_id", insertable = false, updatable = false)
+    private String holderId;
+
+    // Other fields and methods...
+
+    // Getter for holderId
+    public String getHolderId() {
+        return holderId;
+    }
+
+    // Setter for holderId (if necessary)
+    public void setHolderId(String holderId) {
+        this.holderId = holderId;
+    }
+
+    // Getter for id (assuming it's cId in this case)
+    public String getId() {
+        return cId;
+    }
+
+    // Constructor and other methods...
 
     public Customer(Long insuranceCardNumber, UUID userId) {
         this.cId = ID.generateID(7).prefix("c-");
