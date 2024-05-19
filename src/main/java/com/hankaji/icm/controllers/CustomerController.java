@@ -39,9 +39,17 @@ public class CustomerController {
     private void initialize() {
         // Set the cell factory for the ListView
         customerListView.setCellFactory(new ListViewCellFactory());
+
+        // Initialize the sorting options
+        sortChoiceBox.setItems(FXCollections.observableArrayList("Ascending", "Descending"));
+
+        // Add action listener to the choice box for sorting
+        sortChoiceBox.setOnAction(event -> handleSort());
+
         // Load all customers data when the page is initialized
         loadAllCustomersData();
     }
+
 
     @FXML
     private void handleSearch() {
