@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * Utility class containing various helper methods.
@@ -94,6 +95,13 @@ public class Utils {
      */
     public static Optional<String> extractFromStr(Pattern pattern, String str) {
         return Optional.ofNullable(pattern.matcher(str).group(1));
+    }
+
+    public static String capitalize(String str, String delimiter) {
+        final String lowerCaseStr = str.toLowerCase();
+        return Stream.of(lowerCaseStr.split(delimiter)).map(word -> {
+            return Character.toUpperCase(word.charAt(0)) + word.substring(1);
+        }).reduce("", (acc, word) -> acc + word + " ");
     }
 
 }

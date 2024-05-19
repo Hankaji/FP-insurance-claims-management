@@ -3,6 +3,8 @@ package com.hankaji.icm.models;
 import com.hankaji.icm.lib.GsonSerializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -28,8 +30,9 @@ public class Claim implements GsonSerializable {
     @Column(name = "claim_amount")
     private BigDecimal claim_amount;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private Status status;
 
     @Column(name = "receiver_banking_info")
     private String receiver_banking_info;
@@ -81,11 +84,11 @@ public class Claim implements GsonSerializable {
         this.claim_amount = claim_amount;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -111,5 +114,9 @@ public class Claim implements GsonSerializable {
 
     public void setDocument(String document) {
         this.document = document;
+    }
+
+    public static enum Status {
+        NEW, PROCESSING, DONE
     }
 }

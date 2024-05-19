@@ -1,6 +1,7 @@
 @import "login.scss";
 @import "signup.scss";
 @import "card-details.scss";
+@import "list-cell.scss";
 
 $border-color: #c1c1c1;
 
@@ -36,6 +37,18 @@ $border-color: #c1c1c1;
     -fx-font-size: 16px;
     -fx-background-radius: 8px;
     -fx-padding: 8px 32px;
+    -fx-cursor: hand;
+
+}
+
+.fp-button-icon {
+    -fx-background-color: #3050B0 !important;
+    -fx-text-fill: #fff;
+    -fx-font-weight: normal;
+    -fx-alignment: center !important;
+    -fx-font-size: 16px;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 8px;
     -fx-cursor: hand;
 }
 

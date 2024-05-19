@@ -81,7 +81,7 @@ public class User {
                 '}';
     }
 
-    public enum Roles {
+    public static enum Roles {
         ADMIN,
         DEPENDENT,
         POLICY_HOLDER,

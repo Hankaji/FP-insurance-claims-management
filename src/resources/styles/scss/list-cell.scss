@@ -1,0 +1,45 @@
+.fp-cell-container {
+    &:focused {
+        -fx-background-color: transparent !important;
+    }
+
+    &:selected {
+        -fx-background-color: transparent !important; /* Custom color for selected cells */
+        -fx-text-fill: white; /* Optional: Change text color */
+    }
+}
+
+.status {
+    &-new {
+        -fx-background-color: #49ABFC40 !important;
+        -fx-text-fill: #49ABFC !important;
+        -fx-font-weight: normal;
+        -fx-alignment: center !important;
+        -fx-font-size: 8px;
+        -fx-background-radius: 12px;
+        -fx-padding: 4px 8px;
+        -fx-cursor: hand;
+    }
+
+    &-processing {
+        -fx-background-color: #FFDC4240;
+        -fx-text-fill: #FFDC42;
+        -fx-font-weight: normal;
+        -fx-alignment: center !important;
+        -fx-font-size: 8px;
+        -fx-background-radius: 12px;
+        -fx-padding: 4px 8px;
+        -fx-cursor: hand;
+    }
+
+    &-done {
+        -fx-background-color: #73D62240;
+        -fx-text-fill: #73D622;
+        -fx-font-weight: normal;
+        -fx-alignment: center !important;
+        -fx-font-size: 8px;
+        -fx-background-radius: 12px;
+        -fx-padding: 4px 8px;
+        -fx-cursor: hand;
+    }
+}
