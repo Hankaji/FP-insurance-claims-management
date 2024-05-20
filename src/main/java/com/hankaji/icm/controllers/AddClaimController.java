@@ -3,6 +3,7 @@ package com.hankaji.icm.controllers;
 import java.io.File;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class AddClaimController {
             User user = session.get(User.class, UserSession.getInstance().getUserId());
 
             // From current user get Customer
-            String hql = "FROM Customer C WHERE C.userId = :user_id";
+            String hql = "FROM Customer C WHERE C.user.id = :user_id";
             Query<Customer> query = session.createQuery(hql, Customer.class);
             query.setParameter("user_id", user.getId());
             Customer customer = query.uniqueResult();
@@ -49,10 +50,10 @@ public class AddClaimController {
             Long cardNumber = customer.getInsuranceCardNumber();
 
             // Get insured person id
-            String insuredPersonId = customer.getcId();
+            String insuredPersonId = customer.getId();
 
             // Get the current date
-            LocalDate claimDate = LocalDate.now();
+            LocalDateTime claimDate = LocalDateTime.now();
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             String claimFormattedDate = claimDate.format(dateFormatter);
 
@@ -85,14 +86,15 @@ public class AddClaimController {
 
             // Create a new claim
             Claim claim = new Claim(
-                    insuredPersonId,
-                    new java.math.BigDecimal(customer.getInsuranceCardNumber()),
+                    claimTitleTF.getText(),
+                    claimDescriptionTF.getText(),
+                    customer,
+                    claimDate,
                     null,
-                    new java.math.BigDecimal(claimAmount.getText()),
+                    null,
+                    Double.valueOf(claimAmount.getText()),
                     status,
-                    receivedBankingInfo.getText(),
-                    Timestamp.valueOf(claimDate.atStartOfDay()),
-                    null);
+                    receivedBankingInfo.getText());
             
             session.persist(claim);
 

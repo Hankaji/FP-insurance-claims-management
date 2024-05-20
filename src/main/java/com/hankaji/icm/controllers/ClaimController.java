@@ -278,8 +278,8 @@ public class ClaimController implements Initializable {
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-YYYY");
 
                             // Format the dates
-                            String formattedClaimDate = Claim.getClaim_date().toLocalDateTime().format(formatter);
-                            String formattedExamDate = Claim.getExam_date().toLocalDateTime().format(formatter);
+                            String formattedClaimDate = Claim.getClaimDate().format(formatter);
+                            String formattedExamDate = Claim.getExamDate().format(formatter);
 
                             // Create labels with formatted dates
                             Label claimDateLabel = new Label("Claim Date: " + formattedClaimDate);
