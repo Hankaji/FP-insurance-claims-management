@@ -74,7 +74,7 @@ public class ClaimController implements Initializable {
         loadAllClaimsData();
     }
 
-//    private void changeStatus(ActionEvent e){
+    //    private void changeStatus(ActionEvent e){
 //
 //    }
     private void addClaim(ActionEvent e) {
@@ -155,7 +155,7 @@ public class ClaimController implements Initializable {
         public ListCell<Claim> call(ListView<Claim> param) {
             return new ListCell<Claim>() {
                 private final HBox detailsHBox = new HBox(); // Use HBox for horizontal layout
-                
+
 
                 @Override
                 protected void updateItem(Claim claim, boolean empty) {

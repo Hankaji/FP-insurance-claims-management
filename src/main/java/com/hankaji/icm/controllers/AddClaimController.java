@@ -24,7 +24,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class AddClaimController {
-    
+
     private SessionFactory sessionFactory = SessionManager.getInstance().getSessionFactory();
 
     public AddClaimController() {
@@ -32,7 +32,7 @@ public class AddClaimController {
     }
 
     public void addClaim(TextField claimTitleTF, TextArea claimDescriptionTF, TextField claimAmount,
-            TextField receivedBankingInfo, ImageUploadForm imageUploadForm) {
+                         TextField receivedBankingInfo, ImageUploadForm imageUploadForm) {
         try {
             Session session = sessionFactory.openSession();
             Transaction tx = session.beginTransaction();
@@ -96,7 +96,7 @@ public class AddClaimController {
                     status,
                     receivedBankingInfo.getText(),
                     customer.getInsuranceCardNumber());
-            
+
             session.persist(claim);
 
             tx.commit();

@@ -81,6 +81,10 @@ public class User {
                 '}';
     }
 
+    public Roles getRole() {
+        return role;
+    }
+
     public static enum Roles {
         ADMIN,
         DEPENDENT,

@@ -3,8 +3,8 @@ package com.hankaji.icm;
 
 import com.hankaji.icm.views.LogIn;
 
-/** 
-* @author <Hoang Thai Phuc - s3978081> 
+/**
+* @author <Hoang Thai Phuc - s3978081>
 * @version 1.0
 *
 * Libraries used: JavaFX, MaterialFX
@@ -29,8 +29,8 @@ public class App extends Application {
         // Set up the stage
         stage.setTitle("Insurance Customer Management System");
         stage.setScene(scene);
-        stage.setMinWidth(1600);
-        stage.setMinHeight(900);
+        stage.setMinWidth(1500);
+        stage.setMinHeight(800);
         stage.show();
     }
 
