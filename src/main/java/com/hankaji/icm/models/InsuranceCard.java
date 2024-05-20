@@ -68,6 +68,10 @@ public class InsuranceCard implements GsonSerializable {
         return cardNumber;
     }
 
+    public void setCardNumber(Long cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
     /**
      * Returns the expiration date.
      *
