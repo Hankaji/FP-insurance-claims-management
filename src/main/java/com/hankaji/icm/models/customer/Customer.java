@@ -22,11 +22,11 @@ public class Customer implements GsonSerializable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
-    @ManyToOne(cascade={CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn (name = "holder_id")
     private Customer holder;
 
-    @OneToMany(mappedBy = "holder")
+    @OneToMany(mappedBy = "holder", fetch = FetchType.EAGER)
     private List<Customer> dependents;
 
     @OneToMany(mappedBy = "customer")
@@ -82,6 +82,20 @@ public class Customer implements GsonSerializable {
 
     public Long getInsuranceCardNumber() {
         return this.insuranceCard.getCardNumber();
+    }
+
+    public List<Customer> getDependents() {
+        return dependents;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "cId='" + cId + '\'' +
+                ", insuranceCard=" + insuranceCard +
+                ", user=" + user +
+                ", holder=" + holder +
+                '}';
     }
 
     public String getId() {

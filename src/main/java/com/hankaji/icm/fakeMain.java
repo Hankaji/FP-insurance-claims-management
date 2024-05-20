@@ -1,5 +1,6 @@
 package com.hankaji.icm;
 
+import com.hankaji.icm.controllers.ViewDependentsController;
 import com.hankaji.icm.database.CreateSession;
 import com.hankaji.icm.controllers.UpdateClaimStatusController;
 import com.hankaji.icm.lib.UserSession;
@@ -11,6 +12,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class fakeMain {
@@ -23,13 +25,13 @@ public class fakeMain {
             // start transaction
             Transaction tx = session.beginTransaction();
 
-            UserSession.createSession(UUID.fromString("e3d05d8f-d2f3-4362-9b52-f59a853d0e77"));
+            UserSession.createSession(UUID.fromString("9e873579-38d9-4add-b6bb-d2090dd53758"));
 
-            UpdateClaimStatusController con = new UpdateClaimStatusController();
+            ViewDependentsController con = new ViewDependentsController();
 
-            Claim claim = session.find(Claim.class, "f-5831110760");
+            List<Customer> list = con.getDependents();
 
-            con.updateClaimStatus(claim, Claim.Status.DONE);
+            list.forEach(System.out::println);
             //do sth
             tx.commit();
             session.close();
