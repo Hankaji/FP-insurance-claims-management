@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -119,6 +120,15 @@ public class CardController implements Initializable {
                     return label;
                 }
             };
+        }
+    }
+
+    public AnchorPane getRoot() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/CardView.fxml"));
+        try {
+            return fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

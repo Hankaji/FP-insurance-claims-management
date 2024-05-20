@@ -1,15 +1,5 @@
 package com.hankaji.icm;
 
-
-import com.hankaji.icm.views.LogIn;
-
-/**
-* @author <Hoang Thai Phuc - s3978081>
-* @version 1.0
-*
-* Libraries used: JavaFX, MaterialFX
-*/
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,11 +10,12 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        // Instantiate the CustomerController
+        // Load the CardView.fxml and get the root node
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CardView.fxml"));
+        Parent root = loader.load();
 
-        Parent page = FXMLLoader.load(getClass().getResource("/fxml/RootView.fxml"));
-
-        Scene scene = new Scene(new LogIn());
+        // Create a scene with the loaded root node
+        Scene scene = new Scene(root);
 
         // Set up the stage
         stage.setTitle("Insurance Customer Management System");
