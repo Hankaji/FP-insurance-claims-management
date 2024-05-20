@@ -76,7 +76,7 @@ public class SignUpController {
             switch (accountType) {
                 case User.Roles.DEPENDENT:
                     Customer customer = new Customer(user.getId().toString());
-                    InsuranceCard insuranceCard = new InsuranceCard(customer.getId(), policyOwner.getId());
+                    InsuranceCard insuranceCard = new InsuranceCard(policyOwner);
 
                     customer.setInsuranceCard(insuranceCard);
 

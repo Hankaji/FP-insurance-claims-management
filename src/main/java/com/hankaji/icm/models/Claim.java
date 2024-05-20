@@ -47,9 +47,12 @@ public class Claim implements GsonSerializable {
     @Column(name = "claim_amount")
     private Double claimAmount;
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private Status status;
     @Column(name = "receiver_banking_info")
     private String receiverBankingInfo; // Bank – Name – Number
+    @Column(name = "card_number")
+    private Long insuranceCardNumber;
 
     public Claim() {
     }
@@ -70,15 +73,18 @@ public class Claim implements GsonSerializable {
         this.receiverBankingInfo = receiverBankingInfo;
     }
 
-    public Claim(String title, String description, Customer customer, LocalDateTime claimDate, LocalDateTime examDate, String documents, Double claimAmount, Status status, String receiverBankingInfo) {
+    public Claim(String title, String description, Customer customer, LocalDateTime claimDate, LocalDateTime examDate, String documents, Double claimAmount, Status status, String receiverBankingInfo, Long insuranceCardNumber) {
+        this.id = ID.generateID(10).prefix("f-");
         this.title = title;
         this.description = description;
+        this.setCustomer(customer);
         this.claimDate = claimDate;
         this.examDate = examDate;
         this.documents = documents;
         this.claimAmount = claimAmount;
         this.status = status;
         this.receiverBankingInfo = receiverBankingInfo;
+        this.insuranceCardNumber = insuranceCardNumber;
     }
 
     public void setCustomer(Customer customer) {
@@ -117,6 +123,10 @@ public class Claim implements GsonSerializable {
      */
     public LocalDateTime getClaimDate() {
         return claimDate;
+    }
+
+    public Customer getCustomer() {
+        return customer;
     }
 
     /**
@@ -213,6 +223,10 @@ public class Claim implements GsonSerializable {
 
     public String getInsured_person_id() {
         return this.customer.getHolderId();
+    }
+
+    public Long getInsuranceCardNumber() {
+        return insuranceCardNumber;
     }
 
 

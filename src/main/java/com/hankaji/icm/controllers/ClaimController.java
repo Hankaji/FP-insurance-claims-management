@@ -52,6 +52,9 @@ public class ClaimController implements Initializable {
     @FXML
     private Button addClaim;
 
+    @FXML
+    private Button changeStatus;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Set the cell factory for the ListView
@@ -65,10 +68,15 @@ public class ClaimController implements Initializable {
 
         addClaim.setOnAction(e -> addClaim(e));
 
+//        changeStatus.setOnAction(e -> changeStatus(e));
+
         // Load all claims data
         loadAllClaimsData();
     }
 
+//    private void changeStatus(ActionEvent e){
+//
+//    }
     private void addClaim(ActionEvent e) {
         BorderPane rootPane = (BorderPane) addClaim.getScene().lookup("#RootView");
         rootPane.setCenter(new AddClaimPage());
@@ -150,9 +158,9 @@ public class ClaimController implements Initializable {
                 
 
                 @Override
-                protected void updateItem(Claim item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
+                protected void updateItem(Claim claim, boolean empty) {
+                    super.updateItem(claim, empty);
+                    if (empty || claim == null) {
                         setText(null);
                         setGraphic(null);
                     } else {
@@ -163,10 +171,10 @@ public class ClaimController implements Initializable {
                         downArrowButton.setFont(Font.font(12)); // Set font size for the arrow
                         downArrowButton.setOnAction(event -> toggleDetails(downArrowButton));
 
-                        VBox idLabel = createLabel("Id:", item.getId(), 150); // Adjust width for ID
-                        VBox insuredPersonLabel = createLabel("Insured person:", item.getInsured_person_id(), 150);
-                        VBox cardNumberLabel = createLabel("Card number:", item.getCard_number().toString(), 150);
-                        VBox statusLabel = createStatusLabel("Status:", item.getStatus(), 150);
+                        VBox idLabel = createLabel("Id:", claim.getId(), 150); // Adjust width for ID
+                        VBox insuredPersonLabel = createLabel("Insured person:", claim.getInsured_person_id(), 150);
+                        VBox cardNumberLabel = createLabel("Card number:", claim.getCard_number().toString(), 150);
+                        VBox statusLabel = createStatusLabel("Status:", claim.getStatus(), 150);
 
                         // Create the "three vertical dots" button
                         Button dotsButton = new Button("\u22EE"); // Unicode character for vertical ellipsis
@@ -182,7 +190,7 @@ public class ClaimController implements Initializable {
                             MenuItem deleteItem = new MenuItem("Delete");
                             deleteItem.setOnAction(e -> {
                                 // Handle deletion action here
-                                deleteClaim(item);
+                                deleteClaim(claim);
                             });
 
                             // Update item
