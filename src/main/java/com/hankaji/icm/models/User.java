@@ -70,6 +70,14 @@ public class User {
         this.password = password;
     }
 
+    public Roles getRole() {
+        return role;
+    }
+
+    public void setRole(Roles role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "User{" +

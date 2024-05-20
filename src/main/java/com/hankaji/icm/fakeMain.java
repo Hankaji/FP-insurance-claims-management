@@ -1,16 +1,15 @@
 package com.hankaji.icm;
 
+import com.hankaji.icm.controllers.DependentController;
+import com.hankaji.icm.controllers.ViewPolicyHoldersController;
 import com.hankaji.icm.database.CreateSession;
-import com.hankaji.icm.controllers.UpdateClaimStatusController;
 import com.hankaji.icm.lib.UserSession;
-import com.hankaji.icm.models.Claim;
-import com.hankaji.icm.models.InsuranceCard;
 import com.hankaji.icm.models.customer.Customer;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class fakeMain {
@@ -23,13 +22,30 @@ public class fakeMain {
             // start transaction
             Transaction tx = session.beginTransaction();
 
-            UserSession.createSession(UUID.fromString("e3d05d8f-d2f3-4362-9b52-f59a853d0e77"));
+            UserSession.createSession(UUID.fromString("15637c7e-d77f-4906-9b40-81ed01461f61"));
 
-            UpdateClaimStatusController con = new UpdateClaimStatusController();
+            ViewPolicyHoldersController con1 = new ViewPolicyHoldersController();
 
-            Claim claim = session.find(Claim.class, "f-5831110760");
+            DependentController con = new DependentController();
 
-            con.updateClaimStatus(claim, Claim.Status.DONE);
+            // List possible policy holders for the dependent to choose from
+            List<Customer> policyHolders = con1.getPossiblePolicyHolders();
+            System.out.println("Possible Policy Holders:");
+            for (Customer policyHolder : policyHolders) {
+                System.out.println(policyHolder.toString());
+            }
+
+            // Assuming the dependent chooses a policy holder with ID "chosenPolicyHolderId"
+            String chosenPolicyHolderId = "c-4302809"; // Replace with actual ID
+
+            // Assign the chosen policy holder to the dependent
+            boolean success = con.assignPolicyHolderToDependent(chosenPolicyHolderId);
+            if (success) {
+                System.out.println("Policy holder assigned successfully.");
+            } else {
+                System.out.println("Failed to assign policy holder.");
+            }
+
             //do sth
             tx.commit();
             session.close();
