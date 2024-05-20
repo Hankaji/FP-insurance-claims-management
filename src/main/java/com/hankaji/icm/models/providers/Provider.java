@@ -40,4 +40,12 @@ public class Provider {
     public UUID getId() {
         return id;
     }
+
+    public Boolean getManagerStatus() {
+        return isManager;
+    }
+
+    public List<PolicyOwner> getPolicyOwners() {
+        return policyOwners;
+    }
 }

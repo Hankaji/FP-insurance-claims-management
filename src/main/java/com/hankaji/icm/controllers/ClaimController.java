@@ -27,10 +27,7 @@ import org.hibernate.Transaction;
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 
 public class ClaimController implements Initializable {
@@ -52,9 +49,6 @@ public class ClaimController implements Initializable {
     @FXML
     private Button addClaim;
 
-    @FXML
-    private Button changeStatus;
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Set the cell factory for the ListView
@@ -68,15 +62,10 @@ public class ClaimController implements Initializable {
 
         addClaim.setOnAction(e -> addClaim(e));
 
-//        changeStatus.setOnAction(e -> changeStatus(e));
-
         // Load all claims data
         loadAllClaimsData();
     }
 
-//    private void changeStatus(ActionEvent e){
-//
-//    }
     private void addClaim(ActionEvent e) {
         BorderPane rootPane = (BorderPane) addClaim.getScene().lookup("#RootView");
         rootPane.setCenter(new AddClaimPage());
@@ -155,7 +144,7 @@ public class ClaimController implements Initializable {
         public ListCell<Claim> call(ListView<Claim> param) {
             return new ListCell<Claim>() {
                 private final HBox detailsHBox = new HBox(); // Use HBox for horizontal layout
-                
+
 
                 @Override
                 protected void updateItem(Claim claim, boolean empty) {
@@ -167,7 +156,7 @@ public class ClaimController implements Initializable {
                         // Create the cell content here
                         Button downArrowButton = new Button("\u25BE"); // Unicode character for down arrow
                         downArrowButton.getStyleClass().add("fp-button-icon");
-                        // downArrowButton.setPrefSize(16, 16); 
+                        // downArrowButton.setPrefSize(16, 16);
                         downArrowButton.setFont(Font.font(12)); // Set font size for the arrow
                         downArrowButton.setOnAction(event -> toggleDetails(downArrowButton));
 
@@ -199,6 +188,10 @@ public class ClaimController implements Initializable {
                                 // Handle update action here
                                 // Implement your update logic
                             });
+
+                            // Update status
+                            MenuItem updateStatus = new MenuItem("Update Status");
+                            updateStatus.setOnAction(e -> updateClaimStatus(claim));
 
                             contextMenu.getItems().addAll(deleteItem, updateItem);
                             contextMenu.show(dotsButton, Side.RIGHT, 0, 0);
@@ -311,6 +304,21 @@ public class ClaimController implements Initializable {
                         detailsHBox.getChildren().clear();
                         downArrowButton.setText("\u25BE"); // Change the button text back to down arrow
                     }
+                }
+                private void updateClaimStatus(Claim claim) {
+                    // Show a dialog for selecting the new status
+                    ChoiceDialog<Claim.Status> dialog = new ChoiceDialog<>(claim.getStatus(), Claim.Status.values());
+                    dialog.setTitle("Update Claim Status");
+                    dialog.setHeaderText("Select a new status for the claim:");
+                    dialog.setContentText("Status:");
+
+                    Optional<Claim.Status> result = dialog.showAndWait();
+                    result.ifPresent(newStatus -> {
+                        UpdateClaimController controller = new UpdateClaimController();
+                        controller.updateClaimStatus(claim, newStatus);
+                        // Refresh the list view or UI as needed
+                        getListView().refresh();
+                    });
                 }
             };
         }
