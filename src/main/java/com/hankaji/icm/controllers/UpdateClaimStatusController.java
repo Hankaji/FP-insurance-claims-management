@@ -30,7 +30,12 @@ public class UpdateClaimStatusController {
             Provider provider = query.uniqueResult();
 
             if (provider != null) {
-                // Only allow Providers to change the status
+                // Check if the managerId is NULL for certain status updates
+                if ((newStatus == Claim.Status.DONE || newStatus == Claim.Status.DENIED) && provider.getManager() != null) {
+                    throw new IllegalAccessException("Only Insurance Managers can set status to DONE or DENIED.");
+                }
+
+                // Update the claim status
                 claim.setStatus(newStatus);
                 session.merge(claim);
                 tx.commit();
