@@ -20,16 +20,8 @@ public class fakeMain {
             Session session = sessionFactory.openSession();
             // start transaction
             Transaction tx = session.beginTransaction();
-            Customer son = new Customer(657294937L, UUID.fromString("654e3214-308d-41bb-a307-190a62068bc9"));
-            Customer aMinh = new Customer(7641741157L, UUID.fromString("d62bbbfd-ba82-43f9-af58-2be25c1c1f5b"));
-            Customer phuc = new Customer(123456543L, UUID.fromString("c3ccca87-ea99-4cda-a535-8ab8e5edb518"));
 
-            son.setHolder(phuc);
-            aMinh.setHolder(phuc);
-            // do sth
-            session.persist(son);
-            session.persist(aMinh);
-
+            //do sth
             tx.commit();
             session.close();
         } catch (Exception e){
