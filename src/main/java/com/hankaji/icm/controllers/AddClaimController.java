@@ -94,7 +94,8 @@ public class AddClaimController {
                     null,
                     Double.valueOf(claimAmount.getText()),
                     status,
-                    receivedBankingInfo.getText());
+                    receivedBankingInfo.getText(),
+                    customer.getInsuranceCardNumber());
             
             session.persist(claim);
 

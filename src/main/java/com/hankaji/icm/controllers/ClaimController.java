@@ -52,6 +52,9 @@ public class ClaimController implements Initializable {
     @FXML
     private Button addClaim;
 
+    @FXML
+    private Button changeStatus;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Set the cell factory for the ListView
@@ -65,10 +68,15 @@ public class ClaimController implements Initializable {
 
         addClaim.setOnAction(e -> addClaim(e));
 
+//        changeStatus.setOnAction(e -> changeStatus(e));
+
         // Load all claims data
         loadAllClaimsData();
     }
 
+//    private void changeStatus(ActionEvent e){
+//
+//    }
     private void addClaim(ActionEvent e) {
         BorderPane rootPane = (BorderPane) addClaim.getScene().lookup("#RootView");
         rootPane.setCenter(new AddClaimPage());
