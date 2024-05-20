@@ -23,7 +23,7 @@ public class fakeMain {
             // start transaction
             Transaction tx = session.beginTransaction();
 
-            UserSession.createSession(UUID.fromString("e3d05d8f-d2f3-4362-9b52-f59a853d0e77"));
+            // UserSession.createSession(UUID.fromString("e3d05d8f-d2f3-4362-9b52-f59a853d0e77"));
 
             UpdateClaimStatusController con = new UpdateClaimStatusController();
 

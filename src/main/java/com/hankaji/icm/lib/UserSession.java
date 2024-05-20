@@ -1,16 +1,16 @@
 package com.hankaji.icm.lib;
 
-import java.util.UUID;
+import com.hankaji.icm.models.User;
 
 public class UserSession {
     private static UserSession instance;
-    private UUID userId;
+    private User userId;
 
-    private UserSession(UUID userId) {
+    private UserSession(User userId) {
         this.userId = userId;
     }
 
-    public static void createSession(UUID userId) {
+    public static void createSession(User userId) {
         if (instance == null) {
             instance = new UserSession(userId);
         }
@@ -20,7 +20,7 @@ public class UserSession {
         return instance;
     }
 
-    public UUID getUserId() {
+    public User getUserId() {
         return userId;
     }
 
