@@ -47,6 +47,7 @@ public class Claim implements GsonSerializable {
     @Column(name = "claim_amount")
     private Double claimAmount;
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private Status status;
     @Column(name = "receiver_banking_info")
     private String receiverBankingInfo; // Bank – Name – Number
