@@ -22,9 +22,12 @@ import jakarta.persistence.*;
 public class Claim implements GsonSerializable {
     @Id
     private String id;
+    @Column(name = "title")
+    private String title;
+    @Column(name = "description")
+    private String description;
     @Column(name = "claim_date")
     private LocalDateTime claimDate;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "insured_person_id")
     private Customer customer;
