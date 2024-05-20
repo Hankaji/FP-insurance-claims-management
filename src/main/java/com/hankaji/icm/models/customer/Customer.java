@@ -32,6 +32,10 @@ public class Customer implements GsonSerializable {
     @OneToMany(mappedBy = "customer")
     private List<Claim> claims;
 
+    public UUID getUserId(){
+        return this.user.getId();
+    }
+
     public void setHolder(Customer holder) {
         this.holder = holder;
     }
@@ -71,4 +75,17 @@ public class Customer implements GsonSerializable {
         }
         return true;
     }
+
+    public String getHolderId() {
+        return this.cId;
+    }
+
+    public Long getInsuranceCardNumber() {
+        return this.insuranceCard.getCardNumber();
+    }
+
+    public String getId() {
+        return this.cId;
+    }
+
 }

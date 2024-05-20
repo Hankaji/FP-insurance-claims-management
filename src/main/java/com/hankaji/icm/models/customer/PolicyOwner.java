@@ -22,7 +22,7 @@ public class PolicyOwner {
 
     @Column(name = "annual_rate")
     private Double annualRate;
-    @OneToMany(mappedBy = "policyOwner")
+    @OneToMany(mappedBy = "policyOwnerId")
     private List<InsuranceCard> cards;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
@@ -48,5 +48,9 @@ public class PolicyOwner {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public UUID getId() {
+        return id;
     }
 }

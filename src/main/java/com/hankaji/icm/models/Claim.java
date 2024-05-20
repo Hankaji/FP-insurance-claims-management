@@ -6,7 +6,10 @@ package com.hankaji.icm.models;
 * Libraries used: Lanterna, Gson, Apache Commons IO
 */
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import com.hankaji.icm.lib.GsonSerializable;
 import com.hankaji.icm.lib.ID;
@@ -61,6 +64,17 @@ public class Claim implements GsonSerializable {
 
     public Claim(String documents, Double claimAmount, Status status, String receiverBankingInfo) {
         this.id = ID.generateID(10).prefix("f-");
+        this.documents = documents;
+        this.claimAmount = claimAmount;
+        this.status = status;
+        this.receiverBankingInfo = receiverBankingInfo;
+    }
+
+    public Claim(String title, String description, Customer customer, LocalDateTime claimDate, LocalDateTime examDate, String documents, Double claimAmount, Status status, String receiverBankingInfo) {
+        this.title = title;
+        this.description = description;
+        this.claimDate = claimDate;
+        this.examDate = examDate;
         this.documents = documents;
         this.claimAmount = claimAmount;
         this.status = status;
@@ -184,6 +198,23 @@ public class Claim implements GsonSerializable {
     public void setReceiverBankingInfo(String receiverBankingInfo) {
         this.receiverBankingInfo = receiverBankingInfo;
     }
+
+    public String getReceiver_banking_info() {
+        return this.receiverBankingInfo;
+    }
+
+    public Double getClaim_amount() {
+        return this.claimAmount;
+    }
+
+    public Long getCard_number() {
+        return this.customer.getInsuranceCardNumber();
+    }
+
+    public String getInsured_person_id() {
+        return this.customer.getHolderId();
+    }
+
 
     public static enum Status {
         NEW,
