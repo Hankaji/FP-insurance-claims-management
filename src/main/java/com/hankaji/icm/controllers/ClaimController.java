@@ -314,7 +314,7 @@ public class ClaimController implements Initializable {
 
                     Optional<Claim.Status> result = dialog.showAndWait();
                     result.ifPresent(newStatus -> {
-                        UpdateClaimController controller = new UpdateClaimController();
+                        UpdateClaimStatusController controller = new UpdateClaimStatusController();
                         controller.updateClaimStatus(claim, newStatus);
                         // Refresh the list view or UI as needed
                         getListView().refresh();
