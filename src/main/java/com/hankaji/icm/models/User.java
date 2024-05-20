@@ -101,14 +101,6 @@ public class User {
         this.email = email;
     }
 
-    public Roles getRole() {
-        return role;
-    }
-
-    public void setRole(Roles role) {
-        this.role = role;
-    }
-
     public static enum Roles {
         ADMIN,
         DEPENDENT,
