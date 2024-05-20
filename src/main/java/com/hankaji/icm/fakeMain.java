@@ -23,13 +23,13 @@ public class fakeMain {
             // start transaction
             Transaction tx = session.beginTransaction();
 
-            UserSession.createSession(UUID.fromString("d180b9fb-eeac-4e38-8159-d14d87993462"));
+            UserSession.createSession(UUID.fromString("e3d05d8f-d2f3-4362-9b52-f59a853d0e77"));
 
             UpdateClaimStatusController con = new UpdateClaimStatusController();
 
             Claim claim = session.find(Claim.class, "f-5831110760");
 
-            con.updateClaimStatus(claim, Claim.Status.PROCESSING);
+            con.updateClaimStatus(claim, Claim.Status.DONE);
             //do sth
             tx.commit();
             session.close();

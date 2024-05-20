@@ -233,6 +233,7 @@ public class Claim implements GsonSerializable {
     public static enum Status {
         NEW,
         PROCESSING,
-        DONE
+        DONE,
+        DENIED
     }
 }
