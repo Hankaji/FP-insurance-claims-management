@@ -22,11 +22,11 @@ public class Customer implements GsonSerializable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
-    @ManyToOne(cascade={CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToOne(cascade={CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn (name = "holder_id")
     private Customer holder;
 
-    @OneToMany(mappedBy = "holder")
+    @OneToMany(mappedBy = "holder", fetch = FetchType.EAGER)
     private List<Customer> dependents;
 
     @OneToMany(mappedBy = "customer")

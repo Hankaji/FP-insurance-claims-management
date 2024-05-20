@@ -81,6 +81,26 @@ public class User {
                 '}';
     }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Roles getRole() {
+        return role;
+    }
+
+    public void setRole(Roles role) {
+        this.role = role;
+    }
+
     public static enum Roles {
         ADMIN,
         DEPENDENT,

@@ -1,6 +1,7 @@
 package com.hankaji.icm.models.providers;
 
 import com.hankaji.icm.models.User;
+import com.hankaji.icm.models.customer.Customer;
 import com.hankaji.icm.models.customer.PolicyOwner;
 import jakarta.persistence.*;
 
@@ -18,17 +19,14 @@ public class Provider {
     private User user;
     @Column(name = "company_name")
     private String companyName;
-    @Column(name = "is_manager")
-    private Boolean isManager;
+    @ManyToOne(cascade={CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "manager_id")
+    private Provider manager;
+    @OneToMany(mappedBy = "manager", fetch = FetchType.EAGER)
+    private List<Provider> surveyors;
 
     @OneToMany(mappedBy = "provider")
     List<PolicyOwner> policyOwners;
-
-    public Provider(User user, String companyName, Boolean isManager) {
-        this.user = user;
-        this.companyName = companyName;
-        this.isManager = isManager;
-    }
 
     public Provider() {
     }
@@ -41,11 +39,19 @@ public class Provider {
         return id;
     }
 
-    public Boolean getManagerStatus() {
-        return isManager;
-    }
-
     public List<PolicyOwner> getPolicyOwners() {
         return policyOwners;
+    }
+
+    public Provider getManager() {
+        return manager;
+    }
+
+    public List<Provider> getSurveyors() {
+        return surveyors;
+    }
+
+    public void setManager(Provider manager) {
+        this.manager = manager;
     }
 }
