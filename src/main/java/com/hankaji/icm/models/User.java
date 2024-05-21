@@ -2,6 +2,7 @@ package com.hankaji.icm.models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -24,6 +25,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Roles role;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Audit> audits;
 
     public User() {
     }

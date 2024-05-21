@@ -17,10 +17,9 @@ public class ViewPolicyHoldersController {
 
     public List<Customer> getPossiblePolicyHolders() {
         try (Session session = sessionFactory.openSession()) {
-            String hql = "FROM Customer C WHERE C.user.role = :policy_holder_role OR (C.user.role = :dependent_role AND C.holder IS NULL)";
+            String hql = "FROM Customer C WHERE C.user.role = :policy_holder_role";
             Query<Customer> query = session.createQuery(hql, Customer.class);
             query.setParameter("policy_holder_role", User.Roles.POLICY_HOLDER);
-            query.setParameter("dependent_role", User.Roles.DEPENDENT);
             return query.list();
         } catch (Exception e) {
             e.printStackTrace();
