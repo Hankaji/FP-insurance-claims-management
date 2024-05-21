@@ -139,9 +139,9 @@ public class ClaimController implements Initializable {
                     query.setParameter("user_company", provider.getCompanyName());
                     claim = query.list();
                     // System.out.println(claim);
-                    for (Claim c : claim) {
-                        System.out.println(c.getInsured_person_id().getInsuranceCard().getPolicyOwner().getProvider().getCompanyName());
-                    }
+                    // for (Claim c : claim) {
+                    //     System.out.println(c.getInsured_person_id().getInsuranceCard().getPolicyOwner().getProvider().getCompanyName());
+                    // }
                 } else {
                     claim = session.createQuery("from Claim C", Claim.class).list();
                 }

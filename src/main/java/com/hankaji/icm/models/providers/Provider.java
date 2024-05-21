@@ -25,7 +25,7 @@ public class Provider {
     @OneToMany(mappedBy = "manager", fetch = FetchType.EAGER)
     private List<Provider> surveyors;
 
-    @OneToMany(mappedBy = "provider")
+    @OneToMany(mappedBy = "provider", fetch = FetchType.EAGER)
     List<PolicyOwner> policyOwners;
 
     public Provider() {

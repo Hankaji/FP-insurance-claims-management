@@ -28,7 +28,7 @@ public class PolicyOwner {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn (name = "card_provider_id")
     private Provider provider;
 
