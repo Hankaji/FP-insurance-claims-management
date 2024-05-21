@@ -47,7 +47,6 @@ public class DependentController {
     public boolean assignPolicyHolderToDependent(String policyHolderId) {
         try (Session session = sessionFactory.openSession()) {
             User user = session.get(User.class, UserSession.getInstance().getUserId());
-
             if (user != null && user.getRole() == User.Roles.DEPENDENT) {
                 String hql = "FROM Customer C WHERE C.user.id = :user_id AND C.holder IS NULL";
                 Query<Customer> query = session.createQuery(hql, Customer.class);
@@ -62,23 +61,40 @@ public class DependentController {
                         // Update dependent's holder
                         dependent.setHolder(policyHolder);
 
-                        // Update policy holder's role if they were a dependent
-                        if (policyHolder.getUser().getRole() == User.Roles.DEPENDENT) {
-                            policyHolder.getUser().setRole(User.Roles.POLICY_HOLDER);
-                            session.update(policyHolder);
-                        }
-
-                        session.update(dependent);
+                        session.merge(dependent);
                         tx.commit();
                         return true;
                     }
                 }
             }
-
             return false;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
+    public boolean ChangeToHolder(){
+        try (Session session = sessionFactory.openSession()) {
+            User user = session.get(User.class, UserSession.getInstance().getUserId());
+            if (user != null && user.getRole() == User.Roles.DEPENDENT) {
+                String hql = "FROM Customer C WHERE C.user.id = :user_id AND C.holder IS NULL";
+                Query<Customer> query = session.createQuery(hql, Customer.class);
+                query.setParameter("user_id", user.getId());
+                Customer dependent = query.uniqueResult();
+
+                if (dependent != null) {
+                    // Update policy holder's role if they were a dependent
+                    if (dependent.getUser().getRole() == User.Roles.DEPENDENT) {
+                        dependent.getUser().setRole(User.Roles.POLICY_HOLDER);
+                        session.merge(dependent);
+                    }
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

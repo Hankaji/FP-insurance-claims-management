@@ -4,6 +4,7 @@ import com.hankaji.icm.controllers.DependentController;
 import com.hankaji.icm.controllers.ViewPolicyHoldersController;
 import com.hankaji.icm.database.CreateSession;
 import com.hankaji.icm.lib.UserSession;
+import com.hankaji.icm.models.User;
 import com.hankaji.icm.models.customer.Customer;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
