@@ -20,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -252,6 +253,14 @@ public class ClaimController implements Initializable {
                             //     contextMenu.getItems().add(updateItem);
                             // }
 
+                            // View status
+                            MenuItem viewClaim = new MenuItem("View");
+                            viewClaim.setOnAction(e -> viewClaim(claim.getId()));
+
+                            if (AuthorizationService.hasRoles(User.Roles.ADMIN, User.Roles.PROVIDER, User.Roles.POLICY_HOLDER, User.Roles.DEPENDENT)) {
+                                contextMenu.getItems().add(viewClaim);
+                            }
+
                             // Update status
                             MenuItem updateStatus = new MenuItem("Update Status");
                             updateStatus.setOnAction(e -> updateClaimStatus(claim));
@@ -385,6 +394,19 @@ public class ClaimController implements Initializable {
                         // Refresh the list view or UI as needed
                         getListView().refresh();
                     });
+                }
+
+                private void viewClaim(String claimId) {
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/DetailedClaimView.fxml"));
+                        Parent root = loader.load();
+                        DetailedClaimController controller = loader.getController();
+                        controller.displayClaim(claimId);
+                        BorderPane rootPane = (BorderPane) addClaim.getScene().lookup("#RootView");
+                        rootPane.setCenter(root);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             };
         }

@@ -227,11 +227,18 @@ public class Claim implements GsonSerializable {
         return insuranceCardNumber;
     }
 
-
     public static enum Status {
         NEW,
         PROCESSING,
         DONE,
         DENIED
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
