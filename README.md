@@ -82,3 +82,9 @@ Display all the dependents that the HOLDER is currently having. If the logged ac
 ## Note
 
 For best experience, it is suggested to run this program in a separated terminal window and use terminal that support 256bit colors. Please also make terminal size as big as possible (or better, full screen)
+
+## Video Link
+
+https://rmiteduau.sharepoint.com/:v:/s/vruh/Ec8iHQf4nTdKgqd9rLFDU6MBCadcMZfNZxBjx45-NknHVw?e=ExesIZ 
+
+
