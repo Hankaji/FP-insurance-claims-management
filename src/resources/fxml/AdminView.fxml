@@ -16,7 +16,6 @@
                         <Font name="System Bold" size="20.0" />
                     </font>
                 </Label>
-                <Button fx:id="btnAudit" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="Audit" onAction="#handleAudit" />
                 <Button fx:id="btnClaims" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="Claims" onAction="#handleClaims" />
                 <Button fx:id="btnCustomers" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="Customers" onAction="#handleCustomers" />
                 <Button fx:id="btnDependents" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="Dependents" onAction="#handleDependents" />

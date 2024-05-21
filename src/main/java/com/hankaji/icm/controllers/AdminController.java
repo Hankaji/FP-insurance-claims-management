@@ -16,11 +16,6 @@ public class AdminController {
     }
 
     @FXML
-    private void handleAudit() {
-        navigateTo("AuditView.fxml");
-    }
-
-    @FXML
     private void handleClaims() {
         navigateTo("ClaimView.fxml");
     }

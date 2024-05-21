@@ -12,7 +12,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AdminPage.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AdminView.fxml"));
             Parent root = loader.load();
             AdminController controller = loader.getController();
             controller.setStage(primaryStage);
