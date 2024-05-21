@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -11,13 +13,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="800.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hankaji.icm.controllers.CardController">
+
+<StackPane prefHeight="800.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hankaji.icm.controllers.CardController">
     <children>
         <VBox prefHeight="497.0" prefWidth="923.0" spacing="10.0">
             <children>
                 <HBox alignment="CENTER_LEFT">
                     <children>
-                        <Label text="Insurance Cards">
+                        <Label text="CARD PAGE">
                             <font>
                                 <Font name="System Bold" size="20.0" />
                             </font>
@@ -27,29 +30,45 @@
                         <Insets bottom="10.0" top="10.0" />
                     </VBox.margin>
                 </HBox>
+                <!-- Search bar -->
                 <HBox alignment="CENTER_RIGHT" spacing="10.0">
                     <children>
-                        <HBox alignment="CENTER" spacing="10.0" style="-fx-border-color: #c1c1c1; -fx-border-radius: 8;">
-                            <children>
-                                <TextField fx:id="searchField" promptText="Enter Card Number" style="-fx-border-color: transparent;" />
-                                <Button onAction="#handleSearch" text="Search">
-                                    <HBox.margin>
-                                        <Insets right="10.0" />
-                                    </HBox.margin>
-                                </Button>
-                            </children>
-                            <padding>
-                                <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                            </padding>
-                        </HBox>
-                        <!-- Added ChoiceBox for sorting -->
-                        <ChoiceBox fx:id="sortChoiceBox" prefWidth="120.0" />
-                        <!-- Added Button for filtering -->
-                        <Button fx:id="filterButton" onAction="#handleSort" text="Filter" />
+                        <TextField fx:id="searchField" promptText="Enter Card Number" style="-fx-border-color: transparent;" styleClass="form-field" stylesheets="@../styles/style.css" />
+                        <Button onAction="#handleSearch" styleClass="fp-button" stylesheets="@../styles/style.css" text="Search">
+                            <HBox.margin>
+                                <Insets right="10.0" />
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                    <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                    </padding>
+                </HBox>
+                <!-- ChoiceBox for Sorting -->
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <VBox alignment="CENTER_LEFT" spacing="10.0">
+                            <Label text="Filter">
+                                <font>
+                                    <Font name="System Bold" size="16.0" />
+                                </font>
+                            </Label>
+                            <ChoiceBox fx:id="sortChoiceBox" prefHeight="26.0" prefWidth="110.0">
+                                <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                        <String fx:value="Ascending" />
+                                        <String fx:value="Descending" />
+                                    </FXCollections>
+                                </items>
+                                <padding>
+                                    <Insets left="10.0" />
+                                </padding>
+                            </ChoiceBox>
+                        </VBox>
                     </children>
                 </HBox>
-                <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="10.0" />
-                <ListView fx:id="cardListView" prefHeight="378.0" prefWidth="926.0" style="-fx-background-radius: 12; -fx-border-radius: 12;" VBox.vgrow="ALWAYS" />
+                <!-- Reference the ListView cell factory -->
+                <ListView fx:id="cardListView" prefHeight="378.0" prefWidth="926.0" style="-fx-background-radius: 12; -fx-border-radius: 12;" stylesheets="@../styles/style.css" VBox.vgrow="ALWAYS" />
             </children>
         </VBox>
     </children>

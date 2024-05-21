@@ -47,9 +47,6 @@ public class CardController implements Initializable {
     @FXML
     private ChoiceBox<String> sortChoiceBox;
 
-    @FXML
-    private Button filterButton;
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Initialize the sorting options
@@ -61,11 +58,9 @@ public class CardController implements Initializable {
         sortChoiceBox.setOnAction(event -> handleSort(null));
         cardListView.setCellFactory(loadAll());
 
-        sortChoiceBox.setItems(FXCollections.observableArrayList("Ascending", "Descending"));
-        filterButton.setOnAction(this::handleSort); // Set action for filter button
-
         loadAllCardsData();
     }
+
 
     @FXML
     private void handleSort(ActionEvent event) {

@@ -20,7 +20,7 @@
             <children>
                 <HBox alignment="CENTER_LEFT">
                     <children>
-                  <Label text="Claims">
+                  <Label text="CLAIM PAGE">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>

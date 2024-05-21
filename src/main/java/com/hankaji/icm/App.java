@@ -11,7 +11,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         // Load the CardView.fxml and get the root node
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/RootView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CardView.fxml"));
         Parent root = loader.load();
 
         // Create a scene with the loaded root node
