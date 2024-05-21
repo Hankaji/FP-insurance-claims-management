@@ -51,8 +51,6 @@ public class CardController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // Initialize the sorting options
         sortChoiceBox.setItems(FXCollections.observableArrayList("Ascending", "Descending"));
-        // Set the default selection
-        sortChoiceBox.getSelectionModel().selectFirst();
 
         // Add action listener to the choice box for sorting
         sortChoiceBox.setOnAction(event -> handleSort(null));
