@@ -5,8 +5,10 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.hankaji.icm.models.Document;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -75,6 +77,7 @@ public class AddClaimController {
 
             // Print the names of the selected image files
             List<File> selectedFiles = imageUploadForm.getSelectedFiles();
+
             if (!selectedFiles.isEmpty()) {
                 System.out.println("Uploaded Images:");
                 for (File file : selectedFiles) {
@@ -90,15 +93,21 @@ public class AddClaimController {
                     claimDescriptionTF.getText(),
                     customer,
                     claimDate,
-                    null,
-                    null,
+                    claimDate.plusDays(5),
                     Double.valueOf(claimAmount.getText()),
                     status,
                     receivedBankingInfo.getText(),
                     customer.getInsuranceCardNumber());
             
             session.persist(claim);
-
+            for (File file : selectedFiles) {
+                StringBuilder name = new StringBuilder(claim.getId() + " " + claim.getCard_number() + " " + file.getName());
+                Document doc = new Document();
+                doc.setTitle(name.toString());
+                doc.setClaim(claim);
+                doc.setUrl(file.getAbsolutePath());
+                session.persist(doc);
+            }
             tx.commit();
 
             // Clear all the fields

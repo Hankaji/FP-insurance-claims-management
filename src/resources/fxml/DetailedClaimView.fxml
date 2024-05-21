@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hankaji.icm.controllers.DetailedClaimController">
+    <top>
+        <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="10" BorderPane.alignment="CENTER">
+            <Label text="CLAIM DETAIL">
+                <font>
+                    <Font name="System Bold Italic" size="20.0" />
+                </font>
+            </Label>
+         <padding>
+            <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+         </padding>
+        </VBox>
+    </top>
+    <center>
+        <HBox spacing="12.0" BorderPane.alignment="CENTER">
+            <!-- Documents Section -->
+            <VBox alignment="TOP_CENTER" prefHeight="494.0" prefWidth="205.0" spacing="10">
+            <children>
+               <Label text="Documents" />
+               <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
+                 <content>
+                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                 </content>
+               </ScrollPane>
+            </children>
+            </VBox>
+            <!-- Attributes Section -->
+            <VBox prefHeight="494.0" prefWidth="510.0" spacing="10" HBox.hgrow="ALWAYS">
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="OVERVIEW" />
+                <VBox>
+                    <Label text="ID:" />
+                    <Label fx:id="idField" styleClass="attribute-label" />
+                </VBox>
+                <Separator />
+                <VBox>
+                    <Label text="Title:" />
+                    <Label fx:id="titleField" styleClass="attribute-label" />
+                </VBox>
+                <Separator />
+                <VBox>
+                    <Label text="Description:" />
+                    <Label fx:id="descriptionField" styleClass="attribute-label" wrapText="true" />
+                </VBox>
+                <Separator />
+                <VBox>
+                    <Label text="Claim Date:" />
+                    <Label fx:id="claimDateField" styleClass="attribute-label" />
+                </VBox>
+                <Separator />
+                <VBox>
+                    <Label text="Exam Date:" />
+                    <Label fx:id="examDateField" styleClass="attribute-label" />
+                </VBox>
+                <Separator />
+                <VBox>
+                    <Label text="Claim Amount:" />
+                    <Label fx:id="claimAmountField" styleClass="attribute-label" />
+                </VBox>
+                <Separator />
+                <VBox>
+                    <Label text="Status:" />
+                    <Label fx:id="statusField" styleClass="attribute-label" />
+                </VBox>
+                <Separator />
+                <VBox>
+                    <Label text="Receiver Banking Info:" />
+                    <Label fx:id="receiverBankingInfoField" styleClass="attribute-label" />
+                </VBox>
+                <Separator />
+                <VBox>
+                    <Label text="Insurance Card Number:" />
+                    <Label fx:id="insuranceCardNumberField" styleClass="attribute-label" />
+                </VBox>
+            </VBox>
+        </HBox>
+    </center>
+   <padding>
+      <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+   </padding>
+</BorderPane>

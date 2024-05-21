@@ -88,7 +88,7 @@ public class ImageUploadForm extends VBox {
                 selectedFiles.addAll(newSelectedFiles);
                 upperContent.getChildren().clear();
                 for (File file : newSelectedFiles) {
-                    ImageContainer imageContainer = new ImageContainer(file, upperContent, new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/file-upload.png")))), new Text("Drop Your Image Here"));
+                    ImageContainer imageContainer = new ImageContainer(file, upperContent, new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icons/file-upload.png")))), new Text("Drop Your Image Here"));
                     upperContent.getChildren().add(imageContainer);
                     System.out.println("Selected file: " + file.getName());
                 }

@@ -4,7 +4,7 @@ import com.hankaji.icm.database.SessionManager;
 import com.hankaji.icm.lib.UserSession;
 import com.hankaji.icm.models.Claim;
 import com.hankaji.icm.models.User;
-import com.hankaji.icm.models.providers.Provider;
+import com.hankaji.icm.models.Provider;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -21,7 +21,7 @@ public class UpdateClaimStatusController {
             Transaction tx = session.beginTransaction();
 
             // Get the current user
-            User user = session.get(User.class, UserSession.getInstance().getUser());
+            User user = UserSession.getInstance().getUser();
 
             // From current user get Provider
             String hql = "FROM Provider P WHERE P.user.id = :user_id";

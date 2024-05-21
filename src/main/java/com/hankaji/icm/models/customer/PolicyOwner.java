@@ -1,14 +1,11 @@
 package com.hankaji.icm.models.customer;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
-import com.hankaji.icm.models.Claim;
 import com.hankaji.icm.models.InsuranceCard;
 import com.hankaji.icm.models.User;
-import com.hankaji.icm.models.providers.Provider;
+import com.hankaji.icm.models.Provider;
 import jakarta.persistence.*;
 
 @Entity
@@ -28,7 +25,7 @@ public class PolicyOwner {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn (name = "card_provider_id")
     private Provider provider;
 
@@ -53,4 +50,46 @@ public class PolicyOwner {
     public UUID getId() {
         return id;
     }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getAnnualRate() {
+        return annualRate;
+    }
+
+    public void setAnnualRate(Double annualRate) {
+        this.annualRate = annualRate;
+    }
+
+    public List<InsuranceCard> getCards() {
+        return cards;
+    }
+
+    public void setCards(List<InsuranceCard> cards) {
+        this.cards = cards;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Provider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
+    }
+
+    
 }
