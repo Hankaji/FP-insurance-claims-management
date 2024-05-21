@@ -27,21 +27,27 @@ import javafx.scene.shape.Circle;
 
 public class RootViewController implements Initializable {
 
-    @FXML private Circle avatar;
+    @FXML
+    private Circle avatar;
+    @FXML
+    private BorderPane rootPane;
+    @FXML
+    private Button cusDashboard;
+    @FXML
+    private Button cusClaims;
+    @FXML
+    private Button cusCards; // New Button for Cards
 
-    @FXML private BorderPane rootPane;
+    @FXML
+    private Button cusDependents;
 
-    @FXML private Button cusDashboard;
-
-    @FXML private Button cusClaims;
-
-    @FXML private Button cusDependents;
-
-    @FXML private Button logoutBtn;
+    @FXML
+    private Button logoutBtn;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Image image = new Image("https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/114131672/original/5f03e84975a3e52c91166d03b89c6af7e061ca44/send-you-a-random-meme-image-that-will-tickle-your-fancy.jpg");
+        Image image = new Image(
+                "https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/114131672/original/5f03e84975a3e52c91166d03b89c6af7e061ca44/send-you-a-random-meme-image-that-will-tickle-your-fancy.jpg");
         avatar.setFill(new ImagePattern(image));
 
         try {
@@ -58,7 +64,15 @@ public class RootViewController implements Initializable {
             try {
                 Parent claimView = FXMLLoader.load(getClass().getResource("/fxml/ClaimView.fxml"));
                 changeTab(claimView);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
+        cusCards.setOnAction(e -> { // Action for Cards Button
+            try {
+                Parent cardView = FXMLLoader.load(getClass().getResource("/fxml/CardView.fxml"));
+                changeTab(cardView);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -69,16 +83,25 @@ public class RootViewController implements Initializable {
                 Parent dependentView = FXMLLoader.load(getClass().getResource("/fxml/DependentViews.fxml"));
                 changeTab(dependentView);
 
+                // cusCards.setOnAction(e -> { // Action for Cards Button
+                // try {
+                // Parent cardView =
+                // FXMLLoader.load(getClass().getResource("/fxml/CardView.fxml"));
+                // changeTab(cardView);
+                // } catch (Exception ex) {
+                // ex.printStackTrace();
+                // }
+                // });
+
+                if (!AuthorizationService.hasRoles(User.Roles.DEPENDENT, User.Roles.POLICY_HOLDER)) {
+                    Utils.disable(cusDependents);
+                }
+
+                logoutBtn.setOnAction(this::handleLogout);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         });
-
-        if (!AuthorizationService.hasRoles(User.Roles.DEPENDENT, User.Roles.POLICY_HOLDER)) {
-            Utils.disable(cusDependents);
-        }
-
-        logoutBtn.setOnAction(this::handleLogout);
     }
 
     public void changeTab(Node node) {
@@ -98,5 +121,5 @@ public class RootViewController implements Initializable {
             e.printStackTrace();
         }
     }
-    
+
 }

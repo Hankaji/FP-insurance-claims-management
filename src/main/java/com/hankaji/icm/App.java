@@ -22,7 +22,9 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        // Instantiate the CustomerController
+        // Load the CardView.fxml and get the root node
+        // FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/YourClaimView.fxml"));
+        // Parent root = loader.load();
 
         // Parent page = FXMLLoader.load(getClass().getResource("/fxml/RootView.fxml"));
         LogIn logIn = new LogIn();
@@ -32,8 +34,8 @@ public class App extends Application {
         // Set up the stage
         stage.setTitle("Insurance Customer Management System");
         stage.setScene(scene);
-        stage.setMinWidth(1600);
-        stage.setMinHeight(900);
+        stage.setMinWidth(1500);
+        stage.setMinHeight(800);
         stage.show();
 
         // Check if the user is already logged in

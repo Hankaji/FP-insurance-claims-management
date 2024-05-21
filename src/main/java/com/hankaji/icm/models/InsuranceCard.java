@@ -25,9 +25,11 @@ public class InsuranceCard implements GsonSerializable {
     @Id
     @Column(name = "card_number")
     private Long cardNumber;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn (name = "policy_owner_id")
     private PolicyOwner policyOwner;
+
     @Column(name = "expiration_date")
     private LocalDateTime expirationDate;
 
@@ -68,6 +70,10 @@ public class InsuranceCard implements GsonSerializable {
         return cardNumber;
     }
 
+    public void setCardNumber(Long cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
     /**
      * Returns the expiration date.
      *
@@ -100,6 +106,7 @@ public class InsuranceCard implements GsonSerializable {
     public static Builder builder() {
         return new Builder();
     }
+
 
     public static class Builder {
         private Long cardNumber;
