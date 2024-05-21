@@ -31,9 +31,11 @@ public class RootViewController implements Initializable {
 
     @FXML private BorderPane rootPane;
 
-    @FXML private Button cusDashboard;
+    // @FXML private Button cusDashboard;
 
     @FXML private Button cusClaims;
+
+    @FXML private Button cusCards;
 
     @FXML private Button cusDependents;
 
@@ -50,8 +52,18 @@ public class RootViewController implements Initializable {
             e.printStackTrace();
         }
 
-        cusDashboard.setOnAction(e -> {
-            changeTab(new CustomerDashboard());
+        // cusDashboard.setOnAction(e -> {
+        //     changeTab(new CustomerDashboard());
+        // });
+
+        cusCards.setOnAction(e -> {
+            try {
+                Parent cardView = FXMLLoader.load(getClass().getResource("/fxml/CardView.fxml"));
+                changeTab(cardView);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         });
 
         cusClaims.setOnAction(e -> {

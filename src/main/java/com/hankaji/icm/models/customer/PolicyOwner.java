@@ -19,7 +19,7 @@ public class PolicyOwner {
 
     @Column(name = "annual_rate")
     private Double annualRate;
-    @OneToMany(mappedBy = "policyOwner")
+    @OneToMany(mappedBy = "policyOwner", fetch = FetchType.EAGER)
     private List<InsuranceCard> cards;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")

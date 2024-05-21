@@ -25,7 +25,7 @@ public class InsuranceCard implements GsonSerializable {
     @Id
     @Column(name = "card_number")
     private Long cardNumber;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn (name = "policy_owner_id")
     private PolicyOwner policyOwner;
     @Column(name = "expiration_date")

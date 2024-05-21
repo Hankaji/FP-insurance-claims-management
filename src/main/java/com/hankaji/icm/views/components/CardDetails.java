@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 
 public class CardDetails extends VBox {
-    public CardDetails() {
+    public CardDetails(String cardNumberStr, String cardStatusStr, String cardExpiryDateStr, String totalCoverageStr) {
         getStylesheets().add(getClass().getResource("/styles/style.css").toExternalForm());
         getStyleClass().add("card-details");
 
@@ -34,13 +34,13 @@ public class CardDetails extends VBox {
         HBox header = new HBox(cardTitle, spacer, rightArrow);
         header.setAlignment(Pos.CENTER_LEFT);
 
-        Label cardNumber = new Label("Card Number: 1234 5678 9012 3456");
+        Label cardNumber = new Label("Card Number: " + cardNumberStr);
         cardNumber.getStyleClass().add("card-number");
 
         Circle cardStatus = new Circle(4);
         cardStatus.getStyleClass().add("card-status");
 
-        Label cardStatusText = new Label("Active");
+        Label cardStatusText = new Label(cardStatusStr);
         cardStatusText.getStyleClass().add("card-status-text");
 
         HBox cardStatusBox = new HBox(cardStatus, cardStatusText);
@@ -50,7 +50,7 @@ public class CardDetails extends VBox {
         Region spacer2 = new Region();
         HBox.setHgrow(spacer2, Priority.ALWAYS);
 
-        Label cardExpiryDate = new Label("Expiry Date: 12/2023");
+        Label cardExpiryDate = new Label("Expiry Date: " + cardExpiryDateStr);
 
         HBox extraInfo = new HBox(cardStatusBox, spacer2, cardExpiryDate);
         extraInfo.setAlignment(Pos.CENTER_LEFT);
@@ -58,7 +58,7 @@ public class CardDetails extends VBox {
         Region sizedBox = new Region();
         sizedBox.setPrefHeight(16);
 
-        Label totalCoverage = new Label("Total Coverage: $100,000");
+        Label totalCoverage = new Label("Total Coverage: " + totalCoverageStr);
         totalCoverage.getStyleClass().add("total-coverage");
 
         getChildren().addAll(header, cardNumber, extraInfo, sizedBox, totalCoverage);
