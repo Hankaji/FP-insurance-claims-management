@@ -39,6 +39,12 @@ $border-color: #c1c1c1;
     -fx-padding: 8px 32px;
     -fx-cursor: hand;
 
+    &-small {
+        @extend .fp-button;
+        -fx-padding: 8px 16px;
+        -fx-font-size: 12px;
+    }
+
 }
 
 .fp-button-icon {

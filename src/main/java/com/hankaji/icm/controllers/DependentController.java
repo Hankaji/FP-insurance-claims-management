@@ -10,7 +10,6 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.util.List;
-import java.util.UUID;
 
 public class DependentController {
     private final SessionFactory sessionFactory = SessionManager.getInstance().getSessionFactory();
@@ -65,10 +64,10 @@ public class DependentController {
                         // Update policy holder's role if they were a dependent
                         if (policyHolder.getUser().getRole() == User.Roles.DEPENDENT) {
                             policyHolder.getUser().setRole(User.Roles.POLICY_HOLDER);
-                            session.update(policyHolder);
+                            session.merge(policyHolder);
                         }
 
-                        session.update(dependent);
+                        session.merge(dependent);
                         tx.commit();
                         return true;
                     }

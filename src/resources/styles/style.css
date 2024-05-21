@@ -36,6 +36,17 @@
   -fx-background-position: center;
 }
 
+.sign-up-label, .sign-up-label-link {
+  -fx-font-size: 12px;
+  -fx-text-fill: #000;
+}
+.sign-up-label-link {
+  -fx-font-style: italic;
+  -fx-font-weight: bold;
+  -fx-cursor: hand;
+  -fx-underline: true;
+}
+
 .signup-button {
   -fx-background-color: #3050B0 !important;
   -fx-text-fill: #000;
@@ -143,7 +154,7 @@
   -fx-cursor: hand;
 }
 
-.fp-button {
+.fp-button, .fp-button-small {
   -fx-background-color: #3050B0 !important;
   -fx-text-fill: #fff;
   -fx-font-weight: normal;
@@ -152,6 +163,10 @@
   -fx-background-radius: 8px;
   -fx-padding: 8px 32px;
   -fx-cursor: hand;
+}
+.fp-button-small {
+  -fx-padding: 8px 16px;
+  -fx-font-size: 12px;
 }
 
 .fp-button-icon {

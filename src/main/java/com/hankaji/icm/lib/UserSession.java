@@ -4,6 +4,7 @@ import com.hankaji.icm.errors.UserInstanceNotExistedException;
 import com.hankaji.icm.models.User;
 
 public class UserSession {
+
     private static UserSession instance;
     private User user;
 

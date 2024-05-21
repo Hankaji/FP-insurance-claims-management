@@ -27,6 +27,8 @@ public class RootViewController implements Initializable {
 
     @FXML private Button cusClaims;
 
+    @FXML private Button cusDependents;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Image image = new Image("https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/114131672/original/5f03e84975a3e52c91166d03b89c6af7e061ca44/send-you-a-random-meme-image-that-will-tickle-your-fancy.jpg");
@@ -46,6 +48,16 @@ public class RootViewController implements Initializable {
             try {
                 Parent claimView = FXMLLoader.load(getClass().getResource("/fxml/ClaimView.fxml"));
                 changeTab(claimView);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        cusDependents.setOnAction(e -> {
+            try {
+                Parent dependentView = FXMLLoader.load(getClass().getResource("/fxml/DependentViews.fxml"));
+                changeTab(dependentView);
 
             } catch (Exception ex) {
                 ex.printStackTrace();

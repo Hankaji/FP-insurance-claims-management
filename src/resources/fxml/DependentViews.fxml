@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="8.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" spacing="12.0">
+               <children>
+                  <Label text="You are currently a dependant">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button mnemonicParsing="false" styleClass="fp-button-small" stylesheets="@../styles/style.css" text="Become holder">
+                     <tooltip>
+                        <Tooltip text="Empty Tooltip" />
+                     </tooltip>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" spacing="12.0">
+               <children>
+                  <HBox fx:id="holderNameLabel" alignment="CENTER_LEFT" spacing="8.0">
+                     <children>
+                        <Label text="Your holder name:">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label text="N">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <Label fx:id="noHolderLabel" layoutX="145.0" layoutY="13.0" text="You currently don't have a holder">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button fx:id="chooseHolderBtn" mnemonicParsing="false" styleClass="fp-button-small" stylesheets="@../styles/style.css" text="Choose holder" />
+                  <Button fx:id="switchHolderBtn" layoutX="879.0" layoutY="10.0" mnemonicParsing="false" styleClass="fp-button-small" stylesheets="@../styles/style.css" text="Switch holder" />
+               </children>
+            </HBox>
+            <Label text="Your dependents">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <ListView fx:id="depListView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+   </padding>
+</StackPane>

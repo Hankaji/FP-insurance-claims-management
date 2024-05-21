@@ -9,8 +9,6 @@ import com.hankaji.icm.controllers.LogInController;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -21,6 +19,7 @@ import javafx.scene.paint.Color;
 public class LogIn extends StackPane {
 
     HBox centerLayout;
+    private LogInController controller = new LogInController();
 
     public LogIn() {
         getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/style.css")).toExternalForm());
@@ -39,9 +38,6 @@ public class LogIn extends StackPane {
         centerLayout.getChildren().add(loginForm);
 
         getChildren().add(centerLayout);
-        new LogInController((Button) loginForm.lookup(".login-button"),
-                (TextField) loginForm.lookup("#email-field"),
-                (PasswordField) loginForm.lookup("#password-field"));
     }
 
     private final VBox _loginForm() {
@@ -72,10 +68,24 @@ public class LogIn extends StackPane {
         Button loginButton = new Button("Login");
         loginButton.setMaxWidth(Double.MAX_VALUE);
         loginButton.getStyleClass().add("login-button");
+        loginButton.setOnAction(e -> {
+            controller.handleLoginButton(e, email.getFormField().getText(), password.getFormField().getText());
+        });
 
-        Label signUp = new Label("Don't have an account? Sign up");
+        HBox signUpContainer = new HBox();
+        signUpContainer.setAlignment(Pos.CENTER_LEFT);
+        signUpContainer.setSpacing(8);
 
-        loginButtonContainer.getChildren().addAll(loginButton, signUp);
+        Label signUp = new Label("Don't have an account?");
+        signUp.getStyleClass().add("sign-up-label");
+
+        Label signUpLink = new Label("Sign up");
+        signUpLink.getStyleClass().add("sign-up-label-link");
+        signUpLink.setOnMouseClicked(controller::switchToSignup);
+
+        signUpContainer.getChildren().addAll(signUp, signUpLink);
+
+        loginButtonContainer.getChildren().addAll(loginButton, signUpContainer);
 
         loginForm.getChildren().addAll(
                 logo,
@@ -85,6 +95,12 @@ public class LogIn extends StackPane {
                 loginButtonContainer);
 
         return loginForm;
+    }
+
+    public LogInController getController() {
+        return controller;
     };
+
+    
 
 }

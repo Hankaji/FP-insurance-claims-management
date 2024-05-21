@@ -24,7 +24,7 @@
             </HBox>
             <Button fx:id="cusDashboard" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" stylesheets="@../styles/style.css" text="Dashboard" />
             <Button fx:id="cusClaims" layoutX="22.0" layoutY="63.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" stylesheets="@../styles/style.css" text="Claims" />
-            <Button fx:id="cusClaims1" layoutX="22.0" layoutY="107.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" stylesheets="@../styles/style.css" text="Dependents" />
+            <Button fx:id="cusDependents" layoutX="22.0" layoutY="107.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" stylesheets="@../styles/style.css" text="Dependents" />
             <Button fx:id="cusClaims11" layoutX="22.0" layoutY="151.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" stylesheets="@../styles/style.css" text="Holder" />
             <Button fx:id="setting" layoutX="22.0" layoutY="548.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" stylesheets="@../styles/style.css" text="Setting" />
             <VBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">

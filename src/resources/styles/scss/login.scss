@@ -6,14 +6,14 @@
         -fx-border-radius: 8px;
         -fx-background-radius: 8px;
     }
-    
+
     &-title {
         -fx-font-size: 24px;
         -fx-text-fill: #000;
         -fx-font-weight: bold;
         -fx-font-family: "Arial";
     }
-    
+
     &-button {
         -fx-background-color: #3050B0 !important;
         -fx-text-fill: #000;
@@ -40,4 +40,17 @@
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+}
+
+.sign-up-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #000;
+
+    &-link {
+        @extend .sign-up-label;
+        -fx-font-style: italic;
+        -fx-font-weight: bold;
+        -fx-cursor: hand;
+        -fx-underline: true;
+    }
 }

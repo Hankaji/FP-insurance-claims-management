@@ -1,6 +1,7 @@
 package com.hankaji.icm.controllers;
 
 import java.util.Objects;
+import java.util.UUID;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,43 +11,58 @@ import org.hibernate.query.Query;
 import com.hankaji.icm.database.SessionManager;
 import com.hankaji.icm.lib.UserSession;
 import com.hankaji.icm.models.User;
+import com.hankaji.icm.services.UserPreferences;
+import com.hankaji.icm.views.SignUpPage;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class LogInController {
 
-    private Button loginButton;
-    private TextField emailField;
-    private PasswordField passwordField;
+    private UserPreferences userPreferences;
+
     private SessionFactory sessionFactory = SessionManager.getInstance().getSessionFactory();
 
-    public LogInController(Button loginButton, TextField emailField, PasswordField passwordField) {
-        this.loginButton = loginButton;
-        this.emailField = emailField;
-        this.passwordField = passwordField;
-        this.loginButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                handleLoginButton(event);
+    public LogInController() {}
+
+    public void checkLoginStatus(Scene oldScene) {
+        userPreferences = new UserPreferences();
+        UUID userId = userPreferences.getUserId();
+        if (userId != null) {
+            try {
+                Session session = sessionFactory.openSession();
+                Transaction tx = session.beginTransaction();
+
+                User user = session.get(User.class, userId);
+                if (user != null) {
+                    UserSession.createSession(user);
+                    Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/RootView.fxml")));
+                    Stage stage = (Stage) oldScene.getWindow();
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                }
+
+                tx.commit();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        });
+        }
     }
 
-    private void handleLoginButton(ActionEvent event) {
+    public void handleLoginButton(ActionEvent event, String email, String password) {
         System.out.println("Login button clicked");
-
-        String email = emailField.getText();
-        String password = passwordField.getText();
 
         try {
             Session session = sessionFactory.openSession();
@@ -71,12 +87,15 @@ public class LogInController {
                     // System.out.println("Password verified");
                     // Set scene
                     Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/RootView.fxml")));
-                    Stage stage = (Stage) loginButton.getScene().getWindow();
+                    Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                     Scene scene = new Scene(root);
 
                     // Store the user id in the session
                     UserSession.createSession(user);
                     stage.setScene(scene);
+
+                    // Store the user id in the preferences
+                    userPreferences.saveUserId(user.getId().toString());
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setHeaderText("Invalid credentials");
@@ -88,6 +107,16 @@ public class LogInController {
             }
 
             tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void switchToSignup(MouseEvent event) {
+        try {
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(new SignUpPage());
+            stage.setScene(scene);
         } catch (Exception e) {
             e.printStackTrace();
         }
