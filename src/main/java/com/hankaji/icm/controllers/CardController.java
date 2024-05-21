@@ -26,6 +26,8 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -43,23 +45,42 @@ public class CardController implements Initializable {
     private TextField searchField;
 
     @FXML
-    private Button addCard;
+    private ChoiceBox<String> sortChoiceBox;
+
+    @FXML
+    private Button filterButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // Initialize the sorting options
+        sortChoiceBox.setItems(FXCollections.observableArrayList("Ascending", "Descending"));
+        // Set the default selection
+        sortChoiceBox.getSelectionModel().selectFirst();
+
+        // Add action listener to the choice box for sorting
+        sortChoiceBox.setOnAction(event -> handleSort(null));
         cardListView.setCellFactory(loadAll());
-        addCard.setOnAction(this::addCard);
+
+        sortChoiceBox.setItems(FXCollections.observableArrayList("Ascending", "Descending"));
+        filterButton.setOnAction(this::handleSort); // Set action for filter button
+
         loadAllCardsData();
     }
 
-    private void addCard(ActionEvent e) {
-        // This should open a new view or form for adding a new card
-        BorderPane rootPane = (BorderPane) addCard.getScene().lookup("#RootView");
-        try {
-            VBox addCardForm = FXMLLoader.load(getClass().getResource("/fxml/AddCardView.fxml"));
-            rootPane.setCenter(addCardForm);
-        } catch (IOException ex) {
-            ex.printStackTrace();
+    @FXML
+    private void handleSort(ActionEvent event) {
+        String selectedOption = sortChoiceBox.getValue();
+        if (selectedOption != null) {
+            ObservableList<InsuranceCard> items = cardListView.getItems();
+            List<InsuranceCard> itemList = new ArrayList<>(items);
+
+            if (selectedOption.equals("Ascending")) {
+                itemList.sort(Comparator.comparingLong(InsuranceCard::getCardNumber));
+            } else if (selectedOption.equals("Descending")) {
+                itemList.sort(Comparator.comparingLong(InsuranceCard::getCardNumber).reversed());
+            }
+
+            cardListView.setItems(FXCollections.observableList(itemList));
         }
     }
 
@@ -78,12 +99,12 @@ public class CardController implements Initializable {
             for (Object[] result : results) {
                 Long cardNumber = (Long) result[0];
                 LocalDateTime expirationDate = (LocalDateTime) result[1];
-                PolicyOwner policyOwner = (PolicyOwner) result[2]; // Cast to PolicyOwner
+                PolicyOwner policyOwner = (PolicyOwner) result[2];
 
                 InsuranceCard card = new InsuranceCard();
                 card.setCardNumber(cardNumber);
                 card.setExpirationDate(expirationDate);
-                card.setPolicyOwner(policyOwner); // Set the PolicyOwner object
+                card.setPolicyOwner(policyOwner);
 
                 cards.add(card);
             }
@@ -126,88 +147,74 @@ public class CardController implements Initializable {
             e.printStackTrace();
         }
     }
-    
-        public Callback<ListView<InsuranceCard>, ListCell<InsuranceCard>> loadAll() {
-            return new Callback<ListView<InsuranceCard>, ListCell<InsuranceCard>>() {
-                @Override
-                public ListCell<InsuranceCard> call(ListView<InsuranceCard> param) {
-                    return new ListCell<InsuranceCard>() {
-                        private final HBox detailsHBox = new HBox(); // Use HBox for horizontal layout
 
-                        @Override
-                        protected void updateItem(InsuranceCard card, boolean empty) {
-                            super.updateItem(card, empty);
-                            if (empty || card == null) {
-                                setText(null);
-                                setGraphic(null);
-                            } else {
-                                // Create the cell content here
-                                Button downArrowButton = new Button("\u25BE"); // Unicode character for down arrow
-                                downArrowButton.getStyleClass().add("fp-button-icon");
-                                downArrowButton.setFont(Font.font(12)); // Set font size for the arrow
+    public Callback<ListView<InsuranceCard>, ListCell<InsuranceCard>> loadAll() {
+        return new Callback<ListView<InsuranceCard>, ListCell<InsuranceCard>>() {
+            @Override
+            public ListCell<InsuranceCard> call(ListView<InsuranceCard> param) {
+                return new ListCell<InsuranceCard>() {
+                    private final HBox detailsHBox = new HBox();
 
-                                VBox cardNumberLabel = createLabel("Card Number:", card.getCardNumber().toString(), 150);
-                                VBox expirationDateLabel = createLabel("Expiration Date:", card.getExpirationDate().toString(), 150);
-                                VBox policyOwnerLabel = createLabel("Policy Owner:", card.getPolicyOwner().getName(), 150);
+                    @Override
+                    protected void updateItem(InsuranceCard card, boolean empty) {
+                        super.updateItem(card, empty);
+                        if (empty || card == null) {
+                            setText(null);
+                            setGraphic(null);
+                        } else {
+                            VBox cardNumberLabel = createLabel("Card Number:", card.getCardNumber().toString(), 150);
+                            VBox expirationDateLabel = createLabel("Expiration Date:", card.getExpirationDate().toString(), 150);
+                            VBox policyOwnerLabel = createLabel("Policy Owner:", card.getPolicyOwner().getName(), 150);
 
-                                // Create the "three vertical dots" button
-                                Button dotsButton = new Button("\u22EE"); // Unicode character for vertical ellipsis
-                                dotsButton.getStyleClass().add("fp-button-icon");
-                                dotsButton.setAlignment(Pos.CENTER);
-                                dotsButton.setFont(Font.font(12));
-                                dotsButton.setOnAction(event -> {
-                                    // Create a context menu for the actions
-                                    ContextMenu contextMenu = new ContextMenu();
+                            Button dotsButton = new Button("\u22EE");
+                            dotsButton.getStyleClass().add("fp-button-icon");
+                            dotsButton.setAlignment(Pos.CENTER);
+                            dotsButton.setFont(Font.font(12));
+                            dotsButton.setOnAction(event -> {
+                                ContextMenu contextMenu = new ContextMenu();
 
-                                    // Delete item
-                                    MenuItem deleteItem = new MenuItem("Delete");
-                                    deleteItem.setOnAction(e -> {
-                                        // Handle deletion action here
-                                        deleteCard(card);
-                                    });
+                                MenuItem deleteItem = new MenuItem("Delete");
+                                deleteItem.setOnAction(e -> deleteCard(card));
 
-                                    contextMenu.getItems().addAll(deleteItem);
-                                    contextMenu.show(dotsButton, Side.RIGHT, 0, 0);
-                                });
+                                contextMenu.getItems().addAll(deleteItem);
+                                contextMenu.show(dotsButton, Side.RIGHT, 0, 0);
+                            });
 
-                                Region spacer = new Region();
-                                HBox.setHgrow(spacer, Priority.ALWAYS);
+                            Region spacer = new Region();
+                            HBox.setHgrow(spacer, Priority.ALWAYS);
 
-                                // Create HBox to hold labels and buttons
-                                HBox cellContainer = new HBox(10);
-                                cellContainer.getStyleClass().add("fp-cell-container"); // Add a custom style class
-                                cellContainer.setAlignment(Pos.CENTER_LEFT);
-                                cellContainer.getChildren().addAll(downArrowButton, cardNumberLabel, expirationDateLabel, policyOwnerLabel, spacer, dotsButton);
+                            HBox cellContainer = new HBox(10);
+                            cellContainer.getStyleClass().add("fp-cell-container");
+                            cellContainer.setAlignment(Pos.CENTER_LEFT);
+                            cellContainer.getChildren().addAll(cardNumberLabel, expirationDateLabel, policyOwnerLabel, spacer, dotsButton);
 
-                                // Style the HBox for main information
-                                cellContainer.setStyle("-fx-background-color: #e0e0e0; -fx-background-radius: 10px; -fx-border-color: #cccccc; -fx-border-width: 1px; -fx-border-radius: 10px;");
-                                cellContainer.setPadding(new Insets(10));
+                            cellContainer.setStyle("-fx-background-color: #e0e0e0; -fx-background-radius: 10px; -fx-border-color: #cccccc; -fx-border-width: 1px; -fx-border-radius: 10px;");
+                            cellContainer.setPadding(new Insets(10));
 
-                                setGraphic(cellContainer);
-                            }
+                            setGraphic(cellContainer);
                         }
+                    }
 
-                        // Helper method to create a label with fixed width
-                        private VBox createLabel(String category, String text, double width) {
-                            VBox container = new VBox(4);
+                    private VBox createLabel(String category, String text, double width) {
+                        VBox container = new VBox(4);
 
-                            Label cateLabel = new Label(category);
-                            cateLabel.setFont(Font.font(10));
-                            cateLabel.setTextFill(Color.web("#0f0f0f"));
-                            cateLabel.setPrefWidth(width);
-                            cateLabel.setMaxWidth(Region.USE_PREF_SIZE);
+                        Label cateLabel = new Label(category);
+                        cateLabel.setFont(Font.font(10));
+                        cateLabel.setTextFill(Color.web("#0f0f0f"));
+                        cateLabel.setPrefWidth(width);
+                        cateLabel.setMaxWidth(Region.USE_PREF_SIZE);
 
-                            Label value = new Label(text);
-                            value.setPrefWidth(width);
-                            value.setMaxWidth(Region.USE_PREF_SIZE);
+                        Label value = new Label(text);
+                        value.setPrefWidth(width);
+                        value.setMaxWidth(Region.USE_PREF_SIZE);
 
-                            container.getChildren().addAll(cateLabel, value);
-                            return container;
-                        }
-                    };
-                }
-            };
-        }
+                        container.getChildren().addAll(cateLabel, value);
+                        return container;
+                    }
+                };
+            }
+        };
+    }
 
     public AnchorPane getRoot() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/CardView.fxml"));

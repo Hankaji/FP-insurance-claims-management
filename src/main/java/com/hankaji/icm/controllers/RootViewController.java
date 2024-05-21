@@ -4,8 +4,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.hankaji.icm.views.CustomerDashboard;
-import com.hankaji.icm.views.components.CardDetails;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,12 +18,10 @@ import javafx.scene.shape.Circle;
 public class RootViewController implements Initializable {
 
     @FXML private Circle avatar;
-
     @FXML private BorderPane rootPane;
-
     @FXML private Button cusDashboard;
-
     @FXML private Button cusClaims;
+    @FXML private Button cusCards; // New Button for Cards
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -46,7 +42,15 @@ public class RootViewController implements Initializable {
             try {
                 Parent claimView = FXMLLoader.load(getClass().getResource("/fxml/ClaimView.fxml"));
                 changeTab(claimView);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
+        cusCards.setOnAction(e -> { // Action for Cards Button
+            try {
+                Parent cardView = FXMLLoader.load(getClass().getResource("/fxml/CardView.fxml"));
+                changeTab(cardView);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -56,5 +60,4 @@ public class RootViewController implements Initializable {
     public void changeTab(Node node) {
         rootPane.setCenter(node);
     }
-    
 }
