@@ -3,9 +3,12 @@ package com.hankaji.icm.controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.hankaji.icm.services.UserPreferences;
 import com.hankaji.icm.views.CustomerDashboard;
+import com.hankaji.icm.views.LogIn;
 import com.hankaji.icm.views.components.CardDetails;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,6 +31,8 @@ public class RootViewController implements Initializable {
     @FXML private Button cusClaims;
 
     @FXML private Button cusDependents;
+
+    @FXML private Button logoutBtn;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -63,10 +68,26 @@ public class RootViewController implements Initializable {
                 ex.printStackTrace();
             }
         });
+
+        logoutBtn.setOnAction(this::handleLogout);
     }
 
     public void changeTab(Node node) {
         rootPane.setCenter(node);
+    }
+
+    private void handleLogout(ActionEvent event) {
+        // Clear the user session
+        UserPreferences preferences = new UserPreferences();
+        preferences.clearUserId();
+
+        // Redirect to the login page
+        try {
+            LogIn loginView = new LogIn();
+            rootPane.getScene().setRoot(loginView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
 }

@@ -32,7 +32,7 @@
                   <HBox alignment="CENTER_LEFT" spacing="8.0">
                      <children>
                         <Circle fx:id="avatar" fill="WHITE" radius="16.0" stroke="#c1c1c1" strokeType="INSIDE" />
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" stylesheets="@../styles/style.css" text="Logout" />
+                        <Button fx:id="logoutBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" stylesheets="@../styles/style.css" text="Logout" />
                      </children>
                   </HBox>
                </children></VBox>
