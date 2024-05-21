@@ -7,7 +7,7 @@ import com.hankaji.icm.lib.UserSession;
 import com.hankaji.icm.lib.Utils;
 import com.hankaji.icm.models.Claim;
 import com.hankaji.icm.models.User;
-import com.hankaji.icm.models.providers.Provider;
+import com.hankaji.icm.models.Provider;
 import com.hankaji.icm.services.AuthorizationService;
 import com.hankaji.icm.views.AddClaimPage;
 

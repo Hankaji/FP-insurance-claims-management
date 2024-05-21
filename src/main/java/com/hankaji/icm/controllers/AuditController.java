@@ -20,7 +20,7 @@ public class AuditController {
 
     public void addAudit(String description){
         try (Session session = sessionFactory.openSession()) {
-            User user = session.get(User.class, UserSession.getInstance().getUserId());
+            User user = UserSession.getInstance().getUser();
             Audit audit = new Audit(user, description);
             Transaction tx = session.beginTransaction();
             session.persist(audit);
