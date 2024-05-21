@@ -4,7 +4,7 @@ import com.hankaji.icm.database.SessionManager;
 import com.hankaji.icm.lib.UserSession;
 import com.hankaji.icm.models.Claim;
 import com.hankaji.icm.models.User;
-import com.hankaji.icm.models.providers.Provider;
+import com.hankaji.icm.models.Provider;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

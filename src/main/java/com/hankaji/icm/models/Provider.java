@@ -1,7 +1,5 @@
-package com.hankaji.icm.models.providers;
+package com.hankaji.icm.models;
 
-import com.hankaji.icm.models.User;
-import com.hankaji.icm.models.customer.Customer;
 import com.hankaji.icm.models.customer.PolicyOwner;
 import jakarta.persistence.*;
 
