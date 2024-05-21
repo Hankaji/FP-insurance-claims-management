@@ -27,5 +27,6 @@
         <mapping class="com.hankaji.icm.models.Claim"/>
         <mapping class="com.hankaji.icm.models.Provider"/>
         <mapping class="com.hankaji.icm.models.Audit"/>
+        <mapping class="com.hankaji.icm.models.Document"/>
     </session-factory>
 </hibernate-configuration>

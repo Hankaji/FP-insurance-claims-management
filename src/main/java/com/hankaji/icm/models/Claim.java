@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 import com.hankaji.icm.lib.GsonSerializable;
 import com.hankaji.icm.lib.ID;
@@ -42,8 +43,8 @@ public class Claim implements GsonSerializable {
     private Customer customer;
     @Column(name = "exam_date")
     private LocalDateTime examDate;
-    @Column(name = "document")
-    private String documents; // ClaimId_CardNumber_DocumentName.pdf
+    @OneToMany(mappedBy = "claim", fetch = FetchType.EAGER)
+    private List<Document> documents; // ClaimId_CardNumber_DocumentName.pdf
     @Column(name = "claim_amount")
     private Double claimAmount;
     @Column(name = "status")
@@ -57,30 +58,27 @@ public class Claim implements GsonSerializable {
     public Claim() {
     }
 
-    public Claim(String id, String documents, Double claimAmount, Status status, String receiverBankingInfo) {
+    public Claim(String id, Double claimAmount, Status status, String receiverBankingInfo) {
         this.id = id;
-        this.documents = documents;
         this.claimAmount = claimAmount;
         this.status = status;
         this.receiverBankingInfo = receiverBankingInfo;
     }
 
-    public Claim(String documents, Double claimAmount, Status status, String receiverBankingInfo) {
+    public Claim( Double claimAmount, Status status, String receiverBankingInfo) {
         this.id = ID.generateID(10).prefix("f-");
-        this.documents = documents;
         this.claimAmount = claimAmount;
         this.status = status;
         this.receiverBankingInfo = receiverBankingInfo;
     }
 
-    public Claim(String title, String description, Customer customer, LocalDateTime claimDate, LocalDateTime examDate, String documents, Double claimAmount, Status status, String receiverBankingInfo, Long insuranceCardNumber) {
+    public Claim(String title, String description, Customer customer, LocalDateTime claimDate, LocalDateTime examDate, Double claimAmount, Status status, String receiverBankingInfo, Long insuranceCardNumber) {
         this.id = ID.generateID(10).prefix("f-");
         this.title = title;
         this.description = description;
         this.setCustomer(customer);
         this.claimDate = claimDate;
         this.examDate = examDate;
-        this.documents = documents;
         this.claimAmount = claimAmount;
         this.status = status;
         this.receiverBankingInfo = receiverBankingInfo;
@@ -152,7 +150,7 @@ public class Claim implements GsonSerializable {
      *
      * @return the list of documents related to the claim
      */
-    public String getDocuments() {
+    public List<Document> getDocuments() {
         return documents;
     }
 
@@ -161,7 +159,7 @@ public class Claim implements GsonSerializable {
      *
      * @param documents the list of documents related to the claim
      */
-    public void setDocuments(String documents) {
+    public void setDocuments(List<Document> documents) {
         this.documents = documents;
     }
 
@@ -222,7 +220,7 @@ public class Claim implements GsonSerializable {
     }
 
     public String getInsured_person_id() {
-        return this.customer.getHolderId();
+        return this.customer.getId();
     }
 
     public Long getInsuranceCardNumber() {
