@@ -21,7 +21,7 @@ public class DependentController {
     public List<Customer> getDependents() {
         try (Session session = sessionFactory.openSession()) {
             // Get the current user
-            User user = session.get(User.class, UserSession.getInstance().getUserId());
+            User user = UserSession.getInstance().getUser();
 
             // Check if the user is a Customer with role POLICY_HOLDER
             if (user != null && user.getRole() == User.Roles.POLICY_HOLDER) {
@@ -46,7 +46,7 @@ public class DependentController {
     }
     public boolean assignPolicyHolderToDependent(String policyHolderId) {
         try (Session session = sessionFactory.openSession()) {
-            User user = session.get(User.class, UserSession.getInstance().getUserId());
+            User user = UserSession.getInstance().getUser();
 
             if (user != null && user.getRole() == User.Roles.DEPENDENT) {
                 String hql = "FROM Customer C WHERE C.user.id = :user_id AND C.holder IS NULL";
