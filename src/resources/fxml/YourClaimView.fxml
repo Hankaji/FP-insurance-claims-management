@@ -37,7 +37,7 @@
                 </Label>
                 <ImageView fitHeight="116.0" fitWidth="157.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="/images/icons/camera icon.jpg" />
+                        <Image url="@/images/icons/camera-icon.jpg" />
                     </image>
                 </ImageView>
             </VBox>
