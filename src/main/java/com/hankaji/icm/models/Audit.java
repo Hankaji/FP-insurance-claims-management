@@ -19,6 +19,12 @@ public class Audit {
     public Audit() {
     }
 
+    public Audit(User user, String description) {
+        this.id = UUID.randomUUID();
+        this.user = user;
+        this.description = description;
+    }
+
     public UUID getId() {
         return id;
     }
