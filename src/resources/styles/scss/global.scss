@@ -45,6 +45,16 @@ $border-color: #c1c1c1;
         -fx-font-size: 12px;
     }
 
+    & .disabled {
+        -fx-background-color: #c1c1c1 !important;
+        -fx-cursor: hand;
+    
+    }
+
+    &:hover {
+        -fx-background-color: #2f5cc6 !important;
+    }
+
 }
 
 .fp-button-icon {

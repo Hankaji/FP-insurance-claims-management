@@ -12,44 +12,44 @@
 <?import javafx.scene.text.Font?>
 
 
-<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hankaji.icm.controllers.ViewDependentController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="8.0">
          <children>
             <HBox alignment="CENTER_LEFT" spacing="12.0">
                <children>
-                  <Label text="You are currently a dependant">
+                  <Label fx:id="currentRoleLabel" text="You are currently a dependant">
                      <font>
-                        <Font name="System Bold" size="16.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" styleClass="fp-button-small" stylesheets="@../styles/style.css" text="Become holder">
+                  <Button fx:id="becomeHolderBtn" mnemonicParsing="false" styleClass="fp-button-small" stylesheets="@../styles/style.css" text="Become holder">
                      <tooltip>
-                        <Tooltip text="Empty Tooltip" />
+                        <Tooltip fx:id="becomeHolderToolTip" contentDisplay="CENTER" />
                      </tooltip>
                   </Button>
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" spacing="12.0">
                <children>
-                  <HBox fx:id="holderNameLabel" alignment="CENTER_LEFT" spacing="8.0">
+                  <HBox fx:id="holderNameBox" alignment="CENTER_LEFT" spacing="8.0">
                      <children>
                         <Label text="Your holder name:">
                            <font>
-                              <Font size="14.0" />
+                              <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label text="N">
+                        <Label fx:id="holderNameLabel" text="N">
                            <font>
-                              <Font size="14.0" />
+                              <Font size="16.0" />
                            </font>
                         </Label>
                      </children>
                   </HBox>
-                  <Label fx:id="noHolderLabel" layoutX="145.0" layoutY="13.0" text="You currently don't have a holder">
+                  <Label fx:id="noHolderLabel" layoutX="145.0" layoutY="13.0" text="You currently don't have a holder" visible="false">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="16.0" />
                      </font>
                   </Label>
                   <Region HBox.hgrow="ALWAYS" />
@@ -59,7 +59,7 @@
             </HBox>
             <Label text="Your dependents">
                <font>
-                  <Font name="System Bold" size="16.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
             <ListView fx:id="depListView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />

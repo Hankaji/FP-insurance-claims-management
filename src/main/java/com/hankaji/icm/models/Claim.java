@@ -221,8 +221,8 @@ public class Claim implements GsonSerializable {
         return this.customer.getInsuranceCardNumber();
     }
 
-    public String getInsured_person_id() {
-        return this.customer.getHolderId();
+    public Customer getInsured_person_id() {
+        return this.customer;
     }
 
     public Long getInsuranceCardNumber() {

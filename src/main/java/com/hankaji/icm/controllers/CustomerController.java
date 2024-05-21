@@ -129,7 +129,7 @@ public class CustomerController {
                         // Create the cell content here
                         Label idLabel = createLabel(String.valueOf(item.getId()), 200); // Set width for ID label
                         Label insuranceCardNumberLabel = createLabel(String.valueOf(item.getInsuranceCardNumber()), 300); // Set width for Insurance Card Number label
-                        Label holderIdLabel = createLabel(String.valueOf(item.getHolderId()), 200); // Set width for Holder ID label
+                        Label holderIdLabel = createLabel(String.valueOf(item.getHolder()), 200); // Set width for Holder ID label
 
                         // Create the "three vertical dots" button
                         Button dotsButton = new Button("\u22EE"); // Unicode character for vertical ellipsis

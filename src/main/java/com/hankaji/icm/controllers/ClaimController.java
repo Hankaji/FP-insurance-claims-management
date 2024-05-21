@@ -184,8 +184,12 @@ public class ClaimController implements Initializable {
                         downArrowButton.setFont(Font.font(12)); // Set font size for the arrow
                         downArrowButton.setOnAction(event -> toggleDetails(downArrowButton));
 
+                        System.out.println(claim);
+                        System.out.println(claim.getId());
+                        System.out.println(claim.getInsured_person_id());
+
                         VBox idLabel = createLabel("Id:", claim.getId(), 150); // Adjust width for ID
-                        VBox insuredPersonLabel = createLabel("Insured person:", claim.getInsured_person_id(), 150);
+                        VBox insuredPersonLabel = createLabel("Insured person:", claim.getInsured_person_id().getId(), 150);
                         VBox cardNumberLabel = createLabel("Card number:", claim.getCard_number().toString(), 150);
                         VBox statusLabel = createStatusLabel("Status:", claim.getStatus(), 150);
 

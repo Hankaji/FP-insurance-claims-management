@@ -76,8 +76,8 @@ public class Customer implements GsonSerializable {
         return true;
     }
 
-    public String getHolderId() {
-        return this.cId;
+    public Customer getHolder() {
+        return this.holder;
     }
 
     public Long getInsuranceCardNumber() {

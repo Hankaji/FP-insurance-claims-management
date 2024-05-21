@@ -1,6 +1,6 @@
 package com.hankaji.icm;
 
-import com.hankaji.icm.controllers.DependentController;
+import com.hankaji.icm.controllers.ViewDependentController;
 import com.hankaji.icm.controllers.ViewPolicyHoldersController;
 import com.hankaji.icm.database.CreateSession;
 import com.hankaji.icm.lib.UserSession;
@@ -29,7 +29,7 @@ public class fakeMain {
 
             ViewPolicyHoldersController con1 = new ViewPolicyHoldersController();
 
-            DependentController con = new DependentController();
+            ViewDependentController con = new ViewDependentController();
 
             // List possible policy holders for the dependent to choose from
             List<Customer> policyHolders = con1.getPossiblePolicyHolders();

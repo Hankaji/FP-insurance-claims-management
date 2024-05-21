@@ -168,6 +168,13 @@
   -fx-padding: 8px 16px;
   -fx-font-size: 12px;
 }
+.fp-button .disabled, .fp-button-small .disabled {
+  -fx-background-color: #c1c1c1 !important;
+  -fx-cursor: hand;
+}
+.fp-button:hover, .fp-button-small:hover {
+  -fx-background-color: #2f5cc6 !important;
+}
 
 .fp-button-icon {
   -fx-background-color: #3050B0 !important;
