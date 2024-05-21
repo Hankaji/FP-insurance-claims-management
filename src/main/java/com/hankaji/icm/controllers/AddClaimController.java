@@ -38,7 +38,7 @@ public class AddClaimController {
             Transaction tx = session.beginTransaction();
 
             // Get the current user
-            User user = session.get(User.class, UserSession.getInstance().getUserId());
+            User user = session.get(User.class, UserSession.getInstance().getUser());
 
             // From current user get Customer
             String hql = "FROM Customer C WHERE C.user.id = :user_id";
