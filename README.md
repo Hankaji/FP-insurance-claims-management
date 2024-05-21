@@ -3,25 +3,21 @@ An insurance claims management console application project built with java for F
 
 ## Features
 - Easy to uses
-- Customizable color scheme for the appication through json
-- Friendly TUI
-- Fast and responsive
-- Switch between panels with ease
+- Friendly UI
+- Switch between views
 
 ## Dependencies
-- [Lanterna3](https://github.com/mabe02/lanterna)
-- [Commons IO](https://commons.apache.org/proper/commons-io/)
-- [Gson](https://github.com/google/gson)
+- [JavaFX](https://openjfx.io/)
+- [JavaFX - FXML](https://openjfx.io/)
+- [MaterialFX](https://github.com/palexdev/MaterialFX)
+- [Hibernate](https://hibernate.org/)
+- [Postgresql](https://jdbc.postgresql.org/)
+- [Bcrypt](https://github.com/patrickfav/bcrypt)
 
 ## Requirement
 - Java 21 (Runtime)
   - *Only java 21 has been tested as of now, older or newer version might work however is not guaranteed*
 - Maven 3.9.6
-
-## Themes (Only color is supported as of now)
-- Color:
-  - Change the hex color in side file config.json to any color of your choices. Reload the app to see the changes
-  - Current color is heavily inspired from Tokyo-Night theme
 
 ## Installation guide
 
@@ -45,40 +41,43 @@ $ ./mvnw clean install  # Without maven installed (Use ./mvnw.cmd if you're on W
 ### Run source code
 
 ```bash
-$ mvn exec:java # With maven installed
-$ ./mvnw exec:java # Without maven installed (Use ./mvnw.cmd if you're on Window)
-```
-
-### Build executeable jar
-
-First bundle source code using maven assembly
-
-```bash
-$ mvn clean compile assembly:single # With maven installed
-$ ./mvnw clean compile assembly:single # Without maven installed (Use ./mvnw.cmd if you're on Window)
-```
-
-Run executable jar
-
-```bash
-$ cd ./target
-$ java -jar ./insurance-claims-management-1.0-jar-with-dependencies.jar
+$ mvn clean javafx:run # With maven installed
+$ ./mvnw clean javafx:run # Without maven installed (Use ./mvnw.cmd if you're on Window)
 ```
 
 ## Usage
 
-| Keybinds  | Actions                           |
-| --------  | --------------------------------: |
-| `Q`       | Quit application                  |
-| `1 - 4`   | Switch panels/view                |
-| `↑` `↓`   | Select row                        |
-| `i`       | Display row info                  |
-| `p`       | Populate data with default values |
-| `h`       | Display help                      |
-| `a`       | Add data                          |
-| `d`       | Delete data                       |
-| `e`       | Edit data                         |
-| `s`       | Set status to `DONE`              |
+There are 5 Roles ADMIN, DEPENDENT, POLICY_HOLDER, POLICY_OWNER, PROVIDER, and different accounts can be associated with different roles.
+
+Different Roles give differents actions to the objects data, with admin being the highest.
+
+### Fake accounts
+
+### Functionalities
+
+#### Account
+
+Create account with ease as well as logged in using created accounts to use the application.
+
+Passwords are encypted to provide user a more secured protection without the fear of losing data.
+
+Moreover, user logged into the application will have their account stored in a local session, meaning that they won't have to spend through the hassle retyping their email and password again.
+
+Users can also logout of the application using the 'logout' button in the side bar.
+
+#### Claim
+
+View all claims of DEPENDENT and HOLDER, can also delete it and view detailed version of it.
+
+For PROVIDER, displayed claim will be claims whose provider's company is the same as the logged in provider
+
+#### Dashboard
+
+Display current card detail to the HOLDER and DEPENDENT
+
+#### Dependents
+
+Display all the dependents that the HOLDER is currently having. If the logged account is a DEPENDENT, this will instead not displaying dependent list but ask them to choose a holder they want to become dependent of, or if not yet have a holder they can also become the holder.
 
 ## Note
 
