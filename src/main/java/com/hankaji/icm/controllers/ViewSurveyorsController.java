@@ -21,7 +21,7 @@ public class ViewSurveyorsController {
 
     public List<Provider> getSurveyors() {
         try (Session session = sessionFactory.openSession()) {
-            User user = session.get(User.class, UserSession.getInstance().getUserId());
+            User user = UserSession.getInstance().getUser();
 
             if (user != null && user.getRole() == User.Roles.PROVIDER) {
                 // From current user get Provider

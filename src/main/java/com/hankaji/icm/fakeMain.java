@@ -4,6 +4,7 @@ import com.hankaji.icm.controllers.DependentController;
 import com.hankaji.icm.controllers.ViewPolicyHoldersController;
 import com.hankaji.icm.database.CreateSession;
 import com.hankaji.icm.lib.UserSession;
+import com.hankaji.icm.models.User;
 import com.hankaji.icm.models.customer.Customer;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,7 +23,9 @@ public class fakeMain {
             // start transaction
             Transaction tx = session.beginTransaction();
 
-            UserSession.createSession(UUID.fromString("15637c7e-d77f-4906-9b40-81ed01461f61"));
+            User user = session.get(User.class, UUID.fromString("15637c7e-d77f-4906-9b40-81ed01461f61"));
+
+            UserSession.createSession(user);
 
             ViewPolicyHoldersController con1 = new ViewPolicyHoldersController();
 
