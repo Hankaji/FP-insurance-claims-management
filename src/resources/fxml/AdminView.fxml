@@ -25,4 +25,10 @@
             </padding>
         </VBox>
     </left>
+    <center>
+        <VBox fx:id="mainContent" alignment="CENTER" spacing="12.0">
+            <!-- You can add a placeholder or leave it empty -->
+            <Label text="Welcome to the Admin Dashboard" />
+        </VBox>
+    </center>
 </BorderPane>

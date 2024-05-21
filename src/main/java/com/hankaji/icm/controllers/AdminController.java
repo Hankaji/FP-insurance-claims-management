@@ -3,38 +3,39 @@ package com.hankaji.icm.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.stage.Stage;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
 public class AdminController {
 
-    private Stage stage;
+    @FXML
+    private BorderPane adminPane;
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
+    @FXML
+    private VBox mainContent;
 
     @FXML
     private void handleClaims() {
-        navigateTo("ClaimView.fxml");
+        navigateTo("/fxml/ClaimView.fxml");
     }
 
     @FXML
     private void handleCustomers() {
-        navigateTo("CustomerView.fxml");
+        navigateTo("/fxml/CustomerView.fxml");
     }
 
     @FXML
     private void handleDependents() {
-        navigateTo("DependentViews.fxml");
+        navigateTo("/fxml/DependentViews.fxml");
     }
 
     private void navigateTo(String fxmlFile) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + fxmlFile));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
             Parent root = loader.load();
-            stage.getScene().setRoot(root);
+            adminPane.setCenter(root);
         } catch (IOException e) {
             e.printStackTrace();
         }
