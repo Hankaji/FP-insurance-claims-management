@@ -2,8 +2,12 @@ package com.hankaji.icm.controllers;
 
 import com.hankaji.icm.database.SessionManager;
 import com.hankaji.icm.lib.ClaimIdComparator;
+import com.hankaji.icm.lib.UserSession;
 import com.hankaji.icm.lib.Utils;
 import com.hankaji.icm.models.Claim;
+import com.hankaji.icm.models.User;
+import com.hankaji.icm.models.providers.Provider;
+import com.hankaji.icm.services.AuthorizationService;
 import com.hankaji.icm.views.AddClaimPage;
 
 import javafx.collections.FXCollections;
@@ -23,6 +27,7 @@ import javafx.util.Callback;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.io.IOException;
 import java.net.URL;
@@ -99,8 +104,27 @@ public class ClaimController implements Initializable {
 
     private void loadAllClaimsData() {
         try (Session session = sessionFactory.openSession()) {
-            List<Claim> Claim = session.createQuery("from Claim", Claim.class).list();
-            ObservableList<Claim> observableList = FXCollections.observableArrayList(Claim);
+            User user = UserSession.getInstance().getUser();
+            List<Claim> claim;
+            if(AuthorizationService.hasRoles(User.Roles.POLICY_HOLDER) || AuthorizationService.hasRoles(User.Roles.DEPENDENT)){
+                String hql = "FROM Claim C WHERE C.customer.user.id = :user_id";
+                Query<Claim> query = session.createQuery(hql, Claim.class);
+                query.setParameter("user_id", user.getId());
+                claim = query.list();
+            } else if (AuthorizationService.hasRoles(User.Roles.POLICY_OWNER)) {
+                String hql = "FROM Claim C WHERE C.customer.insuranceCard.policyOwner.id = :user_id";
+                Query<Claim> query = session.createQuery(hql, Claim.class);
+                query.setParameter("user_id", user.getId());
+                claim = query.list();
+            } else if (AuthorizationService.hasRoles(User.Roles.PROVIDER)){
+                String hql = "FROM Claim C WHERE C.customer.insuranceCard.policyOwner.provider.user.id = :user_id";
+                Query<Claim> query = session.createQuery(hql, Claim.class);
+                query.setParameter("user_id", user.getId());
+                claim = query.list();
+            } else {
+                claim = session.createQuery("from Claim C", Claim.class).list();
+            }
+            ObservableList<Claim> observableList = FXCollections.observableArrayList(claim);
             claimListView.setItems(observableList);
         } catch (Exception e) {
             e.printStackTrace();
