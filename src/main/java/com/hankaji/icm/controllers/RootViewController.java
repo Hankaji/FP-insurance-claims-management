@@ -3,6 +3,11 @@ package com.hankaji.icm.controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.hibernate.procedure.internal.Util;
+
+import com.hankaji.icm.lib.Utils;
+import com.hankaji.icm.models.User;
+import com.hankaji.icm.services.AuthorizationService;
 import com.hankaji.icm.services.UserPreferences;
 import com.hankaji.icm.views.CustomerDashboard;
 import com.hankaji.icm.views.LogIn;
@@ -68,6 +73,10 @@ public class RootViewController implements Initializable {
                 ex.printStackTrace();
             }
         });
+
+        if (!AuthorizationService.hasRoles(User.Roles.DEPENDENT, User.Roles.POLICY_HOLDER)) {
+            Utils.disable(cusDependents);
+        }
 
         logoutBtn.setOnAction(this::handleLogout);
     }

@@ -54,4 +54,30 @@ public class Provider {
     public void setManager(Provider manager) {
         this.manager = manager;
     }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public void setSurveyors(List<Provider> surveyors) {
+        this.surveyors = surveyors;
+    }
+
+    public void setPolicyOwners(List<PolicyOwner> policyOwners) {
+        this.policyOwners = policyOwners;
+    }
+
+    
 }

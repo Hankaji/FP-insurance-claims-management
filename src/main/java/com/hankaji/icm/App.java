@@ -1,6 +1,10 @@
 package com.hankaji.icm;
 
 
+import java.util.List;
+
+import com.hankaji.icm.controllers.ViewDependentController;
+import com.hankaji.icm.models.customer.Customer;
 import com.hankaji.icm.views.LogIn;
 
 /** 
@@ -24,7 +28,7 @@ public class App extends Application {
         LogIn logIn = new LogIn();
 
         Scene scene = new Scene(logIn);
-        
+
         // Set up the stage
         stage.setTitle("Insurance Customer Management System");
         stage.setScene(scene);

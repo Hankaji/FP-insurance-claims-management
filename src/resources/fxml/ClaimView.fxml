@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <StackPane prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hankaji.icm.controllers.ClaimController">
    <children>
         <VBox prefHeight="497.0" prefWidth="923.0" spacing="10.0">
@@ -75,6 +74,7 @@
                   </HBox>
                     </children>
                 </HBox>
+            <StackPane fx:id="loading" prefHeight="150.0" prefWidth="200.0" />
                 <!-- Reference the ListView cell factory -->
                 <ListView fx:id="claimListView" prefHeight="378.0" prefWidth="926.0" style="-fx-background-radius: 12; -fx-border-radius: 12;" stylesheets="@../styles/style.css" VBox.vgrow="ALWAYS" />
             </children>

@@ -31,14 +31,13 @@ import javafx.stage.Stage;
 
 public class LogInController {
 
-    private UserPreferences userPreferences;
+    private UserPreferences userPreferences = new UserPreferences();
 
     private SessionFactory sessionFactory = SessionManager.getInstance().getSessionFactory();
 
     public LogInController() {}
 
     public void checkLoginStatus(Scene oldScene) {
-        userPreferences = new UserPreferences();
         UUID userId = userPreferences.getUserId();
         if (userId != null) {
             try {

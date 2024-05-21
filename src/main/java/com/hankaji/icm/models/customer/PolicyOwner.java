@@ -53,4 +53,46 @@ public class PolicyOwner {
     public UUID getId() {
         return id;
     }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getAnnualRate() {
+        return annualRate;
+    }
+
+    public void setAnnualRate(Double annualRate) {
+        this.annualRate = annualRate;
+    }
+
+    public List<InsuranceCard> getCards() {
+        return cards;
+    }
+
+    public void setCards(List<InsuranceCard> cards) {
+        this.cards = cards;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Provider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
+    }
+
+    
 }

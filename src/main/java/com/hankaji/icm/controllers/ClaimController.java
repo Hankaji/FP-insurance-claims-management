@@ -1,5 +1,6 @@
 package com.hankaji.icm.controllers;
 
+import com.hankaji.icm.components.Throbber;
 import com.hankaji.icm.database.SessionManager;
 import com.hankaji.icm.lib.ClaimIdComparator;
 import com.hankaji.icm.lib.UserSession;
@@ -27,12 +28,14 @@ import javafx.util.Callback;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.procedure.internal.Util;
 import org.hibernate.query.Query;
 
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 
 public class ClaimController implements Initializable {
@@ -54,8 +57,14 @@ public class ClaimController implements Initializable {
     @FXML
     private Button addClaim;
 
+    @FXML
+    private StackPane loading;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Utils.disable(claimListView);
+        loading.getChildren().add(new Throbber());
+
         // Set the cell factory for the ListView
         claimListView.setCellFactory(new ListViewCellFactory());
 
@@ -103,32 +112,49 @@ public class ClaimController implements Initializable {
     }
 
     private void loadAllClaimsData() {
-        try (Session session = sessionFactory.openSession()) {
-            User user = UserSession.getInstance().getUser();
-            List<Claim> claim;
-            if(AuthorizationService.hasRoles(User.Roles.POLICY_HOLDER) || AuthorizationService.hasRoles(User.Roles.DEPENDENT)){
-                String hql = "FROM Claim C WHERE C.customer.user.id = :user_id";
-                Query<Claim> query = session.createQuery(hql, Claim.class);
-                query.setParameter("user_id", user.getId());
-                claim = query.list();
-            } else if (AuthorizationService.hasRoles(User.Roles.POLICY_OWNER)) {
-                String hql = "FROM Claim C WHERE C.customer.insuranceCard.policyOwner.id = :user_id";
-                Query<Claim> query = session.createQuery(hql, Claim.class);
-                query.setParameter("user_id", user.getId());
-                claim = query.list();
-            } else if (AuthorizationService.hasRoles(User.Roles.PROVIDER)){
-                String hql = "FROM Claim C WHERE C.customer.insuranceCard.policyOwner.provider.user.id = :user_id";
-                Query<Claim> query = session.createQuery(hql, Claim.class);
-                query.setParameter("user_id", user.getId());
-                claim = query.list();
-            } else {
-                claim = session.createQuery("from Claim C", Claim.class).list();
+        CompletableFuture.runAsync(() -> {
+            try (Session session = sessionFactory.openSession()) {
+                User user = UserSession.getInstance().getUser();
+                List<Claim> claim;
+                if(AuthorizationService.hasRoles(User.Roles.POLICY_HOLDER, User.Roles.DEPENDENT)){
+                    String hql = "FROM Claim C WHERE C.customer.user.id = :user_id";
+                    Query<Claim> query = session.createQuery(hql, Claim.class);
+                    query.setParameter("user_id", user.getId());
+                    claim = query.list();
+                } else if (AuthorizationService.hasRoles(User.Roles.POLICY_OWNER)) {
+                    String hql = "FROM Claim C WHERE C.customer.insuranceCard.policyOwner.id = :user_id";
+                    Query<Claim> query = session.createQuery(hql, Claim.class);
+                    query.setParameter("user_id", user.getId());
+                    claim = query.list();
+                } else if (AuthorizationService.hasRoles(User.Roles.PROVIDER)){
+                    System.out.println("PROVIDER DETECTED");
+                    String hql = "FROM Claim C WHERE C.customer.insuranceCard.policyOwner.provider.companyName = :user_company";
+                    Query<Claim> query = session.createQuery(hql, Claim.class);
+    
+                    String providerHql = "FROM Provider P WHERE P.user.id = :user_id";
+                    Query<Provider> providerQuery = session.createQuery(providerHql, Provider.class);
+                    providerQuery.setParameter("user_id", user.getId());
+                    Provider provider = providerQuery.getSingleResult();
+    
+                    query.setParameter("user_company", provider.getCompanyName());
+                    claim = query.list();
+                    // System.out.println(claim);
+                    for (Claim c : claim) {
+                        System.out.println(c.getInsured_person_id().getInsuranceCard().getPolicyOwner().getProvider().getCompanyName());
+                    }
+                } else {
+                    claim = session.createQuery("from Claim C", Claim.class).list();
+                }
+                ObservableList<Claim> observableList = FXCollections.observableArrayList(claim);
+                claimListView.setItems(observableList);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            ObservableList<Claim> observableList = FXCollections.observableArrayList(claim);
-            claimListView.setItems(observableList);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        }).thenAccept(v -> {
+            // loading.getChildren().clear();
+            Utils.disable(loading);
+            Utils.enable(claimListView);
+        });
     }
 
     private void searchClaim(String id) {
@@ -192,6 +218,7 @@ public class ClaimController implements Initializable {
                         VBox insuredPersonLabel = createLabel("Insured person:", claim.getInsured_person_id().getId(), 150);
                         VBox cardNumberLabel = createLabel("Card number:", claim.getCard_number().toString(), 150);
                         VBox statusLabel = createStatusLabel("Status:", claim.getStatus(), 150);
+                        VBox provider = createLabel("Provider:", claim.getInsured_person_id().getInsuranceCard().getPolicyOwner().getProvider().getCompanyName(), 150);
 
                         // Create the "three vertical dots" button
                         Button dotsButton = new Button("\u22EE"); // Unicode character for vertical ellipsis
@@ -210,18 +237,29 @@ public class ClaimController implements Initializable {
                                 deleteClaim(claim);
                             });
 
+                            if (AuthorizationService.hasRoles(User.Roles.ADMIN, User.Roles.DEPENDENT, User.Roles.POLICY_HOLDER)) {
+                                contextMenu.getItems().add(deleteItem);
+                            }
+
                             // Update item
-                            MenuItem updateItem = new MenuItem("Update");
-                            updateItem.setOnAction(e -> {
-                                // Handle update action here
-                                // Implement your update logic
-                            });
+                            // MenuItem updateItem = new MenuItem("Update");
+                            // updateItem.setOnAction(e -> {
+                            //     // Handle update action here
+                            //     // Implement your update logic
+                            // });
+
+                            // if (AuthorizationService.hasRoles(User.Roles.ADMIN, User.Roles.DEPENDENT, User.Roles.POLICY_HOLDER)) {
+                            //     contextMenu.getItems().add(updateItem);
+                            // }
 
                             // Update status
                             MenuItem updateStatus = new MenuItem("Update Status");
                             updateStatus.setOnAction(e -> updateClaimStatus(claim));
 
-                            contextMenu.getItems().addAll(deleteItem, updateItem);
+                            if (AuthorizationService.hasRoles(User.Roles.ADMIN, User.Roles.PROVIDER)) {
+                                contextMenu.getItems().add(updateStatus);
+                            }
+
                             contextMenu.show(dotsButton, Side.RIGHT, 0, 0);
                         });
 
@@ -232,7 +270,7 @@ public class ClaimController implements Initializable {
                         HBox cellContainer = new HBox(10);
                         cellContainer.getStyleClass().add("fp-cell-container"); // Add a custom style class
                         cellContainer.setAlignment(Pos.CENTER_LEFT);
-                        cellContainer.getChildren().addAll(downArrowButton, idLabel, insuredPersonLabel, cardNumberLabel, statusLabel, spacer, dotsButton);
+                        cellContainer.getChildren().addAll(downArrowButton, idLabel, insuredPersonLabel, cardNumberLabel, statusLabel, provider, spacer, dotsButton);
 
                         // Style the HBox for main information
                         cellContainer.setStyle("-fx-background-color: #e0e0e0; -fx-background-radius: 10px; -fx-border-color: #cccccc; -fx-border-width: 1px; -fx-border-radius: 10px;");
