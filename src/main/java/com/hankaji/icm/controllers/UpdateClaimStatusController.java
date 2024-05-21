@@ -21,7 +21,7 @@ public class UpdateClaimStatusController {
             Transaction tx = session.beginTransaction();
 
             // Get the current user
-            User user = session.get(User.class, UserSession.getInstance().getUserId());
+            User user = session.get(User.class, UserSession.getInstance().getUser());
 
             // From current user get Provider
             String hql = "FROM Provider P WHERE P.user.id = :user_id";

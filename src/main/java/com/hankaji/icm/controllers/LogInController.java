@@ -75,7 +75,7 @@ public class LogInController {
                     Scene scene = new Scene(root);
 
                     // Store the user id in the session
-                    UserSession.createSession(user.getId());
+                    UserSession.createSession(user);
                     stage.setScene(scene);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
