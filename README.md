@@ -53,6 +53,15 @@ Different Roles give differents actions to the objects data, with admin being th
 
 ### Fake accounts
 
+```
+--email : password--
+admin : admin (ADMIN)
+pope@gmail.com : qwertyuiop1 (DEPENDENT)
+mdumingo0@csmonitor.com : password123 (PROVIDER)
+teaglestone3@surveymonkey.com : sondepchai10 (POLICY_HOLDER)
+jgommey25@geocities.jp : KFBNASJBASLJBF (OWNER)
+```
+
 ### Functionalities
 
 #### Account
