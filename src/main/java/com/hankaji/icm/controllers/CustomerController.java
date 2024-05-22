@@ -149,14 +149,8 @@ public class CustomerController {
                         // width for Customer Name label
                         InsuranceCard insuranceCard = cus.getInsuranceCard();
                         Label insuranceCardNumberLabel = createLabel(
-                                (insuranceCard == null ? "" : insuranceCard.getCardNumber().toString()), 300); // Set
-                                                                                                               // width
-                                                                                                               // for
-                                                                                                               // Insurance
-                                                                                                               // Card
-                                                                                                               // Number
-                                                                                                               // label
-                        Label holderIdLabel = createLabel(String.valueOf(cus.getHolder()), 200); // Set width for Holder
+                                (insuranceCard == null ? "" : insuranceCard.getCardNumber().toString()), 300);
+                        Label holderIdLabel = createLabel(cus.getHolder() == null? "N/A" : cus.getHolder().getUser().getFullname(), 200); // Set width for Holder
                                                                                                  // ID label
 
                         // Create the "three vertical dots" button
