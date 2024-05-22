@@ -97,7 +97,7 @@ For best experience, it is suggested to run this program in a separated terminal
 https://rmiteduau.sharepoint.com/:v:/s/vruh/Ec8iHQf4nTdKgqd9rLFDU6MBCadcMZfNZxBjx45-NknHVw?e=ExesIZ 
 
 ## Contribution
-Hoang Thai Phuc: 4.5
-Le Thien Son: 4.2
-Nguyen Vo Truong Toan: 1.8
-Tran Nguyen Anh Minh: 1.5
+- Hoang Thai Phuc (s3978081): 4.5
+- Le Thien Son (s3977955): 4.2
+- Nguyen Vo Truong Toan (s3979056): 1.8
+- Tran Nguyen Anh Minh (s3979367): 1.5
