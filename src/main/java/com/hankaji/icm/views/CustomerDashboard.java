@@ -14,6 +14,7 @@ import com.hankaji.icm.models.User;
 import com.hankaji.icm.models.customer.Customer;
 import com.hankaji.icm.views.components.CardDetails;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.layout.TilePane;
 
@@ -28,13 +29,12 @@ public class CustomerDashboard extends TilePane {
 
         setPadding(new Insets(24));
 
-        CardDetails cardDetails = addCardDetails().join();
+        addCardDetails();
         
-        getChildren().add(cardDetails);
     }
 
-    private CompletableFuture<CardDetails> addCardDetails() {
-        return CompletableFuture.supplyAsync(() -> {
+    private void addCardDetails() {
+        CompletableFuture.supplyAsync(() -> {
             
             try {
                 User user = UserSession.getInstance().getUser();
@@ -60,6 +60,12 @@ public class CustomerDashboard extends TilePane {
             }
 
             return null;
+        }).thenAccept(cd -> {
+            Platform.runLater(() -> {
+                if (cd != null) {
+                    getChildren().add(cd);
+                }
+            });
         });
     }
 }

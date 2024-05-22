@@ -7,14 +7,15 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="602.0" prefWidth="970.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hankaji.icm.controllers.CustomerController">
-    <children>
-        <VBox layoutX="11.0" layoutY="14.0" prefHeight="497.0" prefWidth="923.0" spacing="10.0" style="-fx-background-color: #2B4A78;">
+
+<StackPane xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hankaji.icm.controllers.CustomerController">
+   <children>
+        <VBox alignment="TOP_CENTER" spacing="10.0" style="-fx-background-color: #2B4A78; -fx-border-radius: 12; -fx-background-radius: 12;" StackPane.alignment="CENTER">
             <children>
                 <HBox alignment="CENTER" prefHeight="31.0" prefWidth="923.0">
                     <children>
@@ -80,9 +81,13 @@
                         <VBox prefHeight="18.0" prefWidth="86.0" />
                     </children>
                 </HBox>
+            <StackPane fx:id="loadingPane" VBox.vgrow="ALWAYS" />
                 <!-- Reference the ListView cell factory -->
                 <ListView fx:id="customerListView" prefHeight="378.0" prefWidth="926.0" VBox.vgrow="ALWAYS" />
             </children>
         </VBox>
-    </children>
-</AnchorPane>
+   </children>
+   <padding>
+      <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+   </padding>
+</StackPane>

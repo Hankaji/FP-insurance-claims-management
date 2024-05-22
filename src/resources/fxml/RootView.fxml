@@ -22,11 +22,12 @@
                   </Label>
                </children>
             </HBox>
-            <!-- <Button fx:id="cusDashboard" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" stylesheets="@../styles/style.css" text="Dashboard" /> -->
+            <Button fx:id="cusDashboard" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" stylesheets="@../styles/style.css" text="Dashboard" />
             <Button fx:id="cusClaims" layoutX="22.0" layoutY="63.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" stylesheets="@../styles/style.css" text="Claims" />
             <Button fx:id="cusCards" layoutX="22.0" layoutY="63.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" stylesheets="@../styles/style.css" text="Cards" />
             <Button fx:id="cusDependents" layoutX="22.0" layoutY="107.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" stylesheets="@../styles/style.css" text="Dependents" />
-            <Button fx:id="setting" layoutX="22.0" layoutY="548.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" stylesheets="@../styles/style.css" text="Setting" />
+            <Button fx:id="cusCustomers" layoutX="22.0" layoutY="107.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" stylesheets="@../styles/style.css" text="Customers" />
+            <!-- <Button fx:id="setting" layoutX="22.0" layoutY="548.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" stylesheets="@../styles/style.css" text="Setting" /> -->
             <VBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
                <children>
                   <HBox alignment="CENTER_LEFT" spacing="8.0">

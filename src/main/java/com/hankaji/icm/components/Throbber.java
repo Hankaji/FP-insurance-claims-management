@@ -8,9 +8,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class Throbber extends StackPane {
+
+    private MFXProgressSpinner spinner;
+
     public Throbber() {
         getStyleClass().add("throbber");
-        MFXProgressSpinner spinner = new MFXProgressSpinner();
+        spinner = new MFXProgressSpinner();
 
         HBox.setHgrow(spinner, Priority.ALWAYS);
         VBox.setVgrow(spinner, Priority.ALWAYS);
@@ -18,5 +21,9 @@ public class Throbber extends StackPane {
         setAlignment(Pos.CENTER);
 
         getChildren().add(spinner);
+    }
+
+    public MFXProgressSpinner getSpinner() {
+        return spinner;
     }
 }

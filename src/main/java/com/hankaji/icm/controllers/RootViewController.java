@@ -31,13 +31,15 @@ public class RootViewController implements Initializable {
 
     @FXML private BorderPane rootPane;
 
-    // @FXML private Button cusDashboard;
+    @FXML private Button cusDashboard;
 
     @FXML private Button cusClaims;
 
     @FXML private Button cusCards;
 
     @FXML private Button cusDependents;
+
+    @FXML private Button cusCustomers;
 
     @FXML private Button logoutBtn;
 
@@ -52,9 +54,13 @@ public class RootViewController implements Initializable {
             e.printStackTrace();
         }
 
-        // cusDashboard.setOnAction(e -> {
-        //     changeTab(new CustomerDashboard());
-        // });
+        cusDashboard.setOnAction(e -> {
+            changeTab(new CustomerDashboard());
+        });
+
+        if (!AuthorizationService.hasRoles(User.Roles.POLICY_HOLDER, User.Roles.DEPENDENT)) {
+            Utils.disable(cusDashboard);
+        }
 
         cusCards.setOnAction(e -> {
             try {
@@ -65,6 +71,10 @@ public class RootViewController implements Initializable {
                 ex.printStackTrace();
             }
         });
+
+        if (!AuthorizationService.hasRoles(User.Roles.ADMIN)) {
+            Utils.disable(cusCards);
+        }
 
         cusClaims.setOnAction(e -> {
             try {
@@ -89,6 +99,21 @@ public class RootViewController implements Initializable {
         if (!AuthorizationService.hasRoles(User.Roles.DEPENDENT, User.Roles.POLICY_HOLDER)) {
             Utils.disable(cusDependents);
         }
+
+        cusCustomers.setOnAction(e -> {
+            try {
+                Parent customerView = FXMLLoader.load(getClass().getResource("/fxml/CustomerView.fxml"));
+                changeTab(customerView);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        if (!AuthorizationService.hasRoles(User.Roles.ADMIN, User.Roles.PROVIDER)) {
+            Utils.disable(cusCustomers);
+        }
+
 
         logoutBtn.setOnAction(this::handleLogout);
     }

@@ -18,7 +18,7 @@ public class CardDetails extends VBox {
 
         setSpacing(6);
         setPadding(new Insets(16));
-        setPrefWidth(400);
+        setPrefWidth(600);
 
 
         Label cardTitle = new Label("Card Details");

@@ -10,6 +10,7 @@ import com.hankaji.icm.models.User;
 import com.hankaji.icm.models.customer.Customer;
 import com.hankaji.icm.services.AuthorizationService;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -111,6 +112,8 @@ public class ViewDependentController implements Initializable {
         chooseHolderContainer.setVisible(false);
         chooseHolderContainer.prefHeightProperty().bind(rootPane.heightProperty().multiply(0.7));
         chooseHolderContainer.prefWidthProperty().bind(rootPane.widthProperty().multiply(0.7));
+        chooseHolderContainer.setMaxHeight(Region.USE_PREF_SIZE);
+        chooseHolderContainer.setMaxWidth(Region.USE_PREF_SIZE);
         chooseHolderContainer.setStyle(
                 "-fx-background-color: #f0f0f0; -fx-border-color: #c1c1c1; -fx-border-radius: 8px; -fx-padding: 16px");
         StackPane.setAlignment(chooseHolderContainer, Pos.CENTER);
@@ -122,6 +125,7 @@ public class ViewDependentController implements Initializable {
         closeBtn.getStyleClass().add("fx-button");
         closeBtn.setOnAction(e -> {
             disable(chooseHolderContainer);
+            disable(chooseHolderList);
         });
 
         chooseHolderContainer.getChildren().addAll(chooseHolderList, spinner, closeBtn);
@@ -182,7 +186,9 @@ public class ViewDependentController implements Initializable {
 
             enable(spinner);
             getPossiblePolicyHolders().thenAccept(phList -> {
-                chooseHolderList.getItems().addAll(phList);
+                Platform.runLater(() -> {
+                    chooseHolderList.getItems().addAll(phList);
+                });
             }).thenAccept(v -> {
                 disable(spinner);
                 chooseHolderList.setManaged(true);
@@ -192,7 +198,7 @@ public class ViewDependentController implements Initializable {
         }
     }
 
-    private synchronized void getPolicyHolder() {
+    private void getPolicyHolder() {
         CompletableFuture.supplyAsync(() -> {
             UUID userId = null;
             try {
@@ -243,7 +249,9 @@ public class ViewDependentController implements Initializable {
 
             return null;
         }).thenAccept(holderName -> {
-            holderNameLabel.setText(holderName);
+            Platform.runLater(() -> {
+                holderNameLabel.setText(holderName);
+            });
         });
     }
 
@@ -253,6 +261,7 @@ public class ViewDependentController implements Initializable {
                 String hql = "FROM Customer C WHERE C.user.role = :policy_holder_role";
                 Query<Customer> query = session.createQuery(hql, Customer.class);
                 query.setParameter("policy_holder_role", User.Roles.POLICY_HOLDER);
+                System.out.println(query.list());
                 return query.list();
             } catch (Exception e) {
                 e.printStackTrace();

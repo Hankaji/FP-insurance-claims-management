@@ -17,6 +17,7 @@ public class UserSession {
             instance = new UserSession(userId);
         } else {
             instance.updateUser(userId);
+            System.out.println("HOHO UPDATED");
         }
     }
 

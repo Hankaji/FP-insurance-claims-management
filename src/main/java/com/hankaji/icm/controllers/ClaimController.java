@@ -112,8 +112,9 @@ public class ClaimController implements Initializable {
         searchClaim(searchField.getText());
     }
 
-    private void loadAllClaimsData() {
-        CompletableFuture.runAsync(() -> {
+    private synchronized void loadAllClaimsData() {
+        CompletableFuture.supplyAsync(() -> {
+            claimListView.getItems().clear();
             try (Session session = sessionFactory.openSession()) {
                 User user = UserSession.getInstance().getUser();
                 List<Claim> claim;
@@ -147,10 +148,14 @@ public class ClaimController implements Initializable {
                     claim = session.createQuery("from Claim C", Claim.class).list();
                 }
                 ObservableList<Claim> observableList = FXCollections.observableArrayList(claim);
-                claimListView.setItems(observableList);
+                return observableList;
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            return null;
+        }).thenApply(claims -> {
+            claimListView.setItems(claims);
+            return null;
         }).thenAccept(v -> {
             // loading.getChildren().clear();
             Utils.disable(loading);

@@ -1,17 +1,23 @@
 package com.hankaji.icm.views;
 
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import com.hankaji.icm.components.FPPasswordField;
 import com.hankaji.icm.components.FPTextField;
+import com.hankaji.icm.components.Throbber;
 import com.hankaji.icm.controllers.LogInController;
+import com.hankaji.icm.lib.Utils;
 
+import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -65,12 +71,33 @@ public class LogIn extends StackPane {
         VBox loginButtonContainer = new VBox();
         loginButtonContainer.setSpacing(8);
 
+        HBox loginButtonAndThrobber = new HBox();
+        loginButtonAndThrobber.setSpacing(8);
+
         Button loginButton = new Button("Login");
-        loginButton.setMaxWidth(Double.MAX_VALUE);
         loginButton.getStyleClass().add("login-button");
+        loginButton.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(loginButton, Priority.ALWAYS);
+        
+        Throbber throbber = new Throbber();
+        MFXProgressSpinner spinner = throbber.getSpinner();
+        spinner.setMaxSize(24, 24);
+        Utils.disable(throbber);
+
         loginButton.setOnAction(e -> {
-            controller.handleLoginButton(e, email.getFormField().getText(), password.getFormField().getText());
+            CompletableFuture.runAsync(() -> {
+                Utils.enable(throbber);
+                try {
+                    controller.handleLoginButton(e, email.getFormField().getText(), password.getFormField().getText());
+                } catch (InterruptedException | ExecutionException e1) {
+                    e1.printStackTrace();
+                }
+            }).thenAccept(v -> {
+                Utils.disable(throbber);
+            });
         });
+
+        loginButtonAndThrobber.getChildren().addAll(loginButton, throbber);
 
         HBox signUpContainer = new HBox();
         signUpContainer.setAlignment(Pos.CENTER_LEFT);
@@ -85,7 +112,7 @@ public class LogIn extends StackPane {
 
         signUpContainer.getChildren().addAll(signUp, signUpLink);
 
-        loginButtonContainer.getChildren().addAll(loginButton, signUpContainer);
+        loginButtonContainer.getChildren().addAll(loginButtonAndThrobber, signUpContainer);
 
         loginForm.getChildren().addAll(
                 logo,
